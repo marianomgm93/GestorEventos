@@ -5,9 +5,9 @@ public class Asiento {
 private int numero;
 private boolean disponible;
 
-    public Asiento(int numero, boolean disponible) {
+    public Asiento(int numero) {
         this.numero = numero;
-        this.disponible = disponible;
+        this.disponible = false;
     }
 
     public int getNumero() {

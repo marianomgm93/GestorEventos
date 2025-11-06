@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 public class Funcion {
     private int id;
     private String hora; //cambiar tipo de variable
@@ -12,7 +14,10 @@ public class Funcion {
         this.recinto = recinto;
         this.precioBase = precioBase;
     }
+    /// FALTA CREAR FROM JSON
+    public Funcion(JSONObject o){
 
+    }
     public int getId() {
         return id;
     }

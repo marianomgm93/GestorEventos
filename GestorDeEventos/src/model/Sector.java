@@ -14,7 +14,13 @@ private ArrayList<Asiento> asientos;
         this.tipo = tipo;
         this.asientos = asientos;
     }
-
+    public String asientosDisponibles(){
+        StringBuilder sb=new StringBuilder();
+        for(Asiento a:this.asientos){
+            if (a.isDisponible()) sb.append("[ ").append(a.getNumero()).append(" ]").append("\t");
+        }
+        return sb.toString();
+    }
     public int getId() {
         return id;
     }
