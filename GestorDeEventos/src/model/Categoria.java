@@ -1,9 +1,9 @@
 package model;
 
 public enum Categoria {
-    Cine,
-    Concierto,
-    Teatro,
-    Stand_up,
-    Partido
+    CINE,
+    CONCIERTO,
+    TEATRO,
+    STAND_UP,
+    PARTIDO
 }
