@@ -6,7 +6,7 @@ public class Funcion {
     private int id;
     private String hora; //cambiar tipo de variable
     private Recinto recinto;
-    private int precioBase;
+    private double precioBase;
 
     public Funcion(int id, String hora, Recinto recinto, int precioBase) {
         this.id = id;
@@ -16,7 +16,10 @@ public class Funcion {
     }
     /// FALTA CREAR FROM JSON
     public Funcion(JSONObject o){
-
+        this.id=o.getInt("id");
+        this.hora=o.getString("hora");
+        this.recinto=new Recinto(o.getJSONObject("recinto"));
+        this.precioBase=o.getDouble("precioBase");
     }
     public int getId() {
         return id;
@@ -42,7 +45,7 @@ public class Funcion {
         this.recinto = recinto;
     }
 
-    public int getPrecioBase() {
+    public double getPrecioBase() {
         return precioBase;
     }
 

@@ -1,12 +1,24 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Organizador extends Usuario{
-    private ArrayList <Evento> eventosCreados;
+public class Organizador extends Usuario {
+    private ArrayList<Evento> eventosCreados;
 
     public Organizador() {
+    }
+
+    public Organizador(JSONObject o) {
+        super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"));
+        this.eventosCreados = new ArrayList<>();
+        JSONArray jarr = o.getJSONArray("eventosCreados");
+        for (int i = 0; i < jarr.length(); i++) {
+            this.eventosCreados.add(new Evento(jarr.getJSONObject(i)));
+        }
     }
 
     public Organizador(String nombre, String email, String contrasenia) {

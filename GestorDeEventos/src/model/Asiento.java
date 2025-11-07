@@ -1,13 +1,27 @@
 package model;
 
-public class Asiento {
+import org.json.JSONObject;
 
-private int numero;
-private boolean disponible;
+public class Asiento {
+    private static int totalAsientos;
+    private int numero;
+    private boolean disponible;
+
+    public Asiento() {
+        this.numero = totalAsientos++;
+        this.disponible = false;
+    }
 
     public Asiento(int numero) {
         this.numero = numero;
+        totalAsientos++;
         this.disponible = false;
+    }
+
+    public Asiento(JSONObject o) {
+        this.numero = o.getInt("numero");
+        totalAsientos++;
+        this.disponible = o.getBoolean("disponible");
     }
 
     public int getNumero() {

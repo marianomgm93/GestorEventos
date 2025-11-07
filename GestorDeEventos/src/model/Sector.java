@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Sector {
-private int id;
-private String nombre;
-private Tipo tipo;
-private ArrayList<Asiento> asientos;
+    private static int totalSectores;
+    private int id;
+    private String nombre;
+    private Tipo tipo;
+    private ArrayList<Asiento> asientos;
 
     public Sector(int id, String nombre, Tipo tipo, ArrayList<Asiento> asientos) {
         this.id = id;
@@ -14,13 +18,27 @@ private ArrayList<Asiento> asientos;
         this.tipo = tipo;
         this.asientos = asientos;
     }
-    public String asientosDisponibles(){
-        StringBuilder sb=new StringBuilder();
-        for(Asiento a:this.asientos){
+
+    public Sector(JSONObject o) {
+        this.id = o.getInt("id");
+        totalSectores++;
+        this.nombre = o.getString("nombre");
+        this.tipo = Tipo.valueOf(o.getString("tipo"));
+        JSONArray jarr = o.getJSONArray("asientos");
+        asientos = new ArrayList<>();
+        for (int i = 0; i < jarr.length(); i++) {
+            asientos.add(new Asiento(jarr.getJSONObject(i)));
+        }
+    }
+
+    public String asientosDisponibles() {
+        StringBuilder sb = new StringBuilder();
+        for (Asiento a : this.asientos) {
             if (a.isDisponible()) sb.append("[ ").append(a.getNumero()).append(" ]").append("\t");
         }
         return sb.toString();
     }
+
     public int getId() {
         return id;
     }

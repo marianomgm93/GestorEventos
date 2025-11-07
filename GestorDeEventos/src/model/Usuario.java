@@ -18,6 +18,14 @@ public abstract class Usuario {
         this.id=totalUsuarios++;
     }
 
+    public Usuario(int id, String nombre, String email, String contrasenia) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.contrasenia = contrasenia;
+        totalUsuarios++;
+    }
+
     public static int getTotalUsuarios() {
         return totalUsuarios;
     }

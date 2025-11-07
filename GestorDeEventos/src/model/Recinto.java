@@ -1,35 +1,48 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Recinto {
-private int Id;
-private String nombre;
-private String direccion;
-private int capacidad;
-private ArrayList<Sector> sectores;
+    private static int totalRecintos;
+    private int id;
+    private String nombre;
+    private String direccion;
+    private int capacidad;
+    private ArrayList<Sector> sectores;
 
-    public Recinto(int id, String nombre, String direccion, int capacidad, ArrayList<Sector> sectores) {
-        Id = id;
+    public Recinto(String nombre, String direccion, int capacidad, ArrayList<Sector> sectores) {
+        this.id = totalRecintos++;
         this.nombre = nombre;
         this.direccion = direccion;
         this.capacidad = capacidad;
         this.sectores = sectores;
     }
 
-    public Recinto(int id, String nombre, String direccion, int capacidad) {
-        Id = id;
+    public Recinto(String nombre, String direccion, int capacidad) {
+        this.id = totalRecintos++;
         this.nombre = nombre;
         this.direccion = direccion;
         this.capacidad = capacidad;
     }
 
-    public int getId() {
-        return Id;
+    public Recinto(JSONObject o) {
+        this.id = o.getInt("id");
+        totalRecintos++;
+        this.nombre = o.getString("nombre");
+        this.direccion = o.getString("direccion");
+        this.capacidad = o.getInt("capacidad");
+        JSONArray jarr = o.getJSONArray("sectores");
+        this.sectores = new ArrayList<>();
+        for (int i = 0; i < jarr.length(); i++) {
+            sectores.add(new Sector(jarr.getJSONObject(i)));
+        }
     }
 
-    public void setId(int id) {
-        Id = id;
+    public int getId() {
+        return id;
     }
 
     public String getNombre() {
