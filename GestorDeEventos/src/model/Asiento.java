@@ -9,13 +9,13 @@ public class Asiento {
 
     public Asiento() {
         this.numero = totalAsientos++;
-        this.disponible = false;
+        this.disponible = true;
     }
 
     public Asiento(int numero) {
         this.numero = numero;
         totalAsientos++;
-        this.disponible = false;
+        this.disponible = true;
     }
 
     public Asiento(JSONObject o) {
@@ -38,5 +38,14 @@ public class Asiento {
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Asiento{");
+        sb.append("numero=").append(numero);
+        sb.append(", disponible=").append(disponible);
+        sb.append('}');
+        return sb.toString();
     }
 }

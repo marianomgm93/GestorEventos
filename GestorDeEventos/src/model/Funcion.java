@@ -14,6 +14,13 @@ public class Funcion {
         this.recinto = recinto;
         this.precioBase = precioBase;
     }
+
+    public Funcion(String hora, Recinto recinto, double precioBase) {
+        this.hora = hora;
+        this.recinto = recinto;
+        this.precioBase = precioBase;
+    }
+
     /// FALTA CREAR FROM JSON
     public Funcion(JSONObject o){
         this.id=o.getInt("id");
@@ -51,5 +58,16 @@ public class Funcion {
 
     public void setPrecioBase(int precioBase) {
         this.precioBase = precioBase;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Funcion{");
+        sb.append("id=").append(id);
+        sb.append(", hora='").append(hora).append('\'');
+        sb.append(", recinto=").append(recinto);
+        sb.append(", precioBase=").append(precioBase);
+        sb.append('}');
+        return sb.toString();
     }
 }

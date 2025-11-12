@@ -19,6 +19,12 @@ public class Sector {
         this.asientos = asientos;
     }
 
+    public Sector(String nombre, Tipo tipo, ArrayList<Asiento> asientos) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.asientos = asientos;
+    }
+
     public Sector(JSONObject o) {
         this.id = o.getInt("id");
         totalSectores++;
@@ -69,5 +75,16 @@ public class Sector {
 
     public void setAsientos(ArrayList<Asiento> asientos) {
         this.asientos = asientos;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Sector{");
+        sb.append("id=").append(id);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", tipo=").append(tipo);
+        sb.append(", asientos=").append(asientos);
+        sb.append('}');
+        return sb.toString();
     }
 }

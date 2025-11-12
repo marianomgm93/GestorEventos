@@ -76,4 +76,16 @@ public class Recinto {
     public void setSectores(ArrayList<Sector> sectores) {
         this.sectores = sectores;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Recinto{");
+        sb.append("id=").append(id);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", direccion='").append(direccion).append('\'');
+        sb.append(", capacidad=").append(capacidad);
+        sb.append(", sectores=").append(sectores);
+        sb.append('}');
+        return sb.toString();
+    }
 }

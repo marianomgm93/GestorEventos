@@ -43,12 +43,12 @@ public class Evento {
         return id;
     }
 
-    public ArrayList<Funcion> getFuncion() {
+    public ArrayList<Funcion> getFunciones() {
         return funciones;
     }
 
-    public void setFuncion(ArrayList<Funcion> funcion) {
-        funcion = funcion;
+    public void setFunciones(ArrayList<Funcion> funciones) {
+        this.funciones = funciones;
     }
 
     public String getNombre() {
@@ -73,5 +73,17 @@ public class Evento {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Evento{");
+        sb.append("id=").append(id);
+        sb.append(", funciones=").append(funciones);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", descripcion='").append(descripcion).append('\'');
+        sb.append(", categoria=").append(categoria);
+        sb.append('}');
+        return sb.toString();
     }
 }

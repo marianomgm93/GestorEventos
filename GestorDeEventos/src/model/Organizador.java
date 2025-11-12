@@ -10,6 +10,7 @@ public class Organizador extends Usuario {
     private ArrayList<Evento> eventosCreados;
 
     public Organizador() {
+        this.eventosCreados=new ArrayList<>();
     }
 
     public Organizador(JSONObject o) {
