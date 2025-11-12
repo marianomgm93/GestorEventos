@@ -2,8 +2,10 @@ package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import service.OrganizadorService;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Boleteria {
     private ArrayList<Usuario> usuarios;
@@ -13,15 +15,16 @@ public class Boleteria {
         this.usuarios = usuarios;
         this.eventos = eventos;
     }
-    public Boleteria(JSONObject o){
-        this.usuarios=new ArrayList<>();
-        this.eventos=new ArrayList<>();
-        JSONArray jUsuarios=o.getJSONArray("usuarios");
-        JSONArray jEventos=o.getJSONArray("eventos");
-        for (int i = 0; i <jUsuarios.length() ; i++) {
-            if (jUsuarios.getJSONObject(i).getJSONArray("ticketsVendidos")==null){
+
+    public Boleteria(JSONObject o) {
+        this.usuarios = new ArrayList<>();
+        this.eventos = new ArrayList<>();
+        JSONArray jUsuarios = o.getJSONArray("usuarios");
+        JSONArray jEventos = o.getJSONArray("eventos");
+        for (int i = 0; i < jUsuarios.length(); i++) {
+            if (jUsuarios.getJSONObject(i).getJSONArray("ticketsVendidos") == null) {
                 this.usuarios.add(new Organizador(jUsuarios.getJSONObject(i)));
-            }else{
+            } else {
                 this.usuarios.add(new Vendedor(jUsuarios.getJSONObject(i)));
             }
         }
@@ -29,6 +32,11 @@ public class Boleteria {
             this.eventos.add(new Evento(jEventos.getJSONObject(i)));
         }
 
+    }
+    // TODO validaciones ///
+    public void nuevoEvento(Scanner sc, Organizador organizador) {
+        OrganizadorService organizadorService = new OrganizadorService();
+        this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
     }
 
 }

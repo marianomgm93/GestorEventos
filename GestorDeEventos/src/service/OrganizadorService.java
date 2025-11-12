@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrganizadorService {
-    public void nuevoEvento(Scanner sc, Organizador organizador) {
+    public Evento nuevoEvento(Scanner sc, Organizador organizador) {
 
         System.out.println("Ingrese nombre del evento");
         String nombre = sc.nextLine();
@@ -46,7 +46,7 @@ public class OrganizadorService {
 
         Evento evento = new Evento(nombre, descripcion, categoria);
         organizador.getEventosCreados().add(evento);
-
+        return evento;
     }
 
     public void agregarFuncion(Scanner sc, Evento evento) {
