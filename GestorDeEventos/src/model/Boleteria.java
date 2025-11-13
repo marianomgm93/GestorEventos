@@ -3,19 +3,18 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
 public class Boleteria {
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Evento> eventos;
+    private Lista<Usuario> usuarios;
+    private Lista<Evento> eventos;
 
-    public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
+    public Boleteria(Lista<Usuario> usuarios, Lista<Evento> eventos) {
         this.usuarios = usuarios;
         this.eventos = eventos;
     }
     public Boleteria(JSONObject o){
-        this.usuarios=new ArrayList<>();
-        this.eventos=new ArrayList<>();
+        this.usuarios= new Lista<>();
+        this.eventos=new Lista<>();
         JSONArray jUsuarios=o.getJSONArray("usuarios");
         JSONArray jEventos=o.getJSONArray("eventos");
         for (int i = 0; i <jUsuarios.length() ; i++) {
