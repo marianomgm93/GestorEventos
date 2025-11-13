@@ -52,4 +52,8 @@ public class Vendedor extends Usuario {
     }
 
 
+    @Override
+    public void setId(int id) {
+
+    }
 }

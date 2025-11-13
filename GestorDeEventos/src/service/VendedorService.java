@@ -30,7 +30,7 @@ public class VendedorService {
         sb.setLength(0);
         flag=false;
         for (Funcion f: evento.getFunciones()){
-            sb.append("id: ").append(f.getId()).append("\t Fecha: ").append(f.getHora()).append("Recinto: ").append(f.getRecinto().getNombre()).append("\n");
+            sb.append("id: ").append(f.getId()).append("\t Fecha: ").append(f.gethora()).append("Recinto: ").append(f.getRecinto().getNombre()).append("\n");
         }
         int funcionId;
         Funcion funcion=null;
@@ -65,7 +65,7 @@ public class VendedorService {
 
         }while (!flag);
 
-        Ticket ticket=new Ticket(funcion.getRecinto().getDireccion(),asiento.getNumero(),evento.getNombre(),funcion.getHora(),sector.getTipo(),funcion.getPrecioBase());
+        Ticket ticket=new Ticket(funcion.getRecinto().getDireccion(),asiento.getNumero(),evento.getNombre(),funcion.gethora(),sector.getTipo(),funcion.getPrecioBase());
         asiento.setDisponible(false);
         vendedor.getTicketsVendidos().add(ticket);
     }
