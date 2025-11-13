@@ -14,43 +14,40 @@ public class Evento implements ID {
     private Categoria categoria;
 
     public Evento() {
-        this.id = totalEventos++;
+        this.id=totalEventos++;
     }
 
     public Evento(String nombre, String descripcion, Categoria categoria) {
-        this.id = totalEventos++;
+        this.id=totalEventos++;
         this.funciones = new ArrayList<>();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
     }
-
-    public Evento(JSONObject o) {
-        this.id = o.getInt("id");
-        JSONArray jarr = o.getJSONArray("funciones");
-        this.funciones = new ArrayList<>();
-        for (int i = 0; i < jarr.length(); i++) {
+    public Evento (JSONObject o){
+        this.id=o.getInt("id");
+        JSONArray jarr=o.getJSONArray("funciones");
+        this.funciones=new ArrayList<>();
+        for (int i = 0; i <jarr.length() ; i++) {
             this.funciones.add(new Funcion(jarr.getJSONObject(i)));
         }
-        this.nombre = o.getString("nombre");
-        this.descripcion = o.getString("descripcion");
-        this.categoria = Categoria.valueOf(o.getString("categoria"));
+        this.nombre=o.getString("nombre");
+        this.descripcion=o.getString("descripcion");
+        this.categoria=Categoria.valueOf(o.getString("categoria"));
     }
-
-    public JSONObject toJSON() {
+    public JSONObject toJSON(){
         JSONObject o = new JSONObject();
-        o.put("id", this.id);
-        JSONArray jarr = new JSONArray();
-        for (Funcion f : funciones) {
+        o.put("id",this.id);
+        JSONArray jarr=new JSONArray();
+        for(Funcion f: funciones){
             jarr.put(f.toJSON());
         }
-        o.put("funciones", jarr);
-        o.put("nombre", this.nombre);
-        o.put("descripcion", this.descripcion);
-        o.put("categoria", this.categoria.toString());
+        o.put("funciones",jarr);
+        o.put("nombre",this.nombre);
+        o.put("descripcion",this.descripcion);
+        o.put("categoria",this.categoria.toString());
         return o;
     }
-
     public static int getTotalEventos() {
         return totalEventos;
     }
@@ -61,7 +58,7 @@ public class Evento implements ID {
 
     @Override
     public void setId(int id) {
-        this.id = id;
+
     }
 
     public ArrayList<Funcion> getFunciones() {
