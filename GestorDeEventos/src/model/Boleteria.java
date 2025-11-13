@@ -76,6 +76,8 @@ public class Boleteria {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
     }
-    public void guardarBoleteria()
+    public void guardarBoleteria(){
+
+    }
 
 }
