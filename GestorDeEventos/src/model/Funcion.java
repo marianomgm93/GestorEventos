@@ -39,11 +39,11 @@ public class Funcion {
         this.id = id;
     }
 
-    public String gethora() {
+    public String getHora() {
         return hora;
     }
 
-    public void sethora(String hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 

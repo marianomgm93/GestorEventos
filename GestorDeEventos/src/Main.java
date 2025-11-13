@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-      /*  Boleteria boleteria = new Boleteria();
+        Boleteria boleteria = new Boleteria();
         Organizador organizador=new Organizador();
         OrganizadorService organizadorService=new OrganizadorService();
         Scanner sc=new Scanner(System.in);
@@ -20,7 +20,7 @@ public class Main {
         vendedorService.nuevoTicket(sc,vendedor,boleteria.getEventos().getElementos());
         System.out.println(vendedor);
 
-*/
+/*
          //TEST generica
         Lista<Evento> eventoLista = new Lista<>();
         eventoLista.add(new Evento("tal", "tal", Categoria.CINE));
@@ -28,6 +28,6 @@ public class Main {
         eventoLista.ModificarElemento(0, new Evento("tol", "tol", Categoria.PARTIDO));
         System.out.println(eventoLista.getElementos().toString());
         System.out.println(eventoLista.BuscarElementoId(0));
-
+*/
     }
 }

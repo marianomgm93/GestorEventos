@@ -3,6 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.OrganizadorService;
+import service.VendedorService;
 
 import java.util.Scanner;
 
@@ -64,11 +65,13 @@ public class Boleteria {
         o.put("usuarios", jarrUsuarios);
         return o;
     }
-    public void nuevoOrganizador(){
-
+    public void nuevoOrganizador(Scanner sc){
+        OrganizadorService o=new OrganizadorService();
+        this.usuarios.add(o.crearOrganizador(sc));
     }
-    public void nuevoVendedor(){
-
+    public void nuevoVendedor(Scanner sc){
+        VendedorService v= new VendedorService();
+        this.usuarios.add(v.crearVendedor(sc));
     }
     // TODO validaciones ///
     public void nuevoEvento(Scanner sc, Organizador organizador) {
