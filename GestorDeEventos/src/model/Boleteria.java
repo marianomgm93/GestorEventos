@@ -65,11 +65,17 @@ public class Boleteria {
         o.put("usuarios", jarrUsuarios);
         return o;
     }
+    public void nuevoOrganizador(){
 
+    }
+    public void nuevoVendedor(){
+
+    }
     // TODO validaciones ///
     public void nuevoEvento(Scanner sc, Organizador organizador) {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
     }
+    public void guardarBoleteria()
 
 }

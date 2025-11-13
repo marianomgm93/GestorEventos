@@ -1,5 +1,8 @@
 package service;
 
+import Utilidades.Validacion;
+import exceptions.ContraseniaInvalidaException;
+import exceptions.EmailInvalidoException;
 import exceptions.NumeroInvalidoException;
 import model.*;
 
@@ -156,5 +159,31 @@ public class OrganizadorService {
             sectores.add(new Sector(nombre, tipo, asientos));
         }
         return sectores;
+    }
+
+    public Organizador crearOrganizador(Scanner sc) {
+        String nombre, email, contrasenia;
+        boolean flagEmail = false;
+        boolean flagContrasenia=false;
+        System.out.println("Ingrese nombre de organizador");
+        nombre = sc.nextLine();
+        do {
+            System.out.println("Ingrese email");
+            email = sc.nextLine();
+            try{
+                flagEmail = Validacion.validarEmail(email);
+
+            } catch(EmailInvalidoException e){
+                e.printStackTrace();
+            }
+        } while (!flagEmail);
+        System.out.println("ingrese contrasenia");
+        contrasenia = sc.nextLine();
+        try{
+            flagContrasenia=Validacion.validarContrasena(contrasenia);
+        }catch(ContraseniaInvalidaException e){
+            e.printStackTrace();
+        }
+        return new Organizador(nombre, email, contrasenia);
     }
 }
