@@ -3,27 +3,22 @@ package model;
 import org.json.JSONObject;
 
 public class Funcion {
+    private static int totalFunciones;
     private int id;
     private String hora; //cambiar tipo de variable
     private Recinto recinto;
     private double precioBase;
 
-    public Funcion(int id, String hora, Recinto recinto, int precioBase) {
-        this.id = id;
-        this.hora = hora;
-        this.recinto = recinto;
-        this.precioBase = precioBase;
-    }
-
     public Funcion(String hora, Recinto recinto, double precioBase) {
+        this.id = totalFunciones++;
         this.hora = hora;
         this.recinto = recinto;
         this.precioBase = precioBase;
     }
 
-    /// FALTA CREAR FROM JSON
     public Funcion(JSONObject o){
         this.id=o.getInt("id");
+        totalFunciones++;
         this.hora=o.getString("hora");
         this.recinto=new Recinto(o.getJSONObject("recinto"));
         this.precioBase=o.getDouble("precioBase");
@@ -60,6 +55,19 @@ public class Funcion {
         this.precioBase = precioBase;
     }
 
+    public String asientosDisponibles(){
+        StringBuilder sb=new StringBuilder();
+        for (Sector s: this.recinto.getSectores()){
+            for(Asiento a: s.getAsientos()){
+                sb.append("Sector: ").append(s.getId()).append(" ").append(s.getNombre());
+                sb.append("Tipo: ").append(s.getTipo()).append("\n");
+                if(a.isDisponible()){
+                    sb.append(a);
+                }
+            }
+        }
+        return sb.toString();
+    }
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Funcion{");

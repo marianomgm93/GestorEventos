@@ -57,4 +57,15 @@ public abstract class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Usuario{");
+        sb.append("id=").append(id);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", contrasenia='").append(contrasenia).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
