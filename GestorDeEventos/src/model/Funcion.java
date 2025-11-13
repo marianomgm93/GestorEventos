@@ -23,6 +23,14 @@ public class Funcion {
         this.recinto=new Recinto(o.getJSONObject("recinto"));
         this.precioBase=o.getDouble("precioBase");
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id",this.id);
+        o.put("hora",this.hora);
+        o.put("recinto",this.recinto.toJSON());
+        o.put("precioBase",this.precioBase);
+        return o;
+    }
     public int getId() {
         return id;
     }
@@ -72,7 +80,7 @@ public class Funcion {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Funcion{");
         sb.append("id=").append(id);
-        sb.append(", hora='").append(hora).append('\'');
+        sb.append(", fecha y hora='").append(hora).append('\'');
         sb.append(", recinto=").append(recinto);
         sb.append(", precioBase=").append(precioBase);
         sb.append('}');

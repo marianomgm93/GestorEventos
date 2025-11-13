@@ -53,7 +53,7 @@ public class OrganizadorService {
         String hora;
         double precio = 0;
         boolean flag = false;
-        System.out.println("Ingrese hora de la funcion");
+        System.out.println("Ingrese fecha y hora de la funcion");
         hora = sc.nextLine();
         System.out.println("Ingrese el precio base");
         do {

@@ -25,6 +25,18 @@ public class Vendedor extends Usuario {
             this.ticketsVendidos.add(new Ticket(jarr.getJSONObject(i)));
         }
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id",super.getId());
+        o.put("nombre",super.getNombre());
+        o.put("email", super.getEmail());
+        JSONArray jarr=new JSONArray();
+        for(Ticket t: ticketsVendidos){
+            jarr.put(t.toJSON());
+        }
+        o.put("ticketsVendidos",jarr);
+        return o;
+    }
 
     @Override
     public String toString() {

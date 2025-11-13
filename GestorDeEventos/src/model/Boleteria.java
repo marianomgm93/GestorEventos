@@ -4,33 +4,34 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import service.OrganizadorService;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Boleteria {
-    private Lista<Usuario> usuarios;
-    private Lista<Evento> eventos;
+    private ArrayList<Usuario> usuarios;
+    private ArrayList<Evento> eventos;
 
     public Boleteria() {
-        usuarios=new Lista<>();
-        eventos=new Lista<>();
+        usuarios = new ArrayList<>();
+        eventos = new ArrayList<>();
     }
 
-    public Boleteria(Lista<Usuario> usuarios, Lista<Evento> eventos) {
+    public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
         this.usuarios = usuarios;
         this.eventos = eventos;
     }
 
-    public Lista<Usuario> getUsuarios() {
+    public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public Lista<Evento> getEventos() {
+    public ArrayList<Evento> getEventos() {
         return eventos;
     }
 
     public Boleteria(JSONObject o) {
-        this.usuarios = new Lista<>();
-        this.eventos = new Lista<>();
+        this.usuarios = new ArrayList<>();
+        this.eventos = new ArrayList<>();
         JSONArray jUsuarios = o.getJSONArray("usuarios");
         JSONArray jEventos = o.getJSONArray("eventos");
         for (int i = 0; i < jUsuarios.length(); i++) {
@@ -45,11 +46,30 @@ public class Boleteria {
         }
 
     }
+
+    public JSONObject toJSON() {
+        JSONObject o = new JSONObject();
+        JSONArray jarrEventos = new JSONArray();
+        for (Evento e : this.eventos) {
+            jarrEventos.put(e.toJSON());
+        }
+        JSONArray jarrUsuarios = new JSONArray();
+        for (Usuario u : usuarios) {
+            if(u instanceof Vendedor){
+                jarrUsuarios.put(((Vendedor) u).toJSON());
+            }else{
+                jarrUsuarios.put(((Organizador) u).toJSON());
+            }
+        }
+        o.put("eventos", jarrEventos);
+        o.put("usuarios", jarrUsuarios);
+        return o;
+    }
+
     // TODO validaciones ///
     public void nuevoEvento(Scanner sc, Organizador organizador) {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
-        organizadorService.agregarFuncion(sc,this.eventos.getElementos().getLast());
     }
 
 }
