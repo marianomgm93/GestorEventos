@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Sector {
     private static int totalSectores;
     private int id;
-    private String nombre;
+    private
+    String nombre;
     private Tipo tipo;
     private ArrayList<Asiento> asientos;
 

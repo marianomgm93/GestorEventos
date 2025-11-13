@@ -4,34 +4,33 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import service.OrganizadorService;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Boleteria {
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Evento> eventos;
+    private Lista<Usuario> usuarios;
+    private Lista<Evento> eventos;
 
     public Boleteria() {
-        usuarios=new ArrayList<>();
-        eventos=new ArrayList<>();
+        usuarios=new Lista<>();
+        eventos=new Lista<>();
     }
 
-    public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
+    public Boleteria(Lista<Usuario> usuarios, Lista<Evento> eventos) {
         this.usuarios = usuarios;
         this.eventos = eventos;
     }
 
-    public ArrayList<Usuario> getUsuarios() {
+    public Lista<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public ArrayList<Evento> getEventos() {
+    public Lista<Evento> getEventos() {
         return eventos;
     }
 
     public Boleteria(JSONObject o) {
-        this.usuarios = new ArrayList<>();
-        this.eventos = new ArrayList<>();
+        this.usuarios = new Lista<>();
+        this.eventos = new Lista<>();
         JSONArray jUsuarios = o.getJSONArray("usuarios");
         JSONArray jEventos = o.getJSONArray("eventos");
         for (int i = 0; i < jUsuarios.length(); i++) {
@@ -50,7 +49,7 @@ public class Boleteria {
     public void nuevoEvento(Scanner sc, Organizador organizador) {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
-        organizadorService.agregarFuncion(sc,this.eventos.getLast());
+        organizadorService.agregarFuncion(sc,this.eventos.getElementos().getLast());
     }
 
 }

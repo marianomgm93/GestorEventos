@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Usuario {
+public abstract class Usuario implements ID {
     private static int totalUsuarios;
     private int id;
     private String nombre;

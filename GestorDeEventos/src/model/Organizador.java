@@ -54,4 +54,8 @@ public class Organizador extends Usuario {
         return Objects.hashCode(eventosCreados);
     }
 
+    @Override
+    public void setId(int id) {
+
+    }
 }
