@@ -29,6 +29,16 @@ public class Ticket {
         totalTickets++;
     }
 
+    public Ticket(String direccionRecinto, int asiento, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
+        this.id=totalTickets++;
+        this.direccionRecinto = direccionRecinto;
+        this.asiento = asiento;
+        this.nombreEvento = nombreEvento;
+        this.fechaYHora = fechaYHora;
+        this.tipo = tipo;
+        this.precio = precio;
+    }
+
     public Ticket(JSONObject o) {
         this.id=o.getInt("id");
         totalTickets++;
