@@ -11,9 +11,22 @@ public class Boleteria {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Evento> eventos;
 
+    public Boleteria() {
+        usuarios=new ArrayList<>();
+        eventos=new ArrayList<>();
+    }
+
     public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
         this.usuarios = usuarios;
         this.eventos = eventos;
+    }
+
+    public ArrayList<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public ArrayList<Evento> getEventos() {
+        return eventos;
     }
 
     public Boleteria(JSONObject o) {
@@ -37,6 +50,7 @@ public class Boleteria {
     public void nuevoEvento(Scanner sc, Organizador organizador) {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
+        organizadorService.agregarFuncion(sc,this.eventos.getLast());
     }
 
 }

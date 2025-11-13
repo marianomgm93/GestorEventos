@@ -62,11 +62,11 @@ public class Funcion {
                 sb.append("Sector: ").append(s.getId()).append(" ").append(s.getNombre());
                 sb.append("Tipo: ").append(s.getTipo()).append("\n");
                 if(a.isDisponible()){
-                    //TODO
+                    sb.append(a);
                 }
             }
         }
-
+        return sb.toString();
     }
     @Override
     public String toString() {

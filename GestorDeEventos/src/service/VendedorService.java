@@ -1,10 +1,7 @@
 package service;
 
 import Utilidades.Validacion;
-import model.Evento;
-import model.Funcion;
-import model.Ticket;
-import model.Vendedor;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -24,6 +21,7 @@ public class VendedorService {
             for (Evento e : eventos) {
                 if (e.getId() == eventoId) {
                     evento = e;
+                    System.out.println("entree");
                     flag = true;
                 }
             }
@@ -47,6 +45,28 @@ public class VendedorService {
             }
             if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
         } while (!flag);
-        Ticket ticket=new Ticket(funcion.getRecinto().getNombre(),);
+        flag=false;
+        Asiento asiento=null;
+        Sector sector=null;
+        int asientoId;
+        do {
+            asientoId=Validacion.validarEntero(sc,"Ingrese el numero de asiento\n"+funcion.asientosDisponibles());
+
+            for(Sector s: funcion.getRecinto().getSectores()){
+                for(Asiento a:s.getAsientos()){
+                    if(a.getNumero()==asientoId){
+                        asiento=a;
+                        sector=s;
+                        flag=true;
+                    }
+                }
+            }
+            if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+
+        }while (!flag);
+
+        Ticket ticket=new Ticket(funcion.getRecinto().getDireccion(),asiento.getNumero(),evento.getNombre(),funcion.getHora(),sector.getTipo(),funcion.getPrecioBase());
+        asiento.setDisponible(false);
+        vendedor.getTicketsVendidos().add(ticket);
     }
 }
