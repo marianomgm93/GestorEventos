@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Lista<T> {
+public class Lista<T extends ID> {
     private ArrayList<T> elementos = new ArrayList<>();
 
 
@@ -22,6 +22,31 @@ public class Lista<T> {
         }
         return "No se encontro el objeto";
     }
+
+
+    public T BuscarElementoId(int id) {
+
+        for (T elemento : elementos) {
+            if (elemento.getId() == id) {
+
+                return elemento;
+            }
+        }
+        return null;
+    }
+
+    public String ModificarElemento(int id, T actualizado) {
+        actualizado.setId(id);
+        for (T elemento : elementos) {
+            if (elemento.getId() == id) {
+                elementos.set(elementos.indexOf(elemento), actualizado);
+
+                return "Se modifico con exito";
+            }
+        }
+        return "No se encontro el evento";
+    }
+
 
     public ArrayList<T> getElementos() {
         return elementos;

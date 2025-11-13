@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Evento {
+public class Evento implements ID {
     private static int totalEventos;
     private int id;
     private ArrayList<Funcion> funciones;
@@ -14,33 +14,40 @@ public class Evento {
     private Categoria categoria;
 
     public Evento() {
-        this.id=totalEventos++;
+        this.id = totalEventos++;
     }
 
     public Evento(String nombre, String descripcion, Categoria categoria) {
-        this.id=totalEventos++;
+        this.id = totalEventos++;
         this.funciones = new ArrayList<>();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
     }
-    public Evento (JSONObject o){
-        this.id=o.getInt("id");
-        JSONArray jarr=o.getJSONArray("funciones");
-        this.funciones=new ArrayList<>();
-        for (int i = 0; i <jarr.length() ; i++) {
+
+    public Evento(JSONObject o) {
+        this.id = o.getInt("id");
+        JSONArray jarr = o.getJSONArray("funciones");
+        this.funciones = new ArrayList<>();
+        for (int i = 0; i < jarr.length(); i++) {
             this.funciones.add(new Funcion(jarr.getJSONObject(i)));
         }
-        this.nombre=o.getString("nombre");
-        this.descripcion=o.getString("descripcion");
-        this.categoria=Categoria.valueOf(o.getString("categoria"));
+        this.nombre = o.getString("nombre");
+        this.descripcion = o.getString("descripcion");
+        this.categoria = Categoria.valueOf(o.getString("categoria"));
     }
+
     public static int getTotalEventos() {
         return totalEventos;
     }
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ArrayList<Funcion> getFunciones() {

@@ -1,7 +1,5 @@
-import model.Boleteria;
-import model.Evento;
-import model.Organizador;
-import model.Vendedor;
+import jdk.jfr.Event;
+import model.*;
 import service.OrganizadorService;
 import service.VendedorService;
 
@@ -9,8 +7,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Boleteria boleteria=new Boleteria();
-        Organizador organizador=new Organizador();
+        Boleteria boleteria = new Boleteria();
+        /*Organizador organizador=new Organizador();
         OrganizadorService organizadorService=new OrganizadorService();
         Scanner sc=new Scanner(System.in);
         boleteria.nuevoEvento(sc,organizador);
@@ -22,5 +20,15 @@ public class Main {
         VendedorService vendedorService=new VendedorService();
         vendedorService.nuevoTicket(sc,vendedor,boleteria.getEventos());
         System.out.println(vendedor);
+    */
+
+        /* TEST generica
+        Lista<Evento> eventoLista = new Lista<>();
+        eventoLista.add(new Evento("tal", "tal", Categoria.CINE));
+        eventoLista.add(new Evento("tal", "tal", Categoria.CINE));
+        eventoLista.ModificarElemento(0, new Evento("tol", "tol", Categoria.PARTIDO));
+        System.out.println(eventoLista.getElementos().toString());
+        System.out.println(eventoLista.BuscarElementoId(0));
+   */
     }
 }
