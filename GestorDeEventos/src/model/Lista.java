@@ -1,6 +1,10 @@
 package model;
 
+import exceptions.ElementoNoEncontradoException;
+import exceptions.NumeroInvalidoException;
+
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class Lista<T extends ID> {
     private ArrayList<T> elementos = new ArrayList<>();
@@ -26,24 +30,33 @@ public class Lista<T extends ID> {
 
     public T BuscarElementoId(int id) {
 
-        for (T elemento : elementos) {
-            if (elemento.getId() == id) {
-
-
-                return elemento;
+        try {
+            for (T elemento : elementos) {
+                if (elemento.getId() == id) {
+                    return elemento;
+                }
             }
+
+            throw new ElementoNoEncontradoException("No se encontró el elemento con id: " + id);
+        } catch (ElementoNoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
 
     public String ModificarElemento(int id, T actualizado) {
-        actualizado.setId(id);
-        for (T elemento : elementos) {
-            if (elemento.getId() == id) {
-                elementos.set(elementos.indexOf(elemento), actualizado);
 
-                return "Se modifico con exito";
+        try {
+            for (T elemento : elementos) {
+                if (elemento.getId() == id) {
+                    elementos.set(elementos.indexOf(elemento), actualizado);
+                    elementos.get(elementos.indexOf(actualizado)).setId(id);
+                    return "Se modifico con exito";
+                }
             }
+            throw new ElementoNoEncontradoException("No se encontró el elemento con id: " + id);
+        } catch (ElementoNoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
         return "No se encontro el evento";
     }
