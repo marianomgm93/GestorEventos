@@ -1,9 +1,7 @@
 package service;
 
 import Utilidades.Validacion;
-import exceptions.ContraseniaInvalidaException;
-import exceptions.EmailInvalidoException;
-import exceptions.NumeroInvalidoException;
+import exceptions.*;
 import model.*;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrganizadorService {
-    public Evento nuevoEvento(Scanner sc, Organizador organizador) {
+    public void nuevoEvento(Scanner sc, Organizador organizador,Boleteria boleteria,String archivo) {
 
         System.out.println("Ingrese nombre del evento");
         String nombre = sc.nextLine();
@@ -48,8 +46,15 @@ public class OrganizadorService {
         }
 
         Evento evento = new Evento(nombre, descripcion, categoria);
-        organizador.getEventosCreados().add(evento);
-        return evento;
+        try{
+            boleteria.guardarEvento(evento,archivo);
+            organizador.getEventosCreados().add(evento);
+
+        }catch(UsuarioRepetidoException e){
+            e.printStackTrace();
+        } catch (EventoRepetidoException e) {
+            e.printStackTrace();
+        }
     }
 //TODO
     public Evento modificarEvento(Scanner sc, Organizador organizador) {
@@ -93,7 +98,7 @@ public class OrganizadorService {
         return evento;
     }
 
-    public void agregarFuncion(Scanner sc, Evento evento) {
+    public void agregarFuncion(Scanner sc, Evento evento,Boleteria boleteria,String archivo) {
         String hora;
         double precio = 0;
         boolean flag = false;
@@ -113,6 +118,7 @@ public class OrganizadorService {
         Recinto recinto = nuevoRecinto(sc);
         Funcion funcion = new Funcion(hora, recinto, precio);
         evento.getFunciones().add(funcion);
+        boleteria.guardarBoleteria(archivo);
     }
 
     public Recinto nuevoRecinto(Scanner sc) {
@@ -202,7 +208,7 @@ public class OrganizadorService {
         return sectores;
     }
 
-    public Organizador crearOrganizador(Scanner sc) {
+    public void crearOrganizador(Scanner sc,Boleteria boleteria,String archivo) {
         String nombre, email, contrasenia;
         boolean flagEmail = false;
         boolean flagContrasenia = false;
@@ -228,6 +234,6 @@ public class OrganizadorService {
             }
 
         } while (!flagContrasenia);
-        return new Organizador(nombre, email, contrasenia);
+        boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia),archivo);
     }
 }
