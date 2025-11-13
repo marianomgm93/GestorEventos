@@ -26,6 +26,18 @@ public class Organizador extends Usuario {
         super(nombre, email, contrasenia);
         this.eventosCreados = new ArrayList<>();
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id",super.getId());
+        o.put("nombre",super.getNombre());
+        o.put("email", super.getEmail());
+        JSONArray jarr=new JSONArray();
+        for(Evento e: eventosCreados){
+            jarr.put(e.toJSON());
+        }
+        o.put("eventosCreados",jarr);
+        return o;
+    }
 
     public ArrayList<Evento> getEventosCreados() {
         return eventosCreados;

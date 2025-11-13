@@ -23,6 +23,12 @@ public class Asiento {
         totalAsientos++;
         this.disponible = o.getBoolean("disponible");
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("numero", this.numero);
+        o.put("disponible",this.disponible);
+        return o;
+    }
 
     public int getNumero() {
         return numero;

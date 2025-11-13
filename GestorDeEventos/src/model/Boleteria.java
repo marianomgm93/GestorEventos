@@ -12,8 +12,8 @@ public class Boleteria {
     private ArrayList<Evento> eventos;
 
     public Boleteria() {
-        usuarios=new ArrayList<>();
-        eventos=new ArrayList<>();
+        usuarios = new ArrayList<>();
+        eventos = new ArrayList<>();
     }
 
     public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
@@ -46,11 +46,30 @@ public class Boleteria {
         }
 
     }
+
+    public JSONObject toJSON() {
+        JSONObject o = new JSONObject();
+        JSONArray jarrEventos = new JSONArray();
+        for (Evento e : this.eventos) {
+            jarrEventos.put(e.toJSON());
+        }
+        JSONArray jarrUsuarios = new JSONArray();
+        for (Usuario u : usuarios) {
+            if(u instanceof Vendedor){
+                jarrUsuarios.put(((Vendedor) u).toJSON());
+            }else{
+                jarrUsuarios.put(((Organizador) u).toJSON());
+            }
+        }
+        o.put("eventos", jarrEventos);
+        o.put("usuarios", jarrUsuarios);
+        return o;
+    }
+
     // TODO validaciones ///
     public void nuevoEvento(Scanner sc, Organizador organizador) {
         OrganizadorService organizadorService = new OrganizadorService();
         this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
-        organizadorService.agregarFuncion(sc,this.eventos.getLast());
     }
 
 }

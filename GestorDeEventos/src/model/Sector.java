@@ -36,7 +36,18 @@ public class Sector {
             asientos.add(new Asiento(jarr.getJSONObject(i)));
         }
     }
-
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id", this.id);
+        o.put("nombre",this.nombre);
+        o.put("tipo",this.tipo.toString());
+        JSONArray jarr=new JSONArray();
+        for(Asiento a: asientos){
+            jarr.put(a.toJSON());
+        }
+        o.put("asientos",jarr);
+        return o;
+    }
     public String asientosDisponibles() {
         StringBuilder sb = new StringBuilder();
         for (Asiento a : this.asientos) {

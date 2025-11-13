@@ -40,6 +40,19 @@ public class Recinto {
             sectores.add(new Sector(jarr.getJSONObject(i)));
         }
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id", this.id);
+        o.put("nombre", this.nombre);
+        o.put("direccion", this.direccion);
+        o.put("capacidad", this.capacidad);
+        JSONArray jarr=new JSONArray();
+        for(Sector s: sectores){
+            jarr.put(s.toJSON());
+        }
+        o.put("sectores",jarr);
+        return o;
+    }
 
     public int getId() {
         return id;

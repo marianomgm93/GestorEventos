@@ -35,6 +35,19 @@ public class Evento {
         this.descripcion=o.getString("descripcion");
         this.categoria=Categoria.valueOf(o.getString("categoria"));
     }
+    public JSONObject toJSON(){
+        JSONObject o = new JSONObject();
+        o.put("id",this.id);
+        JSONArray jarr=new JSONArray();
+        for(Funcion f: funciones){
+            jarr.put(f.toJSON());
+        }
+        o.put("funciones",jarr);
+        o.put("nombre",this.nombre);
+        o.put("descripcion",this.descripcion);
+        o.put("categoria",this.categoria.toString());
+        return o;
+    }
     public static int getTotalEventos() {
         return totalEventos;
     }
