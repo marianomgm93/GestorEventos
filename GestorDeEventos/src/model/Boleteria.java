@@ -1,45 +1,46 @@
 package model;
 
+import Utilidades.JSONUtiles;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.OrganizadorService;
 import service.VendedorService;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Boleteria {
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Evento> eventos;
+    private Lista<Usuario> usuarios;
+    private Lista<Evento> eventos;
 
     public Boleteria() {
-        usuarios = new ArrayList<>();
-        eventos = new ArrayList<>();
+        usuarios = new Lista<>();
+        eventos = new Lista<>();
     }
 
-    public Boleteria(ArrayList<Usuario> usuarios, ArrayList<Evento> eventos) {
+    public Boleteria(Lista<Usuario> usuarios, Lista<Evento> eventos) {
         this.usuarios = usuarios;
         this.eventos = eventos;
     }
 
-    public ArrayList<Usuario> getUsuarios() {
+    public Lista<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public ArrayList<Evento> getEventos() {
+    public Lista<Evento> getEventos() {
         return eventos;
     }
 
-    public Boleteria(JSONObject o) {
-        this.usuarios = new ArrayList<>();
-        this.eventos = new ArrayList<>();
+    public void fromJSON(String archivo) {
+        JSONObject o = new JSONObject(JSONUtiles.downloadJSON(archivo));
+        this.usuarios = new Lista<>();
+        this.eventos = new Lista<>();
         JSONArray jUsuarios = o.getJSONArray("usuarios");
         JSONArray jEventos = o.getJSONArray("eventos");
         for (int i = 0; i < jUsuarios.length(); i++) {
-            if (jUsuarios.getJSONObject(i).getJSONArray("ticketsVendidos") == null) {
-                this.usuarios.add(new Organizador(jUsuarios.getJSONObject(i)));
-            } else {
+            if (jUsuarios.getJSONObject(i).has("ticketsVendidos")) {
                 this.usuarios.add(new Vendedor(jUsuarios.getJSONObject(i)));
+            } else {
+                this.usuarios.add(new Organizador(jUsuarios.getJSONObject(i)));
             }
         }
         for (int i = 0; i < jEventos.length(); i++) {
@@ -51,14 +52,14 @@ public class Boleteria {
     public JSONObject toJSON() {
         JSONObject o = new JSONObject();
         JSONArray jarrEventos = new JSONArray();
-        for (Evento e : this.eventos) {
+        for (Evento e : this.eventos.getElementos()) {
             jarrEventos.put(e.toJSON());
         }
         JSONArray jarrUsuarios = new JSONArray();
-        for (Usuario u : usuarios) {
-            if(u instanceof Vendedor){
+        for (Usuario u : usuarios.getElementos()) {
+            if (u instanceof Vendedor) {
                 jarrUsuarios.put(((Vendedor) u).toJSON());
-            }else{
+            } else {
                 jarrUsuarios.put(((Organizador) u).toJSON());
             }
         }
@@ -66,21 +67,27 @@ public class Boleteria {
         o.put("usuarios", jarrUsuarios);
         return o;
     }
-    public void nuevoOrganizador(Scanner sc){
-        OrganizadorService o=new OrganizadorService();
-        this.usuarios.add(o.crearOrganizador(sc));
-    }
-    public void nuevoVendedor(Scanner sc){
-        VendedorService v= new VendedorService();
-        this.usuarios.add(v.crearVendedor(sc));
-    }
-    // TODO validaciones ///
-    public void nuevoEvento(Scanner sc, Organizador organizador) {
-        OrganizadorService organizadorService = new OrganizadorService();
-        this.eventos.add(organizadorService.nuevoEvento(sc, organizador));
-    }
-    public void guardarBoleteria(){
 
+    public void guardarUsuario(Usuario usuario,String archivo) {
+        this.usuarios.add(usuario);
+        guardarBoleteria(archivo);
     }
 
+    public void guardarEvento(Evento evento, String archivo) {
+        this.eventos.add(evento);
+        guardarBoleteria(archivo);
+    }
+
+    public void guardarBoleteria(String archivo) {
+        JSONUtiles.uploadJSON(this.toJSON(), archivo);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Boleteria{");
+        sb.append("usuarios=").append(usuarios);
+        sb.append(", eventos=").append(eventos);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -5,6 +5,7 @@ import exceptions.EmailInvalidoException;
 import exceptions.NumeroInvalidoException;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Validacion {
@@ -74,5 +75,8 @@ public class Validacion {
         }
 
         return true;
+    }
+    public static <T> boolean repetido(T objeto, List<T> lista){
+        return lista.contains(objeto);
     }
 }

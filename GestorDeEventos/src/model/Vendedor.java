@@ -30,6 +30,7 @@ public class Vendedor extends Usuario {
         o.put("id",super.getId());
         o.put("nombre",super.getNombre());
         o.put("email", super.getEmail());
+        o.put("contrasenia",super.getContrasenia());
         JSONArray jarr=new JSONArray();
         for(Ticket t: ticketsVendidos){
             jarr.put(t.toJSON());
@@ -52,4 +53,8 @@ public class Vendedor extends Usuario {
     }
 
 
+    @Override
+    public void setId(int id) {
+
+    }
 }

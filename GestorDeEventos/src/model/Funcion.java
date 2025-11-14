@@ -5,7 +5,7 @@ import org.json.JSONObject;
 public class Funcion {
     private static int totalFunciones;
     private int id;
-    private String hora; //cambiar tipo de variable
+    private String hora;
     private Recinto recinto;
     private double precioBase;
 

@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VendedorService {
-    public void nuevoTicket(Scanner sc, Vendedor vendedor, ArrayList<Evento> eventos) {
+    public void nuevoTicket(Scanner sc, Vendedor vendedor, ArrayList<Evento> eventos, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
         for (Evento e : eventos) {
-            sb.append("id: ").append(e.getId()).append("\t Nombre").append(e.getNombre()).append("\n");
+            sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
         boolean flag = false;
         int eventoId;
@@ -23,16 +23,17 @@ public class VendedorService {
             for (Evento e : eventos) {
                 if (e.getId() == eventoId) {
                     evento = e;
-                    System.out.println("entree");
                     flag = true;
                 }
             }
             if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
         } while (!flag);
         sb.setLength(0);
+
         flag = false;
         for (Funcion f : evento.getFunciones()) {
             sb.append("id: ").append(f.getId()).append("\t Fecha: ").append(f.getHora()).append("Recinto: ").append(f.getRecinto().getNombre()).append("\n");
+
         }
         int funcionId;
         Funcion funcion = null;
@@ -69,10 +70,11 @@ public class VendedorService {
 
         Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getNombre(), funcion.getHora(), sector.getTipo(), funcion.getPrecioBase());
         asiento.setDisponible(false);
+        boleteria.guardarBoleteria(archivo);
         vendedor.getTicketsVendidos().add(ticket);
     }
 
-    public Vendedor crearVendedor(Scanner sc) {
+    public void crearVendedor(Scanner sc, Boleteria boleteria, String archivo) {
         String nombre, email, contrasenia;
         boolean flagEmail = false;
         boolean flagContrasenia = false;
@@ -98,6 +100,6 @@ public class VendedorService {
             }
 
         } while (!flagContrasenia);
-        return new Vendedor(nombre, email, contrasenia);
+        boleteria.guardarUsuario(new Vendedor(nombre, email, contrasenia), archivo);
     }
 }

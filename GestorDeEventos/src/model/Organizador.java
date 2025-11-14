@@ -31,6 +31,7 @@ public class Organizador extends Usuario {
         o.put("id",super.getId());
         o.put("nombre",super.getNombre());
         o.put("email", super.getEmail());
+        o.put("contrasenia",super.getContrasenia());
         JSONArray jarr=new JSONArray();
         for(Evento e: eventosCreados){
             jarr.put(e.toJSON());
@@ -66,4 +67,8 @@ public class Organizador extends Usuario {
         return Objects.hashCode(eventosCreados);
     }
 
+    @Override
+    public void setId(int id) {
+
+    }
 }
