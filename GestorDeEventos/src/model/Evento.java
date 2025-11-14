@@ -1,3 +1,8 @@
+/**
+ * Representa un Evento genérico, el cual puede ser clasificado por una
+ * {@link Categoria} y agrupa una colección de {@link Funcion}s (horarios o
+ * sesiones específicas). Implementa la interfaz generica ID para manejo de identificadores.
+ */
 package model;
 
 import org.json.JSONArray;
@@ -6,17 +11,56 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Evento implements ID {
+
+    /**
+     * Contador estático que lleva el registro del número total de eventos creados
+     * para la asignación automática de IDs.
+     */
     private static int totalEventos;
+
+    /**
+     * Identificador único del evento.
+     */
     private int id;
+
+    /**
+     * Lista de funciones asociadas a este evento (e.g., diferentes horarios o fechas).
+     */
     private ArrayList<Funcion> funciones;
+
+    /**
+     * Nombre descriptivo del evento.
+     */
     private String nombre;
+
+    /**
+     * Descripción detallada del evento.
+     */
     private String descripcion;
+
+    /**
+     * Categoría a la que pertenece el evento (e.g., CINE, CONCIERTO).
+     *
+     * @see Categoria
+     */
     private Categoria categoria;
 
+    /**
+     * Constructor por defecto.
+     * Asigna automáticamente un ID consecutivo al evento.
+     */
     public Evento() {
         this.id = totalEventos++;
     }
 
+    /**
+     * Constructor para crear un nuevo evento con los detalles esenciales.
+     * Asigna un ID automático e inicializa la lista de funciones.
+     *
+     * @param nombre      El nombre del evento.
+     * @param descripcion La descripción detallada del evento.
+     * @param categoria   La {@link Categoria} a la que pertenece el evento.
+     */
     public Evento(String nombre, String descripcion, Categoria categoria) {
         this.id = totalEventos++;
         this.funciones = new ArrayList<>();
@@ -25,6 +69,11 @@ public class Evento implements ID {
         this.categoria = categoria;
     }
 
+    /**
+     * Constructor para crear un evento a partir de un objeto JSON,
+     *
+     * @param o El objeto {@code JSONObject} que contiene todos los datos del evento.
+     */
     public Evento(JSONObject o) {
         this.id = o.getInt("id");
         JSONArray jarr = o.getJSONArray("funciones");
@@ -37,6 +86,11 @@ public class Evento implements ID {
         this.categoria = Categoria.valueOf(o.getString("categoria"));
     }
 
+    /**
+     * Convierte el objeto Evento a su representación en formato JSON
+     *
+     * @return Un objeto {@code JSONObject} que representa el estado completo del evento.
+     */
     public JSONObject toJSON() {
         JSONObject o = new JSONObject();
         o.put("id", this.id);
@@ -51,60 +105,59 @@ public class Evento implements ID {
         return o;
     }
 
+    /**
+     * Obtiene el número total de eventos que han sido instanciados.
+     *
+     * @return El contador estático de eventos.
+     */
     public static int getTotalEventos() {
         return totalEventos;
     }
 
+    /**
+     * Obtiene el identificador único del evento.
+     *
+     * @return El ID del evento.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Establece el identificador único del evento.
+     *
+     * @param id El nuevo ID para el evento.
+     */
     @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene la lista de funciones (horarios/sesiones) asociadas a este evento.
+     *
+     * @return La lista de objetos {@link Funcion}.
+     */
     public ArrayList<Funcion> getFunciones() {
         return funciones;
     }
 
+    /**
+     * Establece una nueva lista de funciones para el evento.
+     *
+     * @param funciones La nueva lista de {@link Funcion}s.
+     */
     public void setFunciones(ArrayList<Funcion> funciones) {
         this.funciones = funciones;
     }
 
+    /**
+     * Obtiene el nombre del evento.
+     *
+     * @return El nombre del evento.
+     */
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Evento{");
-        sb.append("id=").append(id);
-        sb.append(", funciones=").append(funciones);
-        sb.append(", nombre='").append(nombre).append('\'');
-        sb.append(", descripcion='").append(descripcion).append('\'');
-        sb.append(", categoria=").append(categoria);
-        sb.append('}');
-        return sb.toString();
-    }
 }
