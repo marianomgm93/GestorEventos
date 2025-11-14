@@ -78,13 +78,9 @@ public class OrganizadorService {
         Categoria categoria = Categoria.CINE;
         do {
             System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
-            try {
-                opcion = sc.nextInt();
-                sc.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("Debe ingresar un numero contemplado entre las opciones");
-                sc.nextLine();
-            }
+
+            opcion = Validacion.validarEntero(sc);
+
         } while (opcion < 1 || opcion > 5);
         switch (opcion) {
             case 1:
@@ -115,8 +111,12 @@ public class OrganizadorService {
         double precio = 0;
         boolean flag = false;
         boleteria.mostrarEventos();
-        int idEvento=Validacion.validarEntero(sc,"Ingrese id del evento");
-        Evento evento=boleteria.getEventos().buscarElementoId(idEvento);
+        Evento evento=null;
+        do{
+        int idEvento = Validacion.validarEntero(sc, "Ingrese id del evento");
+        evento = boleteria.getEventos().buscarElementoId(idEvento);
+
+        }while(evento==null);
         System.out.println("Ingrese fecha y hora de la funcion");
         hora = sc.nextLine();
         System.out.println("Ingrese el precio base");
@@ -128,7 +128,7 @@ public class OrganizadorService {
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero");
                 sc.nextLine();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("El numero ingresado es invalido");
                 sc.nextLine();
             }
@@ -183,8 +183,7 @@ public class OrganizadorService {
                 System.out.println("Ingrese tipo del sector:\n1\tPrimario\n2\tSecundario\n3\tTerciario");
 
                 try {
-                    option = sc.nextInt();
-                    sc.nextLine();
+                    option = Validacion.validarEntero(sc);
                     switch (option) {
                         case 1:
                             tipo = Tipo.PRINCIPAL;
