@@ -94,4 +94,23 @@ public class Boleteria {
         sb.append('}');
         return sb.toString();
     }
+    public String mostrarOrganizadores(){
+        StringBuilder sb=new StringBuilder();
+        for (Usuario u: this.usuarios.getElementos()){
+            if (u instanceof Organizador){
+                sb.append(u).append("\n");;
+            }
+        }
+        return sb.toString();
+    }
+    public String mostrarVendedores(){
+        StringBuilder sb=new StringBuilder();
+        for (Usuario u: this.usuarios.getElementos()){
+            if (u instanceof Vendedor){
+                sb.append(u).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
 }

@@ -72,7 +72,7 @@ public class Lista<T extends ID> {
      * @param id El identificador único del elemento a buscar.
      * @return El elemento de tipo T encontrado con ese ID, o {@code null} si no se encuentra.
      */
-    public T BuscarElementoId(int id) {
+    public T buscarElementoId(int id) {
 
         try {
             for (T elemento : elementos) {

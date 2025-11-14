@@ -160,4 +160,35 @@ public class Evento implements ID {
         return this.nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Evento{");
+        sb.append("id=").append(id);
+        sb.append(", funciones=").append(funciones);
+        sb.append(", nombre='").append(nombre).append('\'');
+        sb.append(", descripcion='").append(descripcion).append('\'');
+        sb.append(", categoria=").append(categoria);
+        sb.append('}');
+        return sb.toString();
+    }
 }

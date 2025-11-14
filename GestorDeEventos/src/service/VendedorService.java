@@ -128,4 +128,45 @@ public class VendedorService {
         } while (!flagContrasenia);
         boleteria.guardarUsuario(new Vendedor(nombre, email, contrasenia), archivo);
     }
+
+
+    public void modificarVendedor(Scanner sc, Boleteria boleteria, String archivo){
+        int vendedorId;
+        Vendedor vendedor;
+
+        System.out.println("Vendedores:\n"+boleteria.mostrarVendedores());
+        vendedorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
+        if (boleteria.getUsuarios().buscarElementoId(vendedorId) instanceof Vendedor){
+            vendedor=(Vendedor) boleteria.getUsuarios().buscarElementoId(vendedorId);
+        String nombre, email, contrasenia;
+        boolean flagEmail = false;
+        boolean flagContrasenia = false;
+        System.out.println("Ingrese nombre de usuario");
+        nombre = sc.nextLine();
+        do {
+            System.out.println("Ingrese email");
+            email = sc.nextLine();
+            try {
+                flagEmail = Validacion.validarEmail(email);
+
+            } catch (EmailInvalidoException e) {
+                e.printStackTrace();
+            }
+        } while (!flagEmail);
+        do {
+            System.out.println("ingrese contrasenia");
+            contrasenia = sc.nextLine();
+            try {
+                flagContrasenia = Validacion.validarContrasena(contrasenia);
+            } catch (ContraseniaInvalidaException e) {
+                e.printStackTrace();
+            }
+
+        } while (!flagContrasenia);
+        vendedor.setNombre(nombre);
+        vendedor.setContrasenia(contrasenia);
+        vendedor.setEmail(email);
+        boleteria.guardarBoleteria(archivo);
+        }else System.out.println("El elemento seleccionado no es un vendedor");
+    }
 }
