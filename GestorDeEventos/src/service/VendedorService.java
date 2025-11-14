@@ -73,11 +73,11 @@ public class VendedorService {
         Sector sector = null;
         int asientoId;
         do {
-            asientoId = Validacion.validarEntero(sc, "Ingrese el numero de asiento\n" + funcion.asientosDisponibles());
+            asientoId = Validacion.validarEntero(sc, "Ingrese el id de asiento\n" + funcion.asientosDisponibles());
 
             for (Sector s : funcion.getRecinto().getSectores()) {
                 for (Asiento a : s.getAsientos()) {
-                    if (a.getNumero() == asientoId) {
+                    if (a.getId() == asientoId) {
                         asiento = a;
                         sector = s;
                         flag = true;

@@ -218,7 +218,7 @@ public class OrganizadorService {
             } while (!flag);
             ArrayList<Asiento> asientos = new ArrayList<>();
             for (int j = 0; j < cantidadAsientos; j++) {
-                asientos.add(new Asiento());
+                asientos.add(new Asiento(j));
             }
             sectores.add(new Sector(nombre, tipo, asientos));
         }

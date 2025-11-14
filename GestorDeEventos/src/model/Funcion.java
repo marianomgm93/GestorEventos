@@ -160,9 +160,9 @@ public class Funcion {
     public String asientosDisponibles(){
         StringBuilder sb=new StringBuilder();
         for (Sector s: this.recinto.getSectores()){
+                sb.append("\nSector: ").append(s.getId()).append(" ").append(s.getNombre());
+                sb.append("\nTipo: ").append(s.getTipo()).append("\n");
             for(Asiento a: s.getAsientos()){
-                sb.append("Sector: ").append(s.getId()).append(" ").append(s.getNombre());
-                sb.append("Tipo: ").append(s.getTipo()).append("\n");
                 if(a.isDisponible()){
                     sb.append(a);
                 }

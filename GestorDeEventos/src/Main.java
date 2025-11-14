@@ -14,7 +14,7 @@ public class Main {
         Scanner sc=new Scanner(System.in);
         Menu menu=new Menu();
 /*
-        organizadorService.crearOrganizador(sc,boleteria,archivo);
+///        organizadorService.crearOrganizador(sc,boleteria,archivo);
         Organizador organizador=(Organizador) boleteria.getUsuarios().getElementos().getFirst();
         organizadorService.nuevoEvento(sc,organizador,boleteria,archivo);
         System.out.println(organizador.getEventosCreados().getFirst());
@@ -22,8 +22,8 @@ public class Main {
         System.out.println(organizador.getEventosCreados().getFirst());
 */
 /*
-        VendedorService vendedorService=new VendedorService();
-        vendedorService.crearVendedor(sc,boleteria,archivo);
+///        VendedorService vendedorService=new VendedorService();
+///        vendedorService.crearVendedor(sc,boleteria,archivo);
         Vendedor vendedor= (Vendedor) boleteria.getUsuarios().buscarElementoId(1);
         vendedorService.nuevoTicket(sc,vendedor,boleteria,archivo);
         System.out.println(vendedor);
