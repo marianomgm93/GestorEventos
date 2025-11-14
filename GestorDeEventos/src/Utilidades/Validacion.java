@@ -3,8 +3,11 @@ package Utilidades;
 import exceptions.ContraseniaInvalidaException;
 import exceptions.EmailInvalidoException;
 import exceptions.NumeroInvalidoException;
+import exceptions.UsuarioInvalidoException;
+import model.Usuario;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Validacion {
@@ -20,6 +23,27 @@ public class Validacion {
                 flag=true;
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero entero");
+                sc.nextLine();
+            }catch(Exception e){
+                System.out.println("El numero ingresado es invalido");
+                sc.nextLine();
+            }
+        } while (!flag);
+        return numero;
+    }
+    public static int validarEntero(Scanner sc){
+        int numero = 0;
+        boolean flag=false;
+        do {
+            try {
+                numero = sc.nextInt();
+                sc.nextLine();
+                flag=true;
+            } catch (InputMismatchException e) {
+                System.out.println("Debe ingresar un numero entero");
+                sc.nextLine();
+            }catch(Exception e){
+                System.out.println("El numero ingresado es invalido");
                 sc.nextLine();
             }
         } while (!flag);
@@ -73,6 +97,14 @@ public class Validacion {
             throw new ContraseniaInvalidaException("La contraseña debe contener al menos un número");
         }
 
+        return true;
+    }
+    public static <T> boolean repetido(T objeto, List<T> lista){
+        return lista.contains(objeto);
+    }
+
+    public static boolean validarUsuario(Usuario usuario, String contrasenia) throws UsuarioInvalidoException{
+        if(!usuario.getContrasenia().equals(contrasenia)) throw new UsuarioInvalidoException("Contrasenia incorrecta");
         return true;
     }
 }

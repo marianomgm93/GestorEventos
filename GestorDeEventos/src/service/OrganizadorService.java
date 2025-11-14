@@ -1,9 +1,7 @@
 package service;
 
 import Utilidades.Validacion;
-import exceptions.ContraseniaInvalidaException;
-import exceptions.EmailInvalidoException;
-import exceptions.NumeroInvalidoException;
+import exceptions.*;
 import model.*;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrganizadorService {
-    public Evento nuevoEvento(Scanner sc, Organizador organizador) {
+    public void nuevoEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
 
         System.out.println("Ingrese nombre del evento");
         String nombre = sc.nextLine();
@@ -48,11 +46,29 @@ public class OrganizadorService {
         }
 
         Evento evento = new Evento(nombre, descripcion, categoria);
-        organizador.getEventosCreados().add(evento);
-        return evento;
+        try {
+            boleteria.guardarEvento(evento, archivo);
+            organizador.getEventosCreados().add(evento);
+            boleteria.guardarBoleteria(archivo);
+        } catch (UsuarioRepetidoException e) {
+            e.printStackTrace();
+        } catch (EventoRepetidoException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Evento modificarEvento(Scanner sc, Organizador organizador) {
+    public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
+        boolean flag = false;
+        int eventoId;
+        Evento evento;
+        do {
+            System.out.println("Ingrese id del evento");
+            eventoId = Validacion.validarEntero(sc);
+            evento = boleteria.getEventos().buscarElementoId(eventoId);
+            if (evento != null) {
+                flag = true;
+            }
+        } while (!flag);
 
         System.out.println("Ingrese nombre del evento");
         String nombre = sc.nextLine();
@@ -88,15 +104,19 @@ public class OrganizadorService {
                 break;
         }
 
-        Evento evento = new Evento(nombre, descripcion, categoria);
-        organizador.getEventosCreados().add(evento);
-        return evento;
+        evento.setNombre(nombre);
+        evento.setCategoria(categoria);
+        evento.setDescripcion(descripcion);
+        boleteria.guardarBoleteria(archivo);
     }
 
-    public void agregarFuncion(Scanner sc, Evento evento) {
+    public void agregarFuncion(Scanner sc, Boleteria boleteria, String archivo) {
         String hora;
         double precio = 0;
         boolean flag = false;
+        boleteria.mostrarEventos();
+        int idEvento=Validacion.validarEntero(sc,"Ingrese id del evento");
+        Evento evento=boleteria.getEventos().buscarElementoId(idEvento);
         System.out.println("Ingrese fecha y hora de la funcion");
         hora = sc.nextLine();
         System.out.println("Ingrese el precio base");
@@ -108,11 +128,15 @@ public class OrganizadorService {
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero");
                 sc.nextLine();
+            }catch (Exception e){
+                System.out.println("El numero ingresado es invalido");
+                sc.nextLine();
             }
         } while (!flag);
         Recinto recinto = nuevoRecinto(sc);
         Funcion funcion = new Funcion(hora, recinto, precio);
         evento.getFunciones().add(funcion);
+        boleteria.guardarBoleteria(archivo);
     }
 
     public Recinto nuevoRecinto(Scanner sc) {
@@ -202,7 +226,7 @@ public class OrganizadorService {
         return sectores;
     }
 
-    public Organizador crearOrganizador(Scanner sc) {
+    public void crearOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
         String nombre, email, contrasenia;
         boolean flagEmail = false;
         boolean flagContrasenia = false;
@@ -228,6 +252,49 @@ public class OrganizadorService {
             }
 
         } while (!flagContrasenia);
-        return new Organizador(nombre, email, contrasenia);
+        boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
+    }
+
+    /// Probar modificacion
+    public void modificarOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
+        int organizadorId;
+        Organizador organizador;
+
+        System.out.println("Organizadores:\n" + boleteria.mostrarOrganizadores());
+        organizadorId = Validacion.validarEntero(sc, "Ingrese id del usuario a modificar");
+        if (boleteria.getUsuarios().buscarElementoId(organizadorId) instanceof Organizador) {
+            organizador = (Organizador) boleteria.getUsuarios().buscarElementoId(organizadorId);
+
+            String nombre, email, contrasenia;
+            boolean flagEmail = false;
+            boolean flagContrasenia = false;
+            System.out.println("Ingrese nombre de organizador");
+            nombre = sc.nextLine();
+            do {
+                System.out.println("Ingrese email");
+                email = sc.nextLine();
+                try {
+                    flagEmail = Validacion.validarEmail(email);
+
+                } catch (EmailInvalidoException e) {
+                    e.printStackTrace();
+                }
+            } while (!flagEmail);
+            do {
+                System.out.println("ingrese contrasenia");
+                contrasenia = sc.nextLine();
+                try {
+                    flagContrasenia = Validacion.validarContrasena(contrasenia);
+                } catch (ContraseniaInvalidaException e) {
+                    e.printStackTrace();
+                }
+
+            } while (!flagContrasenia);
+            organizador.setNombre(nombre);
+            organizador.setContrasenia(contrasenia);
+            organizador.setEmail(email);
+            boleteria.guardarBoleteria(archivo);
+        } else System.out.println("El elemento seleccionado no es un organizador");
+
     }
 }
