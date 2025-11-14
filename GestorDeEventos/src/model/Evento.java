@@ -85,6 +85,7 @@ public class Evento implements ID {
         this.nombre = o.getString("nombre");
         this.descripcion = o.getString("descripcion");
         this.categoria = Categoria.valueOf(o.getString("categoria"));
+        totalEventos++;
     }
 
     /**

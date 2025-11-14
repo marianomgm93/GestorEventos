@@ -10,7 +10,7 @@ public class Main {
 
         String archivo="GestorDeEventos\\src\\boleteria.json";
         Boleteria boleteria = new Boleteria();
-       /* OrganizadorService organizadorService=new OrganizadorService();*/
+        OrganizadorService organizadorService=new OrganizadorService();
         Scanner sc=new Scanner(System.in);
         Menu menu=new Menu();
 /*
@@ -20,8 +20,8 @@ public class Main {
         System.out.println(organizador.getEventosCreados().getFirst());
         organizadorService.agregarFuncion(sc,organizador.getEventosCreados().getFirst(),boleteria,archivo);
         System.out.println(organizador.getEventosCreados().getFirst());
-
-
+*/
+/*
         VendedorService vendedorService=new VendedorService();
         vendedorService.crearVendedor(sc,boleteria,archivo);
         Vendedor vendedor= (Vendedor) boleteria.getUsuarios().buscarElementoId(1);
