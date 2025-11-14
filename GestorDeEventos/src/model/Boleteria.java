@@ -6,12 +6,14 @@ import org.json.JSONObject;
 import service.OrganizadorService;
 import service.VendedorService;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Boleteria {
 
     private Lista<Usuario> usuarios;
     private Lista<Evento> eventos;
+    //private Map<> vendidos;
 
 
     public Boleteria() {
