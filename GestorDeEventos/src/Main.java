@@ -8,7 +8,9 @@ import service.VendedorService;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Boleteria boleteria=new Boleteria();
         Organizador organizador=new Organizador();
         OrganizadorService organizadorService=new OrganizadorService();
@@ -22,5 +24,7 @@ public class Main {
         VendedorService vendedorService=new VendedorService();
         vendedorService.nuevoTicket(sc,vendedor,boleteria.getEventos());
         System.out.println(vendedor);
+
+
     }
 }
