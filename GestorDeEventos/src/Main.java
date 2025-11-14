@@ -1,4 +1,5 @@
 import model.*;
+import service.Menu;
 import service.OrganizadorService;
 import service.VendedorService;
 
@@ -9,8 +10,9 @@ public class Main {
 
         String archivo="GestorDeEventos\\src\\boleteria.json";
         Boleteria boleteria = new Boleteria();
-        OrganizadorService organizadorService=new OrganizadorService();
+       /* OrganizadorService organizadorService=new OrganizadorService();*/
         Scanner sc=new Scanner(System.in);
+        Menu menu=new Menu();
 /*
         organizadorService.crearOrganizador(sc,boleteria,archivo);
         Organizador organizador=(Organizador) boleteria.getUsuarios().getElementos().getFirst();
@@ -29,7 +31,8 @@ public class Main {
 
         boleteria.fromJSON(archivo);
         System.out.println(boleteria);
-
-
+        while(true) {
+            menu.lanzarMenu(sc,boleteria,archivo);
+        }
     }
 }

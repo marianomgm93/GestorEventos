@@ -110,10 +110,13 @@ public class OrganizadorService {
         boleteria.guardarBoleteria(archivo);
     }
 
-    public void agregarFuncion(Scanner sc, Evento evento, Boleteria boleteria, String archivo) {
+    public void agregarFuncion(Scanner sc, Boleteria boleteria, String archivo) {
         String hora;
         double precio = 0;
         boolean flag = false;
+        boleteria.mostrarEventos();
+        int idEvento=Validacion.validarEntero(sc,"Ingrese id del evento");
+        Evento evento=boleteria.getEventos().buscarElementoId(idEvento);
         System.out.println("Ingrese fecha y hora de la funcion");
         hora = sc.nextLine();
         System.out.println("Ingrese el precio base");
@@ -124,6 +127,9 @@ public class OrganizadorService {
                 flag = true;
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero");
+                sc.nextLine();
+            }catch (Exception e){
+                System.out.println("El numero ingresado es invalido");
                 sc.nextLine();
             }
         } while (!flag);

@@ -1,6 +1,7 @@
 package model;
 
 import Utilidades.JSONUtiles;
+import exceptions.UsuarioInvalidoException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.OrganizadorService;
@@ -124,6 +125,14 @@ public class Boleteria {
         return sb.toString();
     }
 
+    public String mostrarEventos() {
+        StringBuilder sb = new StringBuilder();
+        for (Evento e : this.eventos.getElementos()) {
+            sb.append(e.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public String mostrarVendedores() {
         StringBuilder sb = new StringBuilder();
         for (Usuario u : this.usuarios.getElementos()) {
@@ -134,4 +143,17 @@ public class Boleteria {
         return sb.toString();
     }
 
+    public Usuario buscarPorEmail(String email) throws UsuarioInvalidoException {
+        boolean flag = false;
+        Usuario usuario = null;
+        for (Usuario u : this.usuarios.getElementos()) {
+            if (u.getEmail().equals(email)) {
+                flag = true;
+                usuario = u;
+            }
+        }
+        if (!flag) throw new UsuarioInvalidoException("No hay ningun usuario registrado con ese email");
+
+        return usuario;
+    }
 }

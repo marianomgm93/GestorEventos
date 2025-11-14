@@ -3,6 +3,8 @@ package Utilidades;
 import exceptions.ContraseniaInvalidaException;
 import exceptions.EmailInvalidoException;
 import exceptions.NumeroInvalidoException;
+import exceptions.UsuarioInvalidoException;
+import model.Usuario;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -99,5 +101,10 @@ public class Validacion {
     }
     public static <T> boolean repetido(T objeto, List<T> lista){
         return lista.contains(objeto);
+    }
+
+    public static boolean validarUsuario(Usuario usuario, String contrasenia) throws UsuarioInvalidoException{
+        if(!usuario.getContrasenia().equals(contrasenia)) throw new UsuarioInvalidoException("Contrasenia incorrecta");
+        return true;
     }
 }

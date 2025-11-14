@@ -29,6 +29,7 @@ public class VendedorService {
     public void nuevoTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
         ArrayList<Evento> eventos=boleteria.getEventos().getElementos();
+        System.out.println("Eventos:");
         for (Evento e : eventos) {
             sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
@@ -49,6 +50,7 @@ public class VendedorService {
         sb.setLength(0);
 
         flag = false;
+        System.out.println("Funciones:");
         for (Funcion f : evento.getFunciones()) {
             sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
