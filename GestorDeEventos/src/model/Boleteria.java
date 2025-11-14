@@ -9,8 +9,10 @@ import service.VendedorService;
 import java.util.Scanner;
 
 public class Boleteria {
+
     private Lista<Usuario> usuarios;
     private Lista<Evento> eventos;
+
 
     public Boleteria() {
         usuarios = new Lista<>();

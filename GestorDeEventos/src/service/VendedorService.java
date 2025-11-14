@@ -1,3 +1,8 @@
+/**
+ * Clase de servicio que encapsula la lógica de negocio relacionada con las
+ * operaciones que puede realizar un {@link Vendedor}, como la creación de tickets
+ * y el registro de nuevos vendedores.
+ */
 package service;
 
 import Utilidades.Validacion;
@@ -9,6 +14,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VendedorService {
+
+    /**
+     * Guía al {@link Vendedor} a través del proceso de venta de un nuevo {@link Ticket}.
+     * El método maneja la interacción con el usuario (entrada por consola) para
+     * seleccionar un Evento, una Funcion y un Asiento disponible.
+     * Modifica el estado del asiento a no disponible y guarda los cambios en la boletería.
+     *
+     * @param sc Objeto Scanner para la entrada de datos del usuario.
+     * @param vendedor El {@link Vendedor} actual que está realizando la venta.
+     * @param eventos La lista de {@link Evento}s disponibles para la venta.
+     * @param boleteria El objeto {@link Boleteria} que gestiona los datos del sistema.
+     * @param archivo La ruta del archivo donde se deben guardar los datos de la boletería.
+     */
     public void nuevoTicket(Scanner sc, Vendedor vendedor, ArrayList<Evento> eventos, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
         for (Evento e : eventos) {
@@ -74,6 +92,14 @@ public class VendedorService {
         vendedor.getTicketsVendidos().add(ticket);
     }
 
+    /**
+     * Permite registrar un nuevo {@link Vendedor} en el sistema, solicitando
+     * nombre, email y contraseña con validación de formato y seguridad.
+     *
+     * @param sc Objeto Scanner para la entrada de datos del usuario.
+     * @param boleteria El objeto {@link Boleteria} donde se registrará el nuevo vendedor.
+     * @param archivo La ruta del archivo donde se deben guardar los datos de la boletería.
+     */
     public void crearVendedor(Scanner sc, Boleteria boleteria, String archivo) {
         String nombre, email, contrasenia;
         boolean flagEmail = false;
