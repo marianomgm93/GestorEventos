@@ -108,6 +108,10 @@ public class VendedorService {
         int vendedorId;
         Vendedor vendedor;
         vendedorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
+
+        System.out.println("Vendedores:\n"+boleteria.mostrarVendedores());
+        vendedorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
+
         if (boleteria.getUsuarios().buscarElementoId(vendedorId) instanceof Vendedor){
             vendedor=(Vendedor) boleteria.getUsuarios().buscarElementoId(vendedorId);
         String nombre, email, contrasenia;
@@ -138,9 +142,7 @@ public class VendedorService {
         vendedor.setNombre(nombre);
         vendedor.setContrasenia(contrasenia);
         vendedor.setEmail(email);
-        boleteria.getUsuarios().ModificarElemento(vendedorId,vendedor);
         boleteria.guardarBoleteria(archivo);
-
         }
     }
 }

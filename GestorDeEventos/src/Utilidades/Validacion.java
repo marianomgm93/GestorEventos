@@ -24,6 +24,25 @@ public class Validacion {
                 sc.nextLine();
             }catch(Exception e){
                 System.out.println("El numero ingresado es invalido");
+                sc.nextLine();
+            }
+        } while (!flag);
+        return numero;
+    }
+    public static int validarEntero(Scanner sc){
+        int numero = 0;
+        boolean flag=false;
+        do {
+            try {
+                numero = sc.nextInt();
+                sc.nextLine();
+                flag=true;
+            } catch (InputMismatchException e) {
+                System.out.println("Debe ingresar un numero entero");
+                sc.nextLine();
+            }catch(Exception e){
+                System.out.println("El numero ingresado es invalido");
+                sc.nextLine();
             }
         } while (!flag);
         return numero;
