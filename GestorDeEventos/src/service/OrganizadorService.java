@@ -112,7 +112,13 @@ public class OrganizadorService {
         boolean flag = false;
         boleteria.mostrarEventos();
         Evento evento=null;
+        StringBuilder listar = new StringBuilder();
+        for (Evento e : boleteria.getEventos().getElementos()) {
+            listar.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
+        }
+        System.out.println(listar);
         do{
+
         int idEvento = Validacion.validarEntero(sc, "Ingrese id del evento");
         evento = boleteria.getEventos().buscarElementoId(idEvento);
 

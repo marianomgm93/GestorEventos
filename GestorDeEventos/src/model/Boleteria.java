@@ -136,7 +136,7 @@ public class Boleteria {
     public String mostrarVendedores() {
         StringBuilder sb = new StringBuilder();
         for (Usuario u : this.usuarios.getElementos()) {
-            if (u instanceof Vendedor) {
+                if (u instanceof Vendedor) {
                 sb.append(u).append("\n");
             }
         }

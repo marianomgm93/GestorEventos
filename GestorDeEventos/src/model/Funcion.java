@@ -40,8 +40,8 @@ public class Funcion {
      * Constructor para crear una nueva Función con sus detalles principales.
      * Asigna automáticamente un ID consecutivo.
      *
-     * @param hora La hora programada para la función.
-     * @param recinto El {@link Recinto} donde se realizará la función.
+     * @param hora       La hora programada para la función.
+     * @param recinto    El {@link Recinto} donde se realizará la función.
      * @param precioBase El precio base de la entrada.
      */
     public Funcion(String hora, Recinto recinto, double precioBase) {
@@ -57,12 +57,12 @@ public class Funcion {
      *
      * @param o El objeto {@code JSONObject} con los datos de la función.
      */
-    public Funcion(JSONObject o){
-        this.id=o.getInt("id");
+    public Funcion(JSONObject o) {
+        this.id = o.getInt("id");
         totalFunciones++;
-        this.hora=o.getString("hora");
-        this.recinto=new Recinto(o.getJSONObject("recinto"));
-        this.precioBase=o.getDouble("precioBase");
+        this.hora = o.getString("hora");
+        this.recinto = new Recinto(o.getJSONObject("recinto"));
+        this.precioBase = o.getDouble("precioBase");
     }
 
     /**
@@ -70,12 +70,12 @@ public class Funcion {
      *
      * @return Un objeto {@code JSONObject} que contiene los detalles de la función.
      */
-    public JSONObject toJSON(){
+    public JSONObject toJSON() {
         JSONObject o = new JSONObject();
-        o.put("id",this.id);
-        o.put("hora",this.hora);
-        o.put("recinto",this.recinto.toJSON());
-        o.put("precioBase",this.precioBase);
+        o.put("id", this.id);
+        o.put("hora", this.hora);
+        o.put("recinto", this.recinto.toJSON());
+        o.put("precioBase", this.precioBase);
         return o;
     }
 
@@ -157,16 +157,19 @@ public class Funcion {
      *
      * @return Una cadena de texto con la lista de asientos disponibles.
      */
-    public String asientosDisponibles(){
-        StringBuilder sb=new StringBuilder();
-        for (Sector s: this.recinto.getSectores()){
-            for(Asiento a: s.getAsientos()){
-                sb.append("Sector: ").append(s.getId()).append(" ").append(s.getNombre());
-                sb.append("Tipo: ").append(s.getTipo()).append("\n");
-                if(a.isDisponible()){
-                    sb.append(a);
+    public String asientosDisponibles() {
+        StringBuilder sb = new StringBuilder();
+        for (Sector s : this.recinto.getSectores()) {
+            sb.append("\nSector: ").append(s.getId()).append(" ").append(s.getNombre()).append("\n");
+            sb.append("Tipo: ").append(s.getTipo()).append("\n");
+            for (Asiento a : s.getAsientos()) {
+                if (a.isDisponible()) {
+                    sb.append("--------------------------\n");
+                    sb.append(a).append("\n");
+                    sb.append("--------------------------\n");
                 }
             }
+
         }
         return sb.toString();
     }
