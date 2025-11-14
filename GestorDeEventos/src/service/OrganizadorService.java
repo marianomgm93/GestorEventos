@@ -57,7 +57,7 @@ public class OrganizadorService {
         }
     }
 
-    public Evento modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
+    public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
         boolean flag = false;
         int eventoId;
         Evento evento;
@@ -108,7 +108,6 @@ public class OrganizadorService {
         evento.setCategoria(categoria);
         evento.setDescripcion(descripcion);
         boleteria.guardarBoleteria(archivo);
-        return evento;
     }
 
     public void agregarFuncion(Scanner sc, Evento evento, Boleteria boleteria, String archivo) {

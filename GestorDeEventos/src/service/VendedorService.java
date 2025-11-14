@@ -107,11 +107,9 @@ public class VendedorService {
     public void modificarVendedor(Scanner sc, Boleteria boleteria, String archivo){
         int vendedorId;
         Vendedor vendedor;
-        vendedorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
 
         System.out.println("Vendedores:\n"+boleteria.mostrarVendedores());
         vendedorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
-
         if (boleteria.getUsuarios().buscarElementoId(vendedorId) instanceof Vendedor){
             vendedor=(Vendedor) boleteria.getUsuarios().buscarElementoId(vendedorId);
         String nombre, email, contrasenia;
@@ -143,6 +141,6 @@ public class VendedorService {
         vendedor.setContrasenia(contrasenia);
         vendedor.setEmail(email);
         boleteria.guardarBoleteria(archivo);
-        }
+        }else System.out.println("El elemento seleccionado no es un vendedor");
     }
 }
