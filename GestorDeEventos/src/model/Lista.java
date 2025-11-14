@@ -36,7 +36,7 @@ public class Lista<T extends ID> {
     }
 
 
-    public T BuscarElementoId(int id) {
+    public T buscarElementoId(int id) {
 
         try {
             for (T elemento : elementos) {

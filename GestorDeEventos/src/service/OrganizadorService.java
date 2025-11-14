@@ -236,4 +236,45 @@ public class OrganizadorService {
         } while (!flagContrasenia);
         boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia),archivo);
     }
+    /// Probar modificacion
+    public void modificarOrganizador(Scanner sc, Boleteria boleteria, String archivo){
+        int organizadorId;
+        Organizador organizador;
+        organizadorId=Validacion.validarEntero(sc,"Ingrese id del usuario a modificar");
+        if(boleteria.getUsuarios().buscarElementoId(organizadorId) instanceof Organizador) {
+            organizador = (Organizador) boleteria.getUsuarios().buscarElementoId(organizadorId);
+
+            String nombre, email, contrasenia;
+            boolean flagEmail = false;
+            boolean flagContrasenia = false;
+            System.out.println("Ingrese nombre de organizador");
+            nombre = sc.nextLine();
+            do {
+                System.out.println("Ingrese email");
+                email = sc.nextLine();
+                try {
+                    flagEmail = Validacion.validarEmail(email);
+
+                } catch (EmailInvalidoException e) {
+                    e.printStackTrace();
+                }
+            } while (!flagEmail);
+            do {
+                System.out.println("ingrese contrasenia");
+                contrasenia = sc.nextLine();
+                try {
+                    flagContrasenia = Validacion.validarContrasena(contrasenia);
+                } catch (ContraseniaInvalidaException e) {
+                    e.printStackTrace();
+                }
+
+            } while (!flagContrasenia);
+            organizador.setNombre(nombre);
+            organizador.setContrasenia(contrasenia);
+            organizador.setEmail(email);
+            boleteria.getUsuarios().ModificarElemento(organizadorId, organizador);
+            boleteria.guardarBoleteria(archivo);
+        }//ARMAR ELSE
+
+    }
 }

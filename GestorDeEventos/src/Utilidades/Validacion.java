@@ -22,6 +22,8 @@ public class Validacion {
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero entero");
                 sc.nextLine();
+            }catch(Exception e){
+                System.out.println("El numero ingresado es invalido");
             }
         } while (!flag);
         return numero;
