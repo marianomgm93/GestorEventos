@@ -11,7 +11,7 @@ public class Main {
         Boleteria boleteria = new Boleteria();
         OrganizadorService organizadorService=new OrganizadorService();
         Scanner sc=new Scanner(System.in);
-
+/*
         organizadorService.crearOrganizador(sc,boleteria,archivo);
         Organizador organizador=(Organizador) boleteria.getUsuarios().getElementos().getFirst();
         organizadorService.nuevoEvento(sc,organizador,boleteria,archivo);
@@ -24,7 +24,7 @@ public class Main {
         VendedorService vendedorService=new VendedorService();
         vendedorService.nuevoTicket(sc,vendedor,boleteria.getEventos().getElementos(),boleteria,archivo);
         System.out.println(vendedor);
-
+*/
 
         boleteria.fromJSON(archivo);
         System.out.println(boleteria);
