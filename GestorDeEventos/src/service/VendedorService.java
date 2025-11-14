@@ -23,12 +23,12 @@ public class VendedorService {
      *
      * @param sc Objeto Scanner para la entrada de datos del usuario.
      * @param vendedor El {@link Vendedor} actual que está realizando la venta.
-     * @param eventos La lista de {@link Evento}s disponibles para la venta.
      * @param boleteria El objeto {@link Boleteria} que gestiona los datos del sistema.
      * @param archivo La ruta del archivo donde se deben guardar los datos de la boletería.
      */
-    public void nuevoTicket(Scanner sc, Vendedor vendedor, ArrayList<Evento> eventos, Boleteria boleteria, String archivo) {
+    public void nuevoTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
+        ArrayList<Evento> eventos=boleteria.getEventos().getElementos();
         for (Evento e : eventos) {
             sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
@@ -50,7 +50,7 @@ public class VendedorService {
 
         flag = false;
         for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId()).append("\t Fecha: ").append(f.getHora()).append("Recinto: ").append(f.getRecinto().getNombre()).append("\n");
+            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
         }
         int funcionId;
@@ -85,11 +85,23 @@ public class VendedorService {
             if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
 
         } while (!flag);
-
-        Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getNombre(), funcion.getHora(), sector.getTipo(), funcion.getPrecioBase());
+        double modificador=0;
+        switch (sector.getTipo()){
+            case Tipo.PRINCIPAL:
+                modificador=1.5;
+                break;
+            case Tipo.SECUNDARIO:
+                modificador=1.25;
+                break;
+            case Tipo.TERCIARIO:
+                modificador=1;
+                break;
+        }
+        Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(),evento.getId(), evento.getNombre(), funcion.getHora(), sector.getTipo(), funcion.getPrecioBase()*modificador);
         asiento.setDisponible(false);
-        boleteria.guardarBoleteria(archivo);
         vendedor.getTicketsVendidos().add(ticket);
+        boleteria.getVendidos().add(ticket);
+        boleteria.guardarBoleteria(archivo);
     }
 
     /**

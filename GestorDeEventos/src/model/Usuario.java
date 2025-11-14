@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Objects;
+
 public abstract class Usuario implements ID {
 
     /**
@@ -151,6 +153,17 @@ public abstract class Usuario implements ID {
      */
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Usuario usuario)) return false;
+        return id == usuario.id && Objects.equals(nombre, usuario.nombre) && Objects.equals(email, usuario.email) && Objects.equals(contrasenia, usuario.contrasenia);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, email, contrasenia);
     }
 
     /**

@@ -11,70 +11,25 @@ import java.util.Objects;
 
 public class Ticket {
 
-    /**
-     * Contador estático que lleva el registro del número total de tickets creados.
-     */
     private static int totalTickets;
-
-    /**
-     * Identificador único del ticket.
-     */
     private int id;
-
-    /**
-     * La dirección del recinto donde se llevará a cabo el evento.
-     */
     private String direccionRecinto;
-
-    /**
-     * El número de asiento asignado en el recinto.
-     */
     private int asiento;
-
-    /**
-     * Nombre del evento al que corresponde el ticket.
-     */
+    private int eventoId;
     private String nombreEvento;
-
-    /**
-     * Fecha y hora programada de la función (representada como String).
-     */
     private String fechaYHora;
-
-    /**
-     * Tipo de asiento o sector al que corresponde el ticket.
-     *
-     * @see Tipo
-     */
     private Tipo tipo;
-
-    /**
-     * Precio final pagado por el ticket.
-     */
     private double precio;
 
-    /**
-     * Constructor por defecto. Asigna automáticamente un ID consecutivo.
-     */
     public Ticket() {
         this.id=totalTickets++;
     }
 
-    /**
-     * Constructor completo que permite inicializar todos los campos, incluyendo un ID predefinido.
-     *
-     * @param id El identificador único del ticket.
-     * @param direccionRecinto La dirección del recinto.
-     * @param asiento El número de asiento.
-     * @param nombreEvento El nombre del evento.
-     * @param fechaYHora La fecha y hora de la función.
-     * @param tipo El {@link Tipo} de asiento.
-     * @param precio El precio del ticket.
-     */
-    public Ticket(int id, String direccionRecinto, int asiento, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
+    public Ticket(int id, String direccionRecinto, int asiento,int eventoId, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
         this.id=id;
         this.direccionRecinto = direccionRecinto;
         this.asiento = asiento;
+        this.eventoId=eventoId;
         this.nombreEvento = nombreEvento;
         this.fechaYHora = fechaYHora;
         this.tipo = tipo;
@@ -82,37 +37,24 @@ public class Ticket {
         totalTickets++;
     }
 
-    /**
-     * Constructor para crear un ticket con ID asignado automáticamente.
-     *
-     * @param direccionRecinto La dirección del recinto.
-     * @param asiento El número de asiento.
-     * @param nombreEvento El nombre del evento.
-     * @param fechaYHora La fecha y hora de la función.
-     * @param tipo El {@link Tipo} de asiento.
-     * @param precio El precio del ticket.
-     */
-    public Ticket(String direccionRecinto, int asiento, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
+    public Ticket(String direccionRecinto, int asiento,int eventoId, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
         this.id=totalTickets++;
         this.direccionRecinto = direccionRecinto;
         this.asiento = asiento;
+        this.eventoId=eventoId;
         this.nombreEvento = nombreEvento;
         this.fechaYHora = fechaYHora;
         this.tipo = tipo;
         this.precio = precio;
     }
 
-    /**
-     * Constructor para crear un Ticket a partir de un objeto JSON,
-     * útil para la deserialización.
-     *
-     * @param o El objeto {@code JSONObject} con los datos del ticket.
-     */
+
     public Ticket(JSONObject o) {
         this.id=o.getInt("id");
         totalTickets++;
         this.direccionRecinto = o.getString("direccionRecinto");
         this.asiento = o.getInt("asiento");
+        this.eventoId=o.getInt("eventoId");
         this.nombreEvento = o.getString("nombreEvento");
         this.fechaYHora = o.getString("fechaYHora");
         this.tipo = Tipo.valueOf(o.getString("tipo"));
@@ -129,6 +71,7 @@ public class Ticket {
         o.put("id", this.id);
         o.put("direccionRecinto", this.direccionRecinto);
         o.put("asiento", this.asiento);
+        o.put("eventoId", this.eventoId);
         o.put("nombreEvento", this.nombreEvento);
         o.put("fechaYHora", this.fechaYHora);
         o.put("tipo", this.tipo.toString());
@@ -262,28 +205,15 @@ public class Ticket {
         this.precio = precio;
     }
 
-    /**
-     * Compara este Ticket con otro objeto para verificar si son iguales.
-     * La igualdad se basa en todos los atributos del ticket.
-     *
-     * @param o El objeto con el que se va a comparar.
-     * @return {@code true} si los tickets son idénticos, {@code false} en caso contrario.
-     */
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return id == ticket.id && asiento == ticket.asiento && Double.compare(precio, ticket.precio) == 0 && Objects.equals(direccionRecinto, ticket.direccionRecinto) && Objects.equals(nombreEvento, ticket.nombreEvento) && Objects.equals(fechaYHora, ticket.fechaYHora) && tipo == ticket.tipo;
+        if (!(o instanceof Ticket ticket)) return false;
+        return id == ticket.id && asiento == ticket.asiento && eventoId == ticket.eventoId && Double.compare(precio, ticket.precio) == 0 && Objects.equals(direccionRecinto, ticket.direccionRecinto) && Objects.equals(nombreEvento, ticket.nombreEvento) && Objects.equals(fechaYHora, ticket.fechaYHora) && tipo == ticket.tipo;
     }
 
-    /**
-     * Genera un valor hash para el objeto basado en todos sus atributos.
-     *
-     * @return El código hash del objeto.
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(id, direccionRecinto, asiento, nombreEvento, fechaYHora, tipo, precio);
+        return Objects.hash(id, direccionRecinto, asiento, eventoId, nombreEvento, fechaYHora, tipo, precio);
     }
 
     /**

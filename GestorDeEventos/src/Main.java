@@ -20,9 +20,10 @@ public class Main {
         System.out.println(organizador.getEventosCreados().getFirst());
 
 
-        Vendedor vendedor=new Vendedor("juan","juan@gmail.com","123456");
         VendedorService vendedorService=new VendedorService();
-        vendedorService.nuevoTicket(sc,vendedor,boleteria.getEventos().getElementos(),boleteria,archivo);
+        vendedorService.crearVendedor(sc,boleteria,archivo);
+        Vendedor vendedor= (Vendedor) boleteria.getUsuarios().buscarElementoId(1);
+        vendedorService.nuevoTicket(sc,vendedor,boleteria,archivo);
         System.out.println(vendedor);
 */
 

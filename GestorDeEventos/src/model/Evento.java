@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Evento implements ID {
 
@@ -178,6 +179,17 @@ public class Evento implements ID {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Evento evento)) return false;
+        return id == evento.id && Objects.equals(funciones, evento.funciones) && Objects.equals(nombre, evento.nombre) && Objects.equals(descripcion, evento.descripcion) && categoria == evento.categoria;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, funciones, nombre, descripcion, categoria);
     }
 
     @Override

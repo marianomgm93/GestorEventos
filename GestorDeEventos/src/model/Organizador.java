@@ -59,12 +59,13 @@ public class Organizador extends Usuario {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Organizador that)) return false;
+        if (!super.equals(o)) return false;
         return Objects.equals(eventosCreados, that.eventosCreados);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(eventosCreados);
+        return Objects.hash(super.hashCode(), eventosCreados);
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Vendedor extends Usuario {
 
@@ -113,5 +114,17 @@ public class Vendedor extends Usuario {
     @Override
     public void setId(int id) {
         // Se deja vacío para evitar la modificación del ID.
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Vendedor vendedor)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(ticketsVendidos, vendedor.ticketsVendidos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), ticketsVendidos);
     }
 }
