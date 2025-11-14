@@ -52,7 +52,7 @@ public class Menu {
                     System.out.println(b.mostrarEventos());
                     break;
                 case "2":
-                    vs.nuevoTicket(sc, vendedor, b.getEventos().getElementos());
+                    vs.nuevoTicket(sc, vendedor, b,archivo);
                     break;
                 default:
                     System.out.println("Opcion invalida");
