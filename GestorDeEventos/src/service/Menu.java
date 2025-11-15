@@ -10,20 +10,77 @@ import model.Vendedor;
 import java.util.Scanner;
 
 public class Menu {
-    public void lanzarMenu(Scanner sc, Boleteria boleteria, String archivo) {
+    public void inicio(Scanner sc,Boleteria boleteria, String archivo) {
+        boolean flag = false;
+        int option;
+        do {
+            System.out.println("============Iniciando Boletería============");
+            System.out.println("1\tRegistrar un nuevo usuario\n2\tIniciar sesion\n3\tOlvidó su contraseña?\n");
+            option = Validacion.validarEntero(sc);
+            switch (option) {
+                case 1:
+                    menuNuevoUsuario(sc,boleteria,archivo);
+                    break;
+                case 2:
+                    loginMenu(sc,boleteria,archivo);
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("El numero ingresado es invalido");
+                    break;
+            }
+
+        } while (!flag);
+
+
+    }
+
+    public void menuNuevoUsuario(Scanner sc, Boleteria boleteria, String archivo) {
+        boolean flag = false;
+        int option;
+        OrganizadorService organizadorService = new OrganizadorService();
+        VendedorService vendedorService = new VendedorService();
+        do {
+            System.out.println("============ Creacion Usuario ============");
+            System.out.println("0\tAtras\n1\tCrear cuenta de organizador\n2\tCrear cuenta de vendedor");
+            option = Validacion.validarEntero(sc);
+            switch (option) {
+                case 0:
+                    System.out.println("...Saliendo...");
+                    flag = true;
+                    break;
+                case 1:
+                    organizadorService.crearOrganizador(sc, boleteria, archivo);
+                    break;
+                case 2:
+                    vendedorService.crearVendedor(sc,boleteria,archivo);
+                    break;
+                default:
+                    System.out.println("La opcion ingresada es incorrecta");
+                    break;
+            }
+
+        } while (!flag);
+
+    }
+
+    public void loginMenu(Scanner sc, Boleteria boleteria, String archivo) {
         boolean flag = false;
         Usuario usuario = null;
         do {
-
-            System.out.println("ingrese email");
+            System.out.println("============Iniciar Sesion============");
+            System.out.println("ingrese email:");
             String email = sc.nextLine();
-            System.out.println("ingrese contrasenia");
+            System.out.println("ingrese contrasenia:");
             String contrasenia = sc.nextLine();
             try {
                 usuario = boleteria.buscarPorEmail(email);
                 flag = Validacion.validarUsuario(usuario, contrasenia);
+
             } catch (UsuarioInvalidoException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
+                ;
             }
         } while (!flag);
         if (usuario instanceof Vendedor) {
