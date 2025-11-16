@@ -10,19 +10,19 @@ import model.Vendedor;
 import java.util.Scanner;
 
 public class Menu {
-    public void inicio(Scanner sc,Boleteria boleteria, String archivo) {
+    public void inicio(Scanner sc, Boleteria boleteria, String archivo) {
         boolean flag = false;
         int option;
         do {
-            System.out.println("============Iniciando Boletería============");
+            System.out.println("============ Iniciando Boletería ============");
             System.out.println("1\tRegistrar un nuevo usuario\n2\tIniciar sesion\n3\tOlvidó su contraseña?\n");
             option = Validacion.validarEntero(sc);
             switch (option) {
                 case 1:
-                    menuNuevoUsuario(sc,boleteria,archivo);
+                    menuNuevoUsuario(sc, boleteria, archivo);
                     break;
                 case 2:
-                    loginMenu(sc,boleteria,archivo);
+                    loginMenu(sc, boleteria, archivo);
                     break;
                 case 3:
                     break;
@@ -54,7 +54,7 @@ public class Menu {
                     organizadorService.crearOrganizador(sc, boleteria, archivo);
                     break;
                 case 2:
-                    vendedorService.crearVendedor(sc,boleteria,archivo);
+                    vendedorService.crearVendedor(sc, boleteria, archivo);
                     break;
                 default:
                     System.out.println("La opcion ingresada es incorrecta");
@@ -68,21 +68,21 @@ public class Menu {
     public void loginMenu(Scanner sc, Boleteria boleteria, String archivo) {
         boolean flag = false;
         Usuario usuario = null;
-        do {
-            System.out.println("============Iniciar Sesion============");
-            System.out.println("ingrese email:");
-            String email = sc.nextLine();
-            System.out.println("ingrese contrasenia:");
-            String contrasenia = sc.nextLine();
-            try {
-                usuario = boleteria.buscarPorEmail(email);
-                flag = Validacion.validarUsuario(usuario, contrasenia);
 
-            } catch (UsuarioInvalidoException e) {
-                System.out.println(e.getMessage());
-                ;
-            }
-        } while (!flag);
+        System.out.println("============Iniciar Sesion============");
+        System.out.println("ingrese email:");
+        String email = sc.nextLine();
+        System.out.println("ingrese contrasenia:");
+        String contrasenia = sc.nextLine();
+        try {
+            usuario = boleteria.buscarPorEmail(email);
+            flag = Validacion.validarUsuario(usuario, contrasenia);
+
+        } catch (UsuarioInvalidoException e) {
+            System.out.println(e.getMessage());
+
+        }
+
         if (usuario instanceof Vendedor) {
             menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
         } else if (usuario instanceof Organizador) {
@@ -125,7 +125,7 @@ public class Menu {
         do {
             System.out.println("Menu organizador:");
             option = "";
-            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo Evento\n3\tAgregar funcion");
+            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo Evento\n3\tAgregar funcion\n4\tVer mis eventos");
             option = sc.nextLine();
 
             switch (option) {
@@ -140,7 +140,10 @@ public class Menu {
                     os.nuevoEvento(sc, organizador, b, archivo);
                     break;
                 case "3":
-                    os.agregarFuncion(sc, b, archivo);
+                    os.agregarFuncion(sc, organizador, archivo, b);
+                    break;
+                case "4":
+                    os.verMisEventos(organizador);
                     break;
                 default:
                     System.out.println("Opcion invalida");

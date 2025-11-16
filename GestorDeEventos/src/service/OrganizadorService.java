@@ -106,15 +106,21 @@ public class OrganizadorService {
         boleteria.guardarBoleteria(archivo);
     }
 
-    public void agregarFuncion(Scanner sc, Boleteria boleteria, String archivo) {
+    public void agregarFuncion(Scanner sc, Organizador organizador, String archivo,Boleteria boleteria) {
         String hora;
         double precio = 0;
         boolean flag = false;
-        boleteria.mostrarEventos();
+        verMisEventos(organizador);
         Evento evento=null;
         do{
-        int idEvento = Validacion.validarEntero(sc, "Ingrese id del evento");
-        evento = boleteria.getEventos().buscarElementoId(idEvento);
+            System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
+            int idEvento = Validacion.validarEntero(sc);
+            try{
+                evento=organizador.buscarEvento(idEvento);
+            }catch(ElementoNoEncontradoException e){
+                System.out.println(e.getMessage());
+            }
+
 
         }while(evento==null);
         System.out.println("Ingrese fecha y hora de la funcion");
@@ -238,7 +244,7 @@ public class OrganizadorService {
                 flagEmail = Validacion.validarEmail(email);
 
             } catch (EmailInvalidoException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } while (!flagEmail);
         do {
@@ -247,7 +253,7 @@ public class OrganizadorService {
             try {
                 flagContrasenia = Validacion.validarContrasena(contrasenia);
             } catch (ContraseniaInvalidaException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
         } while (!flagContrasenia);
@@ -276,7 +282,7 @@ public class OrganizadorService {
                     flagEmail = Validacion.validarEmail(email);
 
                 } catch (EmailInvalidoException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             } while (!flagEmail);
             do {
@@ -285,7 +291,7 @@ public class OrganizadorService {
                 try {
                     flagContrasenia = Validacion.validarContrasena(contrasenia);
                 } catch (ContraseniaInvalidaException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
 
             } while (!flagContrasenia);
@@ -295,5 +301,15 @@ public class OrganizadorService {
             boleteria.guardarBoleteria(archivo);
         } else System.out.println("El elemento seleccionado no es un organizador");
 
+    }
+    public void verMisEventos(Organizador o){
+        StringBuilder sb = new StringBuilder();
+        System.out.println("Estos son tus eventos: ");
+        sb.append("Total de eventos: ").append(o.getEventosCreados().size());
+        for (Evento e : o.getEventosCreados()) {
+            sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
+                    .append("\tFunciones disponibles: ").append(e.getFunciones().size());
+        }
+        System.out.println(sb);
     }
 }

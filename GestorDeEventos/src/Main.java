@@ -32,7 +32,7 @@ public class Main {
         boleteria.fromJSON(archivo);
         System.out.println(boleteria);
         while(true) {
-            menu.lanzarMenu(sc,boleteria,archivo);
+            menu.inicio(sc,boleteria,archivo);
         }
     }
 }

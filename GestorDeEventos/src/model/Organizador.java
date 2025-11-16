@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.ElementoNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -61,6 +62,12 @@ public class Organizador extends Usuario {
         if (!(o instanceof Organizador that)) return false;
         if (!super.equals(o)) return false;
         return Objects.equals(eventosCreados, that.eventosCreados);
+    }
+    public Evento buscarEvento(int id) throws ElementoNoEncontradoException{
+        for(Evento e:this.eventosCreados){
+            if(e.getId()==id) return e;
+        }
+        throw new ElementoNoEncontradoException("No tenes un evento con ese id");
     }
 
     @Override

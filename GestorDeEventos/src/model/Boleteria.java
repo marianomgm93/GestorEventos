@@ -127,8 +127,10 @@ public class Boleteria {
 
     public String mostrarEventos() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Total de eventos: ").append(eventos.getElementos().size());
         for (Evento e : this.eventos.getElementos()) {
-            sb.append(e.toString()).append("\n");
+            sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
+                    .append("\tFunciones disponibles: ").append(e.getFunciones().size());
         }
         return sb.toString();
     }
