@@ -4,6 +4,9 @@ import Utilidades.Validacion;
 import exceptions.*;
 import model.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -107,7 +110,7 @@ public class OrganizadorService {
     }
 
     public void agregarFuncion(Scanner sc, Organizador organizador, String archivo,Boleteria boleteria) {
-        String hora;
+        LocalDateTime fechayHora;
         double precio = 0;
         boolean flag = false;
         verMisEventos(organizador);
@@ -123,8 +126,8 @@ public class OrganizadorService {
 
 
         }while(evento==null);
-        System.out.println("Ingrese fecha y hora de la funcion");
-        hora = sc.nextLine();
+        fechayHora=Validacion.validarLocalDateTime(sc);
+
         System.out.println("Ingrese el precio base");
         do {
             try {
@@ -140,7 +143,7 @@ public class OrganizadorService {
             }
         } while (!flag);
         Recinto recinto = nuevoRecinto(sc);
-        Funcion funcion = new Funcion(hora, recinto, precio);
+        Funcion funcion = new Funcion(fechayHora, recinto, precio);
         evento.getFunciones().add(funcion);
         boleteria.guardarBoleteria(archivo);
     }

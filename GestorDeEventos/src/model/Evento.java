@@ -12,44 +12,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Evento implements ID {
-
-    /**
-     * Contador estático que lleva el registro del número total de eventos creados
-     * para la asignación automática de IDs.
-     */
     private static int totalEventos;
-
-    /**
-     * Identificador único del evento.
-     */
     private int id;
-
-    /**
-     * Lista de funciones asociadas a este evento (e.g., diferentes horarios o fechas).
-     */
     private ArrayList<Funcion> funciones;
-
-    /**
-     * Nombre descriptivo del evento.
-     */
     private String nombre;
-
-    /**
-     * Descripción detallada del evento.
-     */
     private String descripcion;
-
-    /**
-     * Categoría a la que pertenece el evento (e.g., CINE, CONCIERTO).
-     *
-     * @see Categoria
-     */
     private Categoria categoria;
 
-    /**
-     * Constructor por defecto.
-     * Asigna automáticamente un ID consecutivo al evento.
-     */
     public Evento() {
         this.id = totalEventos++;
     }

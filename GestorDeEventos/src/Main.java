@@ -10,7 +10,7 @@ public class Main {
 
         String archivo="GestorDeEventos\\src\\boleteria.json";
         Boleteria boleteria = new Boleteria();
-        OrganizadorService organizadorService=new OrganizadorService();
+     //   OrganizadorService organizadorService=new OrganizadorService();
         Scanner sc=new Scanner(System.in);
         Menu menu=new Menu();
 /*
@@ -29,8 +29,8 @@ public class Main {
         System.out.println(vendedor);
 */
 
-        boleteria.fromJSON(archivo);
-        System.out.println(boleteria);
+       // boleteria.fromJSON(archivo);
+       // System.out.println(boleteria);
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }

@@ -6,29 +6,14 @@ package model;
 
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class Funcion {
 
-    /**
-     * Contador estático para llevar el registro del número total de funciones
-     * creadas y asignar un ID único.
-     */
     private static int totalFunciones;
-
-    /**
-     * Identificador único de la función.
-     */
     private int id;
-
-    /**
-     * La hora o fecha y hora programada para la función (representada como String).
-     */
-    private String hora;
-
-    /**
-     * El recinto o lugar físico donde se llevará a cabo la función.
-     *
-     * @see Recinto
-     */
+    private LocalDateTime fechayHora;
     private Recinto recinto;
 
     /**
@@ -44,9 +29,9 @@ public class Funcion {
      * @param recinto El {@link Recinto} donde se realizará la función.
      * @param precioBase El precio base de la entrada.
      */
-    public Funcion(String hora, Recinto recinto, double precioBase) {
+    public Funcion(LocalDateTime hora, Recinto recinto, double precioBase) {
         this.id = totalFunciones++;
-        this.hora = hora;
+        this.fechayHora = hora;
         this.recinto = recinto;
         this.precioBase = precioBase;
     }
@@ -60,7 +45,7 @@ public class Funcion {
     public Funcion(JSONObject o){
         this.id=o.getInt("id");
         totalFunciones++;
-        this.hora=o.getString("hora");
+        this.fechayHora=LocalDateTime.parse(o.getString("fechayHora"));
         this.recinto=new Recinto(o.getJSONObject("recinto"));
         this.precioBase=o.getDouble("precioBase");
     }
@@ -73,7 +58,7 @@ public class Funcion {
     public JSONObject toJSON(){
         JSONObject o = new JSONObject();
         o.put("id",this.id);
-        o.put("hora",this.hora);
+        o.put("fechayHora",this.fechayHora);
         o.put("recinto",this.recinto.toJSON());
         o.put("precioBase",this.precioBase);
         return o;
@@ -97,23 +82,6 @@ public class Funcion {
         this.id = id;
     }
 
-    /**
-     * Obtiene la hora programada de la función.
-     *
-     * @return La hora de la función como String.
-     */
-    public String getHora() {
-        return hora;
-    }
-
-    /**
-     * Establece una nueva hora para la función.
-     *
-     * @param hora La nueva hora (String) para la función.
-     */
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
 
     /**
      * Obtiene el recinto asociado a esta función.
@@ -171,6 +139,18 @@ public class Funcion {
         return sb.toString();
     }
 
+    public LocalDateTime getFechayHora() {
+        return fechayHora;
+    }
+
+    public void setFechayHora(LocalDateTime fechayHora) {
+        this.fechayHora = fechayHora;
+    }
+
+    public void setPrecioBase(double precioBase) {
+        this.precioBase = precioBase;
+    }
+
     /**
      * Devuelve una representación en cadena del objeto Funcion.
      * Sobrescribe el método {@code toString()} de la clase {@code Object}.
@@ -181,7 +161,7 @@ public class Funcion {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Funcion{");
         sb.append("id=").append(id);
-        sb.append(", fecha y hora='").append(hora).append('\'');
+        sb.append(", fecha y hora='").append(fechayHora).append('\'');
         sb.append(", recinto=").append(recinto);
         sb.append(", precioBase=").append(precioBase);
         sb.append('}');

@@ -52,7 +52,7 @@ public class VendedorService {
         flag = false;
         System.out.println("Funciones:");
         for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
+            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
         }
         int funcionId;
@@ -99,7 +99,7 @@ public class VendedorService {
                 modificador=1;
                 break;
         }
-        Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(),evento.getId(), evento.getNombre(), funcion.getHora(), sector.getTipo(), funcion.getPrecioBase()*modificador);
+        Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(),evento.getId(), evento.getNombre(), funcion.getFechayHora().toString(), sector.getTipo(), funcion.getPrecioBase()*modificador);
         asiento.setDisponible(false);
         vendedor.getTicketsVendidos().add(ticket);
         boleteria.getVendidos().add(ticket);
