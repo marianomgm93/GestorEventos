@@ -19,7 +19,7 @@ public class OrganizadorService {
         System.out.println("Ingrese una descripcion breve");
         String descripcion = sc.nextLine();
         int opcion = 0;
-        Categoria categoria = Categoria.CINE;
+        Categoria categoria = null;
         do {
             System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
             try {
@@ -53,10 +53,11 @@ public class OrganizadorService {
             boleteria.guardarEvento(evento, archivo);
             organizador.getEventosCreados().add(evento);
             boleteria.guardarBoleteria(archivo);
+            System.out.println("El evento se creo correctamente");
         } catch (UsuarioRepetidoException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (EventoRepetidoException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -113,39 +114,46 @@ public class OrganizadorService {
         LocalDateTime fechayHora;
         double precio = 0;
         boolean flag = false;
-        verMisEventos(organizador);
-        Evento evento=null;
-        do{
-            System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
-            int idEvento = Validacion.validarEntero(sc);
-            try{
-                evento=organizador.buscarEvento(idEvento);
-            }catch(ElementoNoEncontradoException e){
-                System.out.println(e.getMessage());
-            }
+        if(!organizador.getEventosCreados().isEmpty()) {
 
 
-        }while(evento==null);
-        fechayHora=Validacion.validarLocalDateTime(sc);
+            verMisEventos(organizador);
+            Evento evento = null;
+            do {
+                System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
+                int idEvento = Validacion.validarEntero(sc);
+                try {
+                    evento = organizador.buscarEvento(idEvento);
+                } catch (ElementoNoEncontradoException e) {
+                    System.out.println(e.getMessage());
+                }
 
-        System.out.println("Ingrese el precio base");
-        do {
-            try {
-                precio = sc.nextDouble();
-                sc.nextLine();
-                flag = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Debe ingresar un numero");
-                sc.nextLine();
-            } catch (Exception e) {
-                System.out.println("El numero ingresado es invalido");
-                sc.nextLine();
-            }
-        } while (!flag);
-        Recinto recinto = nuevoRecinto(sc);
-        Funcion funcion = new Funcion(fechayHora, recinto, precio);
-        evento.getFunciones().add(funcion);
-        boleteria.guardarBoleteria(archivo);
+
+            } while (evento == null);
+            fechayHora = Validacion.validarLocalDateTime(sc);
+
+            System.out.println("Ingrese el precio base");
+            do {
+                try {
+                    precio = sc.nextDouble();
+                    sc.nextLine();
+                    flag = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Debe ingresar un numero");
+                    sc.nextLine();
+                } catch (Exception e) {
+                    System.out.println("El numero ingresado es invalido");
+                    sc.nextLine();
+                }
+            } while (!flag);
+            Recinto recinto = nuevoRecinto(sc);
+            Funcion funcion = new Funcion(fechayHora, recinto, precio);
+            evento.getFunciones().add(funcion);
+            System.out.println("La funcion se creó correctamente");
+            boleteria.guardarBoleteria(archivo);
+        }else{
+            System.out.println("Debes tener eventos creados para agregar nuevas funciones");
+        }
     }
 
     public Recinto nuevoRecinto(Scanner sc) {
@@ -261,6 +269,7 @@ public class OrganizadorService {
 
         } while (!flagContrasenia);
         boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
+        System.out.println("La cuenta se creo correctamente");
     }
 
     /// Probar modificacion

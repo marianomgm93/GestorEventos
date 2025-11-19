@@ -127,7 +127,7 @@ public class VendedorService {
                 flagEmail = Validacion.validarEmail(email);
 
             } catch (EmailInvalidoException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } while (!flagEmail);
         do {
@@ -136,11 +136,13 @@ public class VendedorService {
             try {
                 flagContrasenia = Validacion.validarContrasena(contrasenia);
             } catch (ContraseniaInvalidaException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
         } while (!flagContrasenia);
         boleteria.guardarUsuario(new Vendedor(nombre, email, contrasenia), archivo);
+        System.out.println("La cuenta se creo correctamente");
+
     }
 
 

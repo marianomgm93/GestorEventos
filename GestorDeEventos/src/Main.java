@@ -28,9 +28,11 @@ public class Main {
         vendedorService.nuevoTicket(sc,vendedor,boleteria,archivo);
         System.out.println(vendedor);
 */
-
-       // boleteria.fromJSON(archivo);
-       // System.out.println(boleteria);
+/// ULTIMOS CAMBIOS: CREADA CLASE ADMINISTRADOR, SERVICIO, Y METODO VER USUARIOS
+        boleteria.fromJSON(archivo);
+        Administrador adm=new Administrador(9999,"admin","admin","admin");
+        boleteria.getUsuarios().getElementos().add(adm);
+        System.out.println("Sesion recuperada con exito");
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }

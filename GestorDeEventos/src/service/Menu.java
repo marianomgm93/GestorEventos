@@ -2,10 +2,7 @@ package service;
 
 import Utilidades.Validacion;
 import exceptions.UsuarioInvalidoException;
-import model.Boleteria;
-import model.Organizador;
-import model.Usuario;
-import model.Vendedor;
+import model.*;
 
 import java.util.Scanner;
 
@@ -69,7 +66,7 @@ public class Menu {
         boolean flag = false;
         Usuario usuario = null;
 
-        System.out.println("============Iniciar Sesion============");
+        System.out.println("============ Iniciar Sesion ============");
         System.out.println("ingrese email:");
         String email = sc.nextLine();
         System.out.println("ingrese contrasenia:");
@@ -87,6 +84,8 @@ public class Menu {
             menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
         } else if (usuario instanceof Organizador) {
             menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
+        } else if (usuario instanceof Administrador) {
+            menuAdministrador(boleteria, sc, (Administrador) usuario);
         }
     }
 
@@ -150,5 +149,29 @@ public class Menu {
                     break;
             }
         } while (flag);
+    }
+
+    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin) {
+        boolean flag=false;
+        AdministradorService as= new AdministradorService();
+        do {
+            System.out.println("============ \tPanel Administracion\t ============");
+
+            System.out.println("Seleccione una de las siguientes opciones:\n" +
+                    "0\tSalir\n" +
+                    "1\tVer usuarios\n");
+            int option = Validacion.validarEntero(sc);
+            switch (option){
+                case 0:
+                    flag=true;
+                    break;
+                case 1:
+                    System.out.println(as.verUsuarios(boleteria));
+                    break;
+                default:
+                    System.out.println("El numero ingresado es invalido");
+            }
+        }while(!flag);
+
     }
 }
