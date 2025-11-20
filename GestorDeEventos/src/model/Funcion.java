@@ -127,12 +127,13 @@ public class Funcion {
      */
     public String asientosDisponibles(){
         StringBuilder sb=new StringBuilder();
+        sb.append("Asientos disponibles:\n");
         for (Sector s: this.recinto.getSectores()){
                 sb.append("\nSector: ").append(s.getId()).append(" ").append(s.getNombre());
                 sb.append("\nTipo: ").append(s.getTipo()).append("\n");
             for(Asiento a: s.getAsientos()){
                 if(a.isDisponible()){
-                    sb.append(a);
+                    sb.append("\nAsiento: ").append(a.getId()).append("\tPosicion: ").append(a.getNumero());
                 }
             }
         }

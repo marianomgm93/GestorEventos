@@ -9,36 +9,15 @@ import java.util.Objects;
 
 public abstract class Usuario implements ID {
 
-    /**
-     * Contador estático para llevar el registro del número total de usuarios
-     * creados y asignar un ID único.
-     */
     private static int totalUsuarios;
-
-    /**
-     * Identificador único del usuario.
-     */
     private int id;
-
-    /**
-     * Nombre completo del usuario.
-     */
     private String nombre;
-
-    /**
-     * Correo electrónico del usuario, utilizado generalmente para login.
-     */
     private String email;
-
-    /**
-     * Contraseña del usuario.
-     */
     private String contrasenia;
+    private boolean activo;
 
-    /**
-     * Constructor por defecto. Asigna automáticamente un ID consecutivo.
-     */
     public Usuario() {
+        activo=true;
         this.id=totalUsuarios++;
     }
 
@@ -54,6 +33,7 @@ public abstract class Usuario implements ID {
         this.email = email;
         this.contrasenia = contrasenia;
         this.id=totalUsuarios++;
+        activo=true;
     }
 
     /**
@@ -64,12 +44,13 @@ public abstract class Usuario implements ID {
      * @param email El correo electrónico del usuario.
      * @param contrasenia La contraseña del usuario.
      */
-    public Usuario(int id, String nombre, String email, String contrasenia) {
+    public Usuario(int id, String nombre, String email, String contrasenia, boolean activo) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
         totalUsuarios++;
+        this.activo=activo;
     }
 
     /**
@@ -153,6 +134,14 @@ public abstract class Usuario implements ID {
      */
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     @Override

@@ -271,7 +271,7 @@ public class OrganizadorService {
         boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
         System.out.println("La cuenta se creo correctamente");
     }
-
+/*
     /// Probar modificacion
     public void modificarOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
         int organizadorId;
@@ -314,6 +314,8 @@ public class OrganizadorService {
         } else System.out.println("El elemento seleccionado no es un organizador");
 
     }
+    */
+
     public void verMisEventos(Organizador o){
         StringBuilder sb = new StringBuilder();
         System.out.println("Estos son tus eventos: ");
@@ -321,6 +323,33 @@ public class OrganizadorService {
         for (Evento e : o.getEventosCreados()) {
             sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
                     .append("\tFunciones disponibles: ").append(e.getFunciones().size());
+        }
+        System.out.println(sb);
+    }
+    public void verMisFunciones(Scanner sc, Organizador o){
+        StringBuilder sb = new StringBuilder();
+        verMisEventos(o);
+        boolean flag = false;
+        int eventoId;
+        Evento evento = null;
+        do {
+            System.out.println(sb);
+            eventoId = Validacion.validarEntero(sc, "Ingrese id del evento");
+            for (Evento e : o.getEventosCreados()) {
+                if (e.getId() == eventoId) {
+                    evento = e;
+                    flag = true;
+                }
+            }
+            if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+        } while (!flag);
+        sb.setLength(0);
+
+        flag = false;
+        System.out.println("Funciones:");
+        for (Funcion f : evento.getFunciones()) {
+            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
+
         }
         System.out.println(sb);
     }

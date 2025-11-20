@@ -52,7 +52,7 @@ public class Boleteria {
                 this.usuarios.add(new Vendedor(jUsuarios.getJSONObject(i)));
             } else if (jUsuarios.getJSONObject(i).has("eventosCreados")) {
                 this.usuarios.add(new Organizador(jUsuarios.getJSONObject(i)));
-            }else{
+            } else {
                 this.usuarios.add(new Administrador(jUsuarios.getJSONObject(i)));
             }
         }
@@ -74,9 +74,9 @@ public class Boleteria {
         for (Usuario u : this.usuarios.getElementos()) {
             if (u instanceof Vendedor) {
                 jarrUsuarios.put(((Vendedor) u).toJSON());
-            } else if(u instanceof Organizador) {
+            } else if (u instanceof Organizador) {
                 jarrUsuarios.put(((Organizador) u).toJSON());
-            }else{
+            } else {
                 jarrUsuarios.put(((Administrador) u).toJSON());
             }
         }
@@ -148,6 +148,45 @@ public class Boleteria {
         }
         return sb.toString();
     }
+    public ArrayList<Usuario> getUsuariosActivos(){
+        ArrayList<Usuario> usuariosActivos=new ArrayList<>();
+        for (Usuario u : usuarios.getElementos()) {
+            if (u.isActivo()) usuariosActivos.add(u);
+        }
+        return usuariosActivos;
+    }
+    public ArrayList<Usuario> getUsuariosInactivos(){
+        ArrayList<Usuario> usuariosInactivos=new ArrayList<>();
+        for (Usuario u : usuarios.getElementos()) {
+            if (!u.isActivo()) usuariosInactivos.add(u);
+        }
+        return usuariosInactivos;
+    }
+
+    public String mostrarUsuariosActivos() {
+        StringBuilder sb = new StringBuilder();
+        for (Usuario u : getUsuariosActivos()) {
+            if (u.isActivo()) {
+                sb.append("ID: ").append(u.getId()).append("\tNombre: ").append(u.getNombre())
+                        .append("\tEmail: ").append(u.getEmail()).append("\tTipo: ").append(u.getClass().getSimpleName())
+                        .append("\tActivo: ").append(u.isActivo()).append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+    public String mostrarUsuariosInactivos() {
+        StringBuilder sb = new StringBuilder();
+        for (Usuario u : getUsuariosInactivos()) {
+            if (u.isActivo()) {
+                sb.append("ID: ").append(u.getId()).append("\tNombre: ").append(u.getNombre())
+                        .append("\tEmail: ").append(u.getEmail()).append("\tTipo: ").append(u.getClass().getSimpleName())
+                        .append("\tActivo: ").append(u.isActivo()).append("\n");;
+            }
+        }
+
+        return sb.toString();
+    }
 
     public Usuario buscarPorEmail(String email) throws UsuarioInvalidoException {
         boolean flag = false;
@@ -162,4 +201,5 @@ public class Boleteria {
 
         return usuario;
     }
+
 }

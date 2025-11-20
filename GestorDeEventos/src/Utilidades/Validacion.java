@@ -124,16 +124,15 @@ public class Validacion {
             // Validar que la fecha exista
             if (!fechaValida(anio, mes, dia)) {
                 System.out.println("La fecha ingresada no existe. Intente nuevamente.");
-                continue;
-            }
-
-            fechaIngresada = LocalDateTime.of(anio, mes, dia, hora, minuto);
-
-            // Validar que sea futura
-            if (fechaIngresada.isAfter(ahora)) {
-                return fechaIngresada;
             } else {
-                System.out.println("La fecha debe ser FUTURA. Intente nuevamente.");
+                fechaIngresada = LocalDateTime.of(anio, mes, dia, hora, minuto);
+
+                // Validar que sea futura
+                if (fechaIngresada.isAfter(ahora)) {
+                    return fechaIngresada;
+                } else {
+                    System.out.println("La fecha debe ser FUTURA. Intente nuevamente.");
+                }
             }
         }
     }
@@ -144,7 +143,7 @@ public class Validacion {
             LocalDateTime.of(anio, mes, dia, 0, 0);
             flag=true;
         } catch (Exception e) {
-            System.out.println("La fecha ingresada es invalida");;
+            System.out.println("La fecha ingresada es invalida");
         }
         return flag;
     }

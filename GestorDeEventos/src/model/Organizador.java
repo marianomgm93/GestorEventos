@@ -15,7 +15,7 @@ public class Organizador extends Usuario {
     }
 
     public Organizador(JSONObject o) {
-        super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"));
+        super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"),o.getBoolean("activo"));
         this.eventosCreados = new ArrayList<>();
         JSONArray jarr = o.getJSONArray("eventosCreados");
         for (int i = 0; i < jarr.length(); i++) {
@@ -33,6 +33,7 @@ public class Organizador extends Usuario {
         o.put("nombre",super.getNombre());
         o.put("email", super.getEmail());
         o.put("contrasenia",super.getContrasenia());
+        o.put("activo", super.isActivo());
         JSONArray jarr=new JSONArray();
         for(Evento e: eventosCreados){
             jarr.put(e.toJSON());

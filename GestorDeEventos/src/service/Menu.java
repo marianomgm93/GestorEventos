@@ -11,8 +11,8 @@ public class Menu {
         boolean flag = false;
         int option;
         do {
-            System.out.println("============ Iniciando Boletería ============");
-            System.out.println("1\tRegistrar un nuevo usuario\n2\tIniciar sesion\n3\tOlvidó su contraseña?\n");
+            System.out.println("============ Bienvenido ============");
+            System.out.println("1\tRegistrar un nuevo usuario\n2\tIniciar sesion\n");
             option = Validacion.validarEntero(sc);
             switch (option) {
                 case 1:
@@ -21,8 +21,8 @@ public class Menu {
                 case 2:
                     loginMenu(sc, boleteria, archivo);
                     break;
-                case 3:
-                    break;
+                //case 3:
+                //    break;
                 default:
                     System.out.println("El numero ingresado es invalido");
                     break;
@@ -85,7 +85,7 @@ public class Menu {
         } else if (usuario instanceof Organizador) {
             menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
         } else if (usuario instanceof Administrador) {
-            menuAdministrador(boleteria, sc, (Administrador) usuario);
+            menuAdministrador(boleteria, sc, (Administrador) usuario, archivo);
         }
     }
 
@@ -94,9 +94,10 @@ public class Menu {
         boolean flag = true;
         String option;
         do {
-            System.out.println("Menu vendedor:");
+            System.out.println("============ Panel vendedor ============");
             option = "";
-            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo ticket");
+            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo ticket\n3\tVer mis tickets vendidos\n" +
+                    "4\tCalcular mi recaudacion\n");
             option = sc.nextLine();
 
             switch (option) {
@@ -110,6 +111,12 @@ public class Menu {
                 case "2":
                     vs.nuevoTicket(sc, vendedor, b, archivo);
                     break;
+                case "3":
+                    vs.verMisTickets(vendedor);
+                    break;
+                case "4":
+                    vs.calcularRecaudacion(vendedor);
+                    break;
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -122,9 +129,10 @@ public class Menu {
         boolean flag = true;
         String option;
         do {
-            System.out.println("Menu organizador:");
+            System.out.println("============ Panel organizador ============");
             option = "";
-            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo Evento\n3\tAgregar funcion\n4\tVer mis eventos");
+            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo Evento\n3\tAgregar funcion\n4\tVer mis eventos\n" +
+                    "5\tVer mis funciones");
             option = sc.nextLine();
 
             switch (option) {
@@ -144,6 +152,9 @@ public class Menu {
                 case "4":
                     os.verMisEventos(organizador);
                     break;
+                case "5":
+                    os.verMisFunciones(sc,organizador);
+                    break;
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -151,15 +162,18 @@ public class Menu {
         } while (flag);
     }
 
-    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin) {
+    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin,String archivo) {
         boolean flag=false;
         AdministradorService as= new AdministradorService();
         do {
-            System.out.println("============ \tPanel Administracion\t ============");
+            System.out.println("============ Panel Administracion ============");
 
             System.out.println("Seleccione una de las siguientes opciones:\n" +
                     "0\tSalir\n" +
-                    "1\tVer usuarios\n");
+                    "1\tVer todos los usuarios\n" +
+                    "2\tEliminar usuario\n" +
+                    "3\tVer usuarios activos\n" +
+                    "4\tVer usuarios inactivos\n");
             int option = Validacion.validarEntero(sc);
             switch (option){
                 case 0:
@@ -167,6 +181,15 @@ public class Menu {
                     break;
                 case 1:
                     System.out.println(as.verUsuarios(boleteria));
+                    break;
+                case 2:
+                    as.eliminarUsuario(sc,boleteria,archivo);
+                    break;
+                case 3:
+                    as.verUsuariosActivos(boleteria);
+                    break;
+                case 4:
+                    as.verUsuariosInactivos(boleteria);
                     break;
                 default:
                     System.out.println("El numero ingresado es invalido");

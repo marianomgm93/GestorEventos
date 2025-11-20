@@ -47,7 +47,7 @@ public class Vendedor extends Usuario {
      */
     public Vendedor(JSONObject o) {
         // Llama al constructor de la superclase para inicializar los atributos de Usuario
-        super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"));
+        super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"),o.getBoolean("activo"));
 
         this.ticketsVendidos = new ArrayList<>();
         JSONArray jarr = o.getJSONArray("ticketsVendidos");
@@ -69,7 +69,7 @@ public class Vendedor extends Usuario {
         o.put("nombre",super.getNombre());
         o.put("email", super.getEmail());
         o.put("contrasenia",super.getContrasenia());
-
+        o.put("activo", super.isActivo());
         JSONArray jarr=new JSONArray();
         for(Ticket t: ticketsVendidos){
             jarr.put(t.toJSON());

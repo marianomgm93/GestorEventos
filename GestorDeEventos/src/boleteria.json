@@ -1,1 +1,37 @@
-{"vendidos":[],"eventos":[{"descripcion":"fabio posca presentacion","funciones":[{"fechayHora":"2025-12-01T20:30","recinto":{"sectores":[{"tipo":"PRINCIPAL","asientos":[{"numero":0,"id":0,"disponible":true},{"numero":1,"id":1,"disponible":true},{"numero":2,"id":2,"disponible":true}],"id":0,"nombre":"campo"}],"direccion":"la costa","id":0,"nombre":"Teatro smata","capacidad":3},"precioBase":100,"id":0}],"categoria":"STAND_UP","id":0,"nombre":"Alitas de posca"}],"usuarios":[{"contrasenia":"organizador123","id":0,"nombre":"organizador","eventosCreados":[{"descripcion":"fabio posca presentacion","funciones":[{"fechayHora":"2025-12-01T20:30","recinto":{"sectores":[{"tipo":"PRINCIPAL","asientos":[{"numero":0,"id":0,"disponible":true},{"numero":1,"id":1,"disponible":true},{"numero":2,"id":2,"disponible":true}],"id":0,"nombre":"campo"}],"direccion":"la costa","id":0,"nombre":"Teatro smata","capacidad":3},"precioBase":100,"id":0}],"categoria":"STAND_UP","id":0,"nombre":"Alitas de posca"}],"email":"organiz@dor.com"},{"contrasenia":"admin","id":9999,"nombre":"admin","email":"admin"},{"contrasenia":"vendedor123","ticketsVendidos":[],"id":2,"nombre":"vendedor","email":"ven@dedor.com"}]}
+{
+  "vendidos": [],
+  "eventos": [],
+  "usuarios": [
+    {
+      "contrasenia": "admin",
+      "id": 0,
+      "nombre": "admin",
+      "email": "admin",
+      "activo": true
+    },
+    {
+      "contrasenia": "organizador123",
+      "id": 1,
+      "nombre": "org@nizador.com",
+      "eventosCreados": [],
+      "email": "org@nizador.com",
+      "activo": true
+    },
+    {
+      "contrasenia": "vendedor123",
+      "ticketsVendidos": [],
+      "id": 2,
+      "nombre": "vendedor",
+      "email": "vended@r.com",
+      "activo": true
+    },
+    {
+      "contrasenia": "asdasd123",
+      "id": 3,
+      "nombre": "asdasd",
+      "eventosCreados": [],
+      "email": "asdasd@asd.com",
+      "activo": false
+    }
+  ]
+}
