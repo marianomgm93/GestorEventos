@@ -50,8 +50,10 @@ public class Boleteria {
         for (int i = 0; i < jUsuarios.length(); i++) {
             if (jUsuarios.getJSONObject(i).has("ticketsVendidos")) {
                 this.usuarios.add(new Vendedor(jUsuarios.getJSONObject(i)));
-            } else {
+            } else if (jUsuarios.getJSONObject(i).has("eventosCreados")) {
                 this.usuarios.add(new Organizador(jUsuarios.getJSONObject(i)));
+            }else{
+                this.usuarios.add(new Administrador(jUsuarios.getJSONObject(i)));
             }
         }
         for (int i = 0; i < jEventos.length(); i++) {
@@ -72,8 +74,10 @@ public class Boleteria {
         for (Usuario u : this.usuarios.getElementos()) {
             if (u instanceof Vendedor) {
                 jarrUsuarios.put(((Vendedor) u).toJSON());
-            } else {
+            } else if(u instanceof Organizador) {
                 jarrUsuarios.put(((Organizador) u).toJSON());
+            }else{
+                jarrUsuarios.put(((Administrador) u).toJSON());
             }
         }
         JSONArray jarrVendidos = new JSONArray();
