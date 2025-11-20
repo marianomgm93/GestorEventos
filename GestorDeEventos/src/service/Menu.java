@@ -79,13 +79,15 @@ public class Menu {
             System.out.println(e.getMessage());
 
         }
-
+        if(flag){
         if (usuario instanceof Vendedor) {
             menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
         } else if (usuario instanceof Organizador) {
             menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
         } else if (usuario instanceof Administrador) {
             menuAdministrador(boleteria, sc, (Administrador) usuario, archivo);
+        }
+
         }
     }
 
