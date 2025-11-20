@@ -171,6 +171,8 @@ public class OrganizadorService {
 
     public ArrayList<Sector> generarSectores(Scanner sc) {
         int cantidadSectores = 0;
+        double extra=0;
+        boolean tieneAsientos;
         boolean flag = false;
         do {
             System.out.println("Ingrese la cantidad de sectores que desea agregar(entre 1 y 6)");
@@ -189,39 +191,24 @@ public class OrganizadorService {
         } while (!flag);
         ArrayList<Sector> sectores = new ArrayList<>();
         String nombre;
-        int option;
+        String option;
         int cantidadAsientos = 0;
-        Tipo tipo = Tipo.TERCIARIO;
         for (int i = 0; i < cantidadSectores; i++) {
             System.out.println("Ingrese nombre del sector: " + (i + 1));
             nombre = sc.nextLine();
             flag = false;
-            do {
-                System.out.println("Ingrese tipo del sector:\n1\tPrimario\n2\tSecundario\n3\tTerciario");
-
-                try {
-                    option = Validacion.validarEntero(sc);
-                    switch (option) {
-                        case 1:
-                            tipo = Tipo.PRINCIPAL;
-                            break;
-                        case 2:
-                            tipo = Tipo.SECUNDARIO;
-                            break;
-                        case 3:
-                            tipo = Tipo.TERCIARIO;
-                            break;
-                        default:
-                            tipo = Tipo.TERCIARIO;
-                    }
-                    flag = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Debe ingresar un numero entero");
-                    sc.nextLine();
-                }
-            } while (!flag);
-            System.out.println("Ingrese la cantidad de asientos del sector: " + (i + 1));
-            flag = false;
+            extra=Validacion.validarPrecio(sc,"Ingrese un valor agregado para este sector");
+            System.out.println("El sector tiene asientos? S/N");
+            option=sc.nextLine();
+            String mensajeLugar;
+            if(option.equalsIgnoreCase("s")){
+                mensajeLugar="cantidad de asientos";
+                tieneAsientos=true;
+            }else{
+                mensajeLugar="capacidad";
+            }
+            /// TODO CONTINUAR FUNCIONALIDAD
+            System.out.println("Ingrese la "+ mensajeLugar + " del sector: " + (i + 1));
             do {
 
                 try {

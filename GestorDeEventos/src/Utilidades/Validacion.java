@@ -167,4 +167,23 @@ public class Validacion {
             }
         }
     }
+    public static double validarPrecio(Scanner sc, String mensaje){
+        double precio=0;
+        boolean flag=false;
+        do{
+            System.out.println(mensaje);
+
+        try{
+            precio=sc.nextDouble();
+            System.out.println("El numero se cargó correctamente");
+            flag=true;
+        }catch (InputMismatchException e){
+            System.out.println("Entrada inválida. Ingrese un número válido.");
+        }catch (Exception e){
+            System.out.println("Entrada inválida. Ingrese un número válido.");
+        }
+        }while(!flag);
+        return precio;
+    }
+
 }

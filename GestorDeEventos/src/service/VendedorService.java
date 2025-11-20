@@ -29,10 +29,12 @@ public class VendedorService {
     public void nuevoTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
         ArrayList<Evento> eventos = boleteria.getEventos().getElementos();
+        System.out.println("////////////////////////////////////////////////");
         System.out.println("Eventos:");
         for (Evento e : eventos) {
             sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
+        System.out.println("////////////////////////////////////////////////");
         boolean flag = false;
         int eventoId;
         Evento evento = null;
@@ -50,11 +52,14 @@ public class VendedorService {
         sb.setLength(0);
 
         flag = false;
+        System.out.println("////////////////////////////////////////////////");
         System.out.println("Funciones:");
         for (Funcion f : evento.getFunciones()) {
             sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
         }
+        System.out.println("////////////////////////////////////////////////");
+
         int funcionId;
         Funcion funcion = null;
         do {
@@ -72,7 +77,9 @@ public class VendedorService {
         Asiento asiento = null;
         Sector sector = null;
         int asientoId;
+        System.out.println("////////////////////////////////////////////////");
         System.out.println(funcion.asientosDisponibles());
+        System.out.println("////////////////////////////////////////////////");
         System.out.println("Desea seleccionar un asiento? S/N");
         String capturar;
         capturar = sc.nextLine();
@@ -83,7 +90,7 @@ public class VendedorService {
 
                 for (Sector s : funcion.getRecinto().getSectores()) {
                     for (Asiento a : s.getAsientos()) {
-                        if (a.getId() == asientoId) {
+                        if ((a.getId() == asientoId) && a.isDisponible()) {
                             asiento = a;
                             sector = s;
                             flag = true;
@@ -197,6 +204,7 @@ public class VendedorService {
         */
     public void verMisTickets(Vendedor v) {
         StringBuilder sb = new StringBuilder();
+
         System.out.println("Estos son tus Tickets vendidos: ");
         sb.append("Total de tickets vendidos: ").append(v.getTicketsVendidos().size());
         for (Ticket t : v.getTicketsVendidos()) {

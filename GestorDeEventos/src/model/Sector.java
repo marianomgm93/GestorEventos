@@ -9,49 +9,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Sector {
-
-    /**
-     * Contador estático para llevar el registro del número total de sectores
-     * creados.
-     */
     private static int totalSectores;
-
-    /**
-     * Identificador único del sector.
-     */
     private int id;
-
-    /**
-     * Nombre del sector (e.g., "Platea Baja", "Palco VIP").
-     */
     private String nombre;
-
-    /**
-     * Tipo de sector que define su categoría o ubicación.
-     *
-     * @see Tipo
-     */
-    private Tipo tipo;
-
-    /**
-     * Lista de asientos que componen este sector.
-     *
-     * @see Asiento
-     */
+    private double valorExtra;
+    private boolean tieneAsientos;
     private ArrayList<Asiento> asientos;
 
-    /**
-     * Constructor para crear un nuevo Sector con un ID predefinido.
-     *
-     * @param id El identificador único del sector.
-     * @param nombre El nombre del sector.
-     * @param tipo El {@link Tipo} de sector.
-     * @param asientos La lista de {@link Asiento}s en este sector.
-     */
-    public Sector(int id, String nombre, Tipo tipo, ArrayList<Asiento> asientos) {
+
+    public Sector(int id, String nombre, double valorExtra, boolean tieneAsientos, ArrayList<Asiento> asientos) {
         this.id = id;
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.valorExtra=valorExtra;
+        this.tieneAsientos=tieneAsientos;
         this.asientos = asientos;
         totalSectores++;
     }
@@ -64,25 +34,14 @@ public class Sector {
      * @param tipo El {@link Tipo} de sector.
      * @param asientos La lista de {@link Asiento}s en este sector.
      */
-    public Sector(String nombre, Tipo tipo, ArrayList<Asiento> asientos) {
-        this.id = totalSectores++;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.asientos = asientos;
-    }
 
-    /**
-     * Constructor para crear un Sector a partir de un objeto JSON,
-     * útil para la deserialización y carga de datos.
-     *
-     * @param o El objeto {@code JSONObject} que contiene todos los datos del sector.
-     */
+
     public Sector(JSONObject o) {
         this.id = o.getInt("id");
         totalSectores++;
         this.nombre = o.getString("nombre");
-        this.tipo = Tipo.valueOf(o.getString("tipo"));
-
+        this.tieneAsientos=o.getBoolean("tieneAsientos");
+        this.valorExtra=o.getDouble("valorExtra");
         JSONArray jarr = o.getJSONArray("asientos");
         asientos = new ArrayList<>();
         for (int i = 0; i < jarr.length(); i++) {
@@ -99,8 +58,8 @@ public class Sector {
         JSONObject o = new JSONObject();
         o.put("id", this.id);
         o.put("nombre",this.nombre);
-        o.put("tipo",this.tipo.toString());
-
+        o.put("tieneAsientos",this.tieneAsientos);
+        o.put("valorExtra",this.valorExtra);
         JSONArray jarr=new JSONArray();
         for(Asiento a: asientos){
             jarr.put(a.toJSON());
@@ -121,6 +80,14 @@ public class Sector {
             if (a.isDisponible()) sb.append("[ ").append(a.getNumero()).append(" ]").append("\t");
         }
         return sb.toString();
+    }
+
+    public ArrayList<Asiento> getAsientosDisponibles(){
+        ArrayList <Asiento> disponibles=new ArrayList<>();
+        for(Asiento a : this.asientos){
+            if(a.isDisponible()) disponibles.add(a);
+        }
+        return disponibles;
     }
 
     /**
@@ -160,24 +127,6 @@ public class Sector {
     }
 
     /**
-     * Obtiene el tipo de sector.
-     *
-     * @return El {@link Tipo} de sector.
-     */
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    /**
-     * Establece un nuevo tipo para el sector.
-     *
-     * @param tipo El nuevo {@link Tipo} de sector.
-     */
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
-
-    /**
      * Obtiene la lista de asientos que componen el sector.
      *
      * @return La {@code ArrayList} de objetos {@link Asiento}.
@@ -206,7 +155,8 @@ public class Sector {
         final StringBuilder sb = new StringBuilder("Sector{");
         sb.append("id=").append(id);
         sb.append(", nombre='").append(nombre).append('\'');
-        sb.append(", tipo=").append(tipo);
+        sb.append(", valorExtra=").append(valorExtra);
+        sb.append(", tieneAsientos=").append(tieneAsientos);
         sb.append(", asientos=").append(asientos);
         sb.append('}');
         return sb.toString();
