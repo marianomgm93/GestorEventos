@@ -172,7 +172,7 @@ public class OrganizadorService {
     public ArrayList<Sector> generarSectores(Scanner sc) {
         int cantidadSectores = 0;
         double extra=0;
-        boolean tieneAsientos;
+        boolean tieneAsientos=false;
         boolean flag = false;
         do {
             System.out.println("Ingrese la cantidad de sectores que desea agregar(entre 1 y 6)");
@@ -207,7 +207,6 @@ public class OrganizadorService {
             }else{
                 mensajeLugar="capacidad";
             }
-            /// TODO CONTINUAR FUNCIONALIDAD
             System.out.println("Ingrese la "+ mensajeLugar + " del sector: " + (i + 1));
             do {
 
@@ -224,7 +223,7 @@ public class OrganizadorService {
             for (int j = 0; j < cantidadAsientos; j++) {
                 asientos.add(new Asiento(j));
             }
-            sectores.add(new Sector(nombre, tipo, asientos));
+            sectores.add(new Sector(nombre,extra,tieneAsientos, asientos));
         }
         return sectores;
     }

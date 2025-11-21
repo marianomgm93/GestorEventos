@@ -187,7 +187,6 @@ public class Boleteria {
 
         return sb.toString();
     }
-
     public Usuario buscarPorEmail(String email) throws UsuarioInvalidoException {
         boolean flag = false;
         Usuario usuario = null;

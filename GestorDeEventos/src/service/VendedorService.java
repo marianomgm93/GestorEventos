@@ -100,23 +100,13 @@ public class VendedorService {
                 if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
 
             } while (!flag);
-            double modificador = 0;
-            switch (sector.getTipo()) {
-                case Tipo.PRINCIPAL:
-                    modificador = 1.5;
-                    break;
-                case Tipo.SECUNDARIO:
-                    modificador = 1.25;
-                    break;
-                case Tipo.TERCIARIO:
-                    modificador = 1;
-                    break;
-            }
-            Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), evento.getNombre(), funcion.getFechayHora().toString(), sector.getTipo(), funcion.getPrecioBase() * modificador);
+
+            Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), funcionId, sector.getId(), evento.getNombre(), funcion.getFechayHora().toString(), funcion.getPrecioBase()+sector.getValorExtra());
             asiento.setDisponible(false);
             vendedor.getTicketsVendidos().add(ticket);
             boleteria.getVendidos().add(ticket);
             boleteria.guardarBoleteria(archivo);
+            System.out.println("El ticket se generó correctamente");
         } else {
             System.out.println("Volviendo al menu anterior...");
         }
@@ -202,7 +192,8 @@ public class VendedorService {
             }else System.out.println("El elemento seleccionado no es un vendedor");
         }
         */
-    public void verMisTickets(Vendedor v) {
+
+    public void verMisTickets(Vendedor v,Boleteria boleteria) {
         StringBuilder sb = new StringBuilder();
 
         System.out.println("Estos son tus Tickets vendidos: ");
@@ -211,6 +202,9 @@ public class VendedorService {
             sb.append("\nId:").append(t.getId()).append("\tEvento: ").append(t.getNombreEvento())
                     .append("\tFecha funcion: ").append(t.getFechaYHora())
                     .append("\nPrecio: ").append(t.getPrecio());
+                    if(boleteria.getEventos().buscarElementoId(t.getEventoId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).isTieneAsientos()){
+                        sb.append("Asiento: ").append(t.getAsiento());
+                    }
         }
         System.out.println(sb);
     }

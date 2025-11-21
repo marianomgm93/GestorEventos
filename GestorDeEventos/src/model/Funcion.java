@@ -4,6 +4,7 @@
  */
 package model;
 
+import exceptions.ElementoNoEncontradoException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -16,10 +17,6 @@ public class Funcion {
     private int id;
     private LocalDateTime fechayHora;
     private Recinto recinto;
-
-    /**
-     * El precio base de la entrada para esta función.
-     */
     private double precioBase;
 
     /**
@@ -130,8 +127,7 @@ public class Funcion {
         StringBuilder sb=new StringBuilder();
         sb.append("Asientos disponibles:\n");
         for (Sector s: this.recinto.getSectores()){
-                sb.append("\nSector: ").append(s.getId()).append(" ").append(s.getNombre());
-                sb.append("\nTipo: ").append(s.getTipo()).append("\n");
+                sb.append("\nSector: ").append(s.getId()).append("\t").append(s.getNombre());
             for(Asiento a: s.getAsientos()){
                 if(a.isDisponible()){
                     sb.append("\nAsiento: ").append(a.getId()).append("\tPosicion: ").append(a.getNumero());
@@ -140,7 +136,12 @@ public class Funcion {
         }
         return sb.toString();
     }
-
+    public Sector buscarSectorPorId(int id) throws ElementoNoEncontradoException{
+        for(Sector s: this.recinto.getSectores()){
+            if(s.getId()==id) return s;
+        }
+        throw new ElementoNoEncontradoException("El no se encontró el sector");
+    }
     public LocalDateTime getFechayHora() {
         return fechayHora;
     }

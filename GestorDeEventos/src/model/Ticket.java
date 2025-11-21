@@ -16,35 +16,38 @@ public class Ticket {
     private String direccionRecinto;
     private int asiento;
     private int eventoId;
+    private int funcionId;
+    private int sectorId;
     private String nombreEvento;
     private String fechaYHora;
-    private Tipo tipo;
     private double precio;
 
     public Ticket() {
         this.id=totalTickets++;
     }
 
-    public Ticket(int id, String direccionRecinto, int asiento,int eventoId, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
+    public Ticket(int id, String direccionRecinto, int asiento,int eventoId, int funcionId, int sectorId, String nombreEvento, String fechaYHora, double precio) {
         this.id=id;
         this.direccionRecinto = direccionRecinto;
         this.asiento = asiento;
         this.eventoId=eventoId;
+        this.funcionId=funcionId;
+        this.sectorId=sectorId;
         this.nombreEvento = nombreEvento;
         this.fechaYHora = fechaYHora;
-        this.tipo = tipo;
         this.precio = precio;
         totalTickets++;
     }
 
-    public Ticket(String direccionRecinto, int asiento,int eventoId, String nombreEvento, String fechaYHora, Tipo tipo, double precio) {
+    public Ticket(String direccionRecinto, int asiento,int eventoId,int funcionId,int sectorId, String nombreEvento, String fechaYHora, double precio) {
         this.id=totalTickets++;
         this.direccionRecinto = direccionRecinto;
         this.asiento = asiento;
         this.eventoId=eventoId;
+        this.funcionId=funcionId;
+        this.sectorId=sectorId;
         this.nombreEvento = nombreEvento;
         this.fechaYHora = fechaYHora;
-        this.tipo = tipo;
         this.precio = precio;
     }
 
@@ -57,7 +60,6 @@ public class Ticket {
         this.eventoId=o.getInt("eventoId");
         this.nombreEvento = o.getString("nombreEvento");
         this.fechaYHora = o.getString("fechaYHora");
-        this.tipo = Tipo.valueOf(o.getString("tipo"));
         this.precio = o.getDouble("precio");
     }
 
@@ -72,9 +74,10 @@ public class Ticket {
         o.put("direccionRecinto", this.direccionRecinto);
         o.put("asiento", this.asiento);
         o.put("eventoId", this.eventoId);
+        o.put("funcionId",this.funcionId);
+        o.put("sectorId",this.sectorId);
         o.put("nombreEvento", this.nombreEvento);
         o.put("fechaYHora", this.fechaYHora);
-        o.put("tipo", this.tipo.toString());
         o.put("precio", this.precio);
         return o;
     }
@@ -169,23 +172,6 @@ public class Ticket {
         this.fechaYHora = fechaYHora;
     }
 
-    /**
-     * Obtiene el tipo de asiento/sector del ticket.
-     *
-     * @return El {@link Tipo} de asiento.
-     */
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    /**
-     * Establece un nuevo tipo de asiento/sector para el ticket.
-     *
-     * @param tipo El nuevo {@link Tipo}.
-     */
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
 
     /**
      * Obtiene el precio del ticket.
@@ -196,24 +182,43 @@ public class Ticket {
         return precio;
     }
 
-    /**
-     * Establece un nuevo precio para el ticket.
-     *
-     * @param precio El nuevo precio.
-     */
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Ticket ticket)) return false;
-        return id == ticket.id && asiento == ticket.asiento && eventoId == ticket.eventoId && Double.compare(precio, ticket.precio) == 0 && Objects.equals(direccionRecinto, ticket.direccionRecinto) && Objects.equals(nombreEvento, ticket.nombreEvento) && Objects.equals(fechaYHora, ticket.fechaYHora) && tipo == ticket.tipo;
+        return id == ticket.id && asiento == ticket.asiento && eventoId == ticket.eventoId && funcionId == ticket.funcionId && sectorId == ticket.sectorId && Double.compare(precio, ticket.precio) == 0 && Objects.equals(direccionRecinto, ticket.direccionRecinto) && Objects.equals(nombreEvento, ticket.nombreEvento) && Objects.equals(fechaYHora, ticket.fechaYHora);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, direccionRecinto, asiento, eventoId, nombreEvento, fechaYHora, tipo, precio);
+        return Objects.hash(id, direccionRecinto, asiento, eventoId, funcionId, sectorId, nombreEvento, fechaYHora, precio);
+    }
+
+    public int getEventoId() {
+        return eventoId;
+    }
+
+    public void setEventoId(int eventoId) {
+        this.eventoId = eventoId;
+    }
+
+    public int getFuncionId() {
+        return funcionId;
+    }
+
+    public void setFuncionId(int funcionId) {
+        this.funcionId = funcionId;
+    }
+
+    public int getSectorId() {
+        return sectorId;
+    }
+
+    public void setSectorId(int sectorId) {
+        this.sectorId = sectorId;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     /**
@@ -230,7 +235,6 @@ public class Ticket {
         sb.append(", asiento=").append(asiento);
         sb.append(", nombreEvento='").append(nombreEvento).append('\'');
         sb.append(", fechaYHora='").append(fechaYHora).append('\'');
-        sb.append(", tipo=").append(tipo);
         sb.append(", precio=").append(precio);
         sb.append('}');
         return sb.toString();

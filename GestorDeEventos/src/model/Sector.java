@@ -16,6 +16,13 @@ public class Sector {
     private boolean tieneAsientos;
     private ArrayList<Asiento> asientos;
 
+    public Sector(String nombre, double valorExtra, boolean tieneAsientos, ArrayList<Asiento> asientos) {
+        this.id=totalSectores++;
+        this.nombre = nombre;
+        this.valorExtra = valorExtra;
+        this.tieneAsientos = tieneAsientos;
+        this.asientos = asientos;
+    }
 
     public Sector(int id, String nombre, double valorExtra, boolean tieneAsientos, ArrayList<Asiento> asientos) {
         this.id = id;
@@ -25,15 +32,6 @@ public class Sector {
         this.asientos = asientos;
         totalSectores++;
     }
-
-    /**
-     * Constructor para crear un nuevo Sector, permitiendo la asignación
-     * automática del ID (basado en el contexto de donde se use).
-     *
-     * @param nombre El nombre del sector.
-     * @param tipo El {@link Tipo} de sector.
-     * @param asientos La lista de {@link Asiento}s en este sector.
-     */
 
 
     public Sector(JSONObject o) {
@@ -80,6 +78,22 @@ public class Sector {
             if (a.isDisponible()) sb.append("[ ").append(a.getNumero()).append(" ]").append("\t");
         }
         return sb.toString();
+    }
+
+    public double getValorExtra() {
+        return valorExtra;
+    }
+
+    public void setValorExtra(double valorExtra) {
+        this.valorExtra = valorExtra;
+    }
+
+    public boolean isTieneAsientos() {
+        return tieneAsientos;
+    }
+
+    public void setTieneAsientos(boolean tieneAsientos) {
+        this.tieneAsientos = tieneAsientos;
     }
 
     public ArrayList<Asiento> getAsientosDisponibles(){

@@ -175,11 +175,14 @@ public class Validacion {
 
         try{
             precio=sc.nextDouble();
+            sc.nextLine();
             System.out.println("El numero se cargó correctamente");
             flag=true;
         }catch (InputMismatchException e){
+            sc.nextLine();
             System.out.println("Entrada inválida. Ingrese un número válido.");
         }catch (Exception e){
+            sc.nextLine();
             System.out.println("Entrada inválida. Ingrese un número válido.");
         }
         }while(!flag);
