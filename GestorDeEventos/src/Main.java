@@ -22,8 +22,8 @@ public class Main {
         System.out.println(organizador.getEventosCreados().getFirst());
 */
 /*
-///        VendedorService vendedorService=new VendedorService();
-///        vendedorService.crearVendedor(sc,boleteria,archivo);
+        VendedorService vendedorService=new VendedorService();
+        vendedorService.crearVendedor(sc,boleteria,archivo);
         Vendedor vendedor= (Vendedor) boleteria.getUsuarios().buscarElementoId(1);
         vendedorService.nuevoTicket(sc,vendedor,boleteria,archivo);
         System.out.println(vendedor);
@@ -38,9 +38,10 @@ public class Main {
             System.out.println("La carga de datos falló");
         }
 
-
-       // Administrador adm=new Administrador(0,"admin","admin","admin");
-      //  boleteria.getUsuarios().getElementos().add(adm);
+/*
+        Administrador adm=new Administrador(0,"admin","admin","admin");
+        boleteria.getUsuarios().getElementos().add(adm);
+ */
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }

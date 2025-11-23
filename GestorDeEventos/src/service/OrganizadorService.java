@@ -110,11 +110,11 @@ public class OrganizadorService {
         boleteria.guardarBoleteria(archivo);
     }
 
-    public void agregarFuncion(Scanner sc, Organizador organizador, String archivo,Boleteria boleteria) {
+    public void agregarFuncion(Scanner sc, Organizador organizador, String archivo, Boleteria boleteria) {
         LocalDateTime fechayHora;
         double precio = 0;
         boolean flag = false;
-        if(!organizador.getEventosCreados().isEmpty()) {
+        if (!organizador.getEventosCreados().isEmpty()) {
 
 
             verMisEventos(organizador);
@@ -151,7 +151,7 @@ public class OrganizadorService {
             evento.getFunciones().add(funcion);
             System.out.println("La funcion se creó correctamente");
             boleteria.guardarBoleteria(archivo);
-        }else{
+        } else {
             System.out.println("Debes tener eventos creados para agregar nuevas funciones");
         }
     }
@@ -171,8 +171,8 @@ public class OrganizadorService {
 
     public ArrayList<Sector> generarSectores(Scanner sc) {
         int cantidadSectores = 0;
-        double extra=0;
-        boolean tieneAsientos=false;
+        double extra = 0;
+        boolean tieneAsientos = false;
         boolean flag = false;
         do {
             System.out.println("Ingrese la cantidad de sectores que desea agregar(entre 1 y 6)");
@@ -197,17 +197,17 @@ public class OrganizadorService {
             System.out.println("Ingrese nombre del sector: " + (i + 1));
             nombre = sc.nextLine();
             flag = false;
-            extra=Validacion.validarPrecio(sc,"Ingrese un valor agregado para este sector");
+            extra = Validacion.validarPrecio(sc, "Ingrese un valor agregado para este sector");
             System.out.println("El sector tiene asientos? S/N");
-            option=sc.nextLine();
+            option = sc.nextLine();
             String mensajeLugar;
-            if(option.equalsIgnoreCase("s")){
-                mensajeLugar="cantidad de asientos";
-                tieneAsientos=true;
-            }else{
-                mensajeLugar="capacidad";
+            if (option.equalsIgnoreCase("s")) {
+                mensajeLugar = "cantidad de asientos";
+                tieneAsientos = true;
+            } else {
+                mensajeLugar = "capacidad";
             }
-            System.out.println("Ingrese la "+ mensajeLugar + " del sector: " + (i + 1));
+            System.out.println("Ingrese la " + mensajeLugar + " del sector: " + (i + 1));
             do {
 
                 try {
@@ -223,7 +223,7 @@ public class OrganizadorService {
             for (int j = 0; j < cantidadAsientos; j++) {
                 asientos.add(new Asiento(j));
             }
-            sectores.add(new Sector(nombre,extra,tieneAsientos, asientos));
+            sectores.add(new Sector(nombre, extra, tieneAsientos, asientos));
         }
         return sectores;
     }
@@ -254,8 +254,16 @@ public class OrganizadorService {
             }
 
         } while (!flagContrasenia);
-        boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
-        System.out.println("La cuenta se creo correctamente");
+        for (Usuario u : boleteria.getUsuarios().getElementos()) {
+            if (email.equals(u.getEmail())) {
+                flagEmail = false;
+                System.out.println("El email ingresado ya esta en uso");
+            }
+        }
+        if (flagEmail) {
+            boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
+            System.out.println("La cuenta se creo correctamente");
+        }
     }
 /*
     /// Probar modificacion
@@ -302,7 +310,7 @@ public class OrganizadorService {
     }
     */
 
-    public void verMisEventos(Organizador o){
+    public void verMisEventos(Organizador o) {
         StringBuilder sb = new StringBuilder();
         System.out.println("Estos son tus eventos: ");
         sb.append("Total de eventos: ").append(o.getEventosCreados().size());
@@ -312,7 +320,8 @@ public class OrganizadorService {
         }
         System.out.println(sb);
     }
-    public void verMisFunciones(Scanner sc, Organizador o){
+
+    public void verMisFunciones(Scanner sc, Organizador o) {
         StringBuilder sb = new StringBuilder();
         verMisEventos(o);
         boolean flag = false;

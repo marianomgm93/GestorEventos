@@ -4,6 +4,7 @@ import exceptions.ContraseniaInvalidaException;
 import exceptions.EmailInvalidoException;
 import exceptions.NumeroInvalidoException;
 import exceptions.UsuarioInvalidoException;
+import model.Boleteria;
 import model.Usuario;
 
 import java.time.LocalDateTime;

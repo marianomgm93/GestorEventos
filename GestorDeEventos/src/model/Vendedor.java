@@ -116,15 +116,5 @@ public class Vendedor extends Usuario {
         // Se deja vacío para evitar la modificación del ID.
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Vendedor vendedor)) return false;
-        if (!super.equals(o)) return false;
-        return Objects.equals(ticketsVendidos, vendedor.ticketsVendidos);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), ticketsVendidos);
-    }
 }

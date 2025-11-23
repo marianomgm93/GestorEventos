@@ -114,7 +114,7 @@ public class Menu {
                     vs.nuevoTicket(sc, vendedor, b, archivo);
                     break;
                 case "3":
-                    vs.verMisTickets(vendedor);
+                    vs.verMisTickets(vendedor, b);
                     break;
                 case "4":
                     vs.calcularRecaudacion(vendedor);

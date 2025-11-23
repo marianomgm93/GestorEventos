@@ -17,7 +17,7 @@ public class Sector {
     private ArrayList<Asiento> asientos;
 
     public Sector(String nombre, double valorExtra, boolean tieneAsientos, ArrayList<Asiento> asientos) {
-        this.id=totalSectores++;
+        this.id = totalSectores++;
         this.nombre = nombre;
         this.valorExtra = valorExtra;
         this.tieneAsientos = tieneAsientos;
@@ -27,8 +27,8 @@ public class Sector {
     public Sector(int id, String nombre, double valorExtra, boolean tieneAsientos, ArrayList<Asiento> asientos) {
         this.id = id;
         this.nombre = nombre;
-        this.valorExtra=valorExtra;
-        this.tieneAsientos=tieneAsientos;
+        this.valorExtra = valorExtra;
+        this.tieneAsientos = tieneAsientos;
         this.asientos = asientos;
         totalSectores++;
     }
@@ -38,8 +38,8 @@ public class Sector {
         this.id = o.getInt("id");
         totalSectores++;
         this.nombre = o.getString("nombre");
-        this.tieneAsientos=o.getBoolean("tieneAsientos");
-        this.valorExtra=o.getDouble("valorExtra");
+        this.tieneAsientos = o.getBoolean("tieneAsientos");
+        this.valorExtra = o.getDouble("valorExtra");
         JSONArray jarr = o.getJSONArray("asientos");
         asientos = new ArrayList<>();
         for (int i = 0; i < jarr.length(); i++) {
@@ -52,17 +52,17 @@ public class Sector {
      *
      * @return Un objeto {@code JSONObject} que representa el estado completo del sector.
      */
-    public JSONObject toJSON(){
+    public JSONObject toJSON() {
         JSONObject o = new JSONObject();
         o.put("id", this.id);
-        o.put("nombre",this.nombre);
-        o.put("tieneAsientos",this.tieneAsientos);
-        o.put("valorExtra",this.valorExtra);
-        JSONArray jarr=new JSONArray();
-        for(Asiento a: asientos){
+        o.put("nombre", this.nombre);
+        o.put("tieneAsientos", this.tieneAsientos);
+        o.put("valorExtra", this.valorExtra);
+        JSONArray jarr = new JSONArray();
+        for (Asiento a : asientos) {
             jarr.put(a.toJSON());
         }
-        o.put("asientos",jarr);
+        o.put("asientos", jarr);
         return o;
     }
 
@@ -72,12 +72,20 @@ public class Sector {
      *
      * @return Una cadena de texto formateada con los números de asientos disponibles.
      */
-    public String asientosDisponibles() {
+    public String verAsientosDisponibles() {
         StringBuilder sb = new StringBuilder();
-        for (Asiento a : this.asientos) {
-            if (a.isDisponible()) sb.append("[ ").append(a.getNumero()).append(" ]").append("\t");
+        if (this.isTieneAsientos()) {
+            sb.append("/////////// Asientos disponibles ///////////");
+            for (Asiento a : this.asientos) {
+                if (a.isDisponible()) sb.append("[ ").append(a.getId()).append(" ]").append("\t");
+            }
+            sb.append("/////////// Fin Asientos disponibles ///////////");
         }
         return sb.toString();
+    }
+
+    public void reservarPrimeroDisponible(){
+        getAsientosDisponibles().getFirst().setDisponible(false);
     }
 
     public double getValorExtra() {
@@ -96,10 +104,10 @@ public class Sector {
         this.tieneAsientos = tieneAsientos;
     }
 
-    public ArrayList<Asiento> getAsientosDisponibles(){
-        ArrayList <Asiento> disponibles=new ArrayList<>();
-        for(Asiento a : this.asientos){
-            if(a.isDisponible()) disponibles.add(a);
+    public ArrayList<Asiento> getAsientosDisponibles() {
+        ArrayList<Asiento> disponibles = new ArrayList<>();
+        for (Asiento a : this.asientos) {
+            if (a.isDisponible()) disponibles.add(a);
         }
         return disponibles;
     }

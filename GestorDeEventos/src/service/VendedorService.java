@@ -28,6 +28,7 @@ public class VendedorService {
      */
     public void nuevoTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria, String archivo) {
         StringBuilder sb = new StringBuilder();
+        String capturar;
         ArrayList<Evento> eventos = boleteria.getEventos().getElementos();
         System.out.println("////////////////////////////////////////////////");
         System.out.println("Eventos:");
@@ -80,35 +81,58 @@ public class VendedorService {
         System.out.println("////////////////////////////////////////////////");
         System.out.println(funcion.asientosDisponibles());
         System.out.println("////////////////////////////////////////////////");
-        System.out.println("Desea seleccionar un asiento? S/N");
-        String capturar;
+        do{
+
+        System.out.println("Ingrese el numero del sector o \"S\" para salir");
         capturar = sc.nextLine();
-        if (capturar.equalsIgnoreCase("s")) {
+        if (!capturar.equalsIgnoreCase("s")) {
+            for (Sector s : funcion.getRecinto().getSectores()) {
+                if (("" + s.getId()).equals(capturar)) {
+                    sector = s;
+                    flag = true;
+                }
+            }
+
+        }else flag=true;
+            if(!flag) System.out.println("Debe ingresar un sector valido");
+        }while(!flag);
+        flag=false;
+        if(sector!=null && sector.isTieneAsientos()){
 
             do {
-                asientoId = Validacion.validarEntero(sc, "Ingrese el id de asiento\n");
 
-                for (Sector s : funcion.getRecinto().getSectores()) {
-                    for (Asiento a : s.getAsientos()) {
+                sector.verAsientosDisponibles();
+                System.out.println("Ingrese el numero del asiento o \"S\" para salir");
+                capturar=sc.nextLine();
+                if(!capturar.equalsIgnoreCase("s")){
+                    //TODO cambiar por capturar en string
+                    for (Asiento a : sector.getAsientos()) {
                         if ((a.getId() == asientoId) && a.isDisponible()) {
                             asiento = a;
-                            sector = s;
                             flag = true;
                         }
                     }
-                }
+
                 if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+                }else {
+                    flag=true;
+                    System.out.println("...Saliendo...");
+                }
 
             } while (!flag);
-
-            Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), funcionId, sector.getId(), evento.getNombre(), funcion.getFechayHora().toString(), funcion.getPrecioBase()+sector.getValorExtra());
+            if(asiento!=null){
+            Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), funcionId, sector.getId(), evento.getNombre(), funcion.getFechayHora().toString(), funcion.getPrecioBase() + sector.getValorExtra());
             asiento.setDisponible(false);
             vendedor.getTicketsVendidos().add(ticket);
             boleteria.getVendidos().add(ticket);
             boleteria.guardarBoleteria(archivo);
             System.out.println("El ticket se generó correctamente");
-        } else {
+
+            }
+        } else if(sector==null) {
             System.out.println("Volviendo al menu anterior...");
+        }else{
+
         }
     }
 
@@ -137,17 +161,24 @@ public class VendedorService {
             }
         } while (!flagEmail);
         do {
-            System.out.println("ingrese contrasenia");
+            System.out.println("ingrese contrasenia (Debe tener al menos 8 caracteres, una letra y un numero)");
             contrasenia = sc.nextLine();
             try {
                 flagContrasenia = Validacion.validarContrasena(contrasenia);
             } catch (ContraseniaInvalidaException e) {
                 System.out.println(e.getMessage());
             }
-
         } while (!flagContrasenia);
-        boleteria.guardarUsuario(new Vendedor(nombre, email, contrasenia), archivo);
-        System.out.println("La cuenta se creo correctamente");
+        for (Usuario u : boleteria.getUsuarios().getElementos()) {
+            if (email.equals(u.getEmail())) {
+                flagEmail = false;
+                System.out.println("El email ingresado ya esta en uso");
+            }
+        }
+        if (flagEmail) {
+            boleteria.guardarUsuario(new Vendedor(nombre, email, contrasenia), archivo);
+            System.out.println("La cuenta se creo correctamente");
+        }
 
     }
 
@@ -193,20 +224,21 @@ public class VendedorService {
         }
         */
 
-    public void verMisTickets(Vendedor v,Boleteria boleteria) {
+    public void verMisTickets(Vendedor v, Boleteria boleteria) {
         StringBuilder sb = new StringBuilder();
 
-        System.out.println("Estos son tus Tickets vendidos: ");
+        System.out.println("///////////////////////Inicio tickets vendidos///////////////////////");
         sb.append("Total de tickets vendidos: ").append(v.getTicketsVendidos().size());
         for (Ticket t : v.getTicketsVendidos()) {
             sb.append("\nId:").append(t.getId()).append("\tEvento: ").append(t.getNombreEvento())
                     .append("\tFecha funcion: ").append(t.getFechaYHora())
                     .append("\nPrecio: ").append(t.getPrecio());
-                    if(boleteria.getEventos().buscarElementoId(t.getEventoId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).isTieneAsientos()){
-                        sb.append("Asiento: ").append(t.getAsiento());
-                    }
+            if (boleteria.getEventos().buscarElementoId(t.getEventoId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).isTieneAsientos()) {
+                sb.append("Asiento: ").append(t.getAsiento());
+            }
         }
         System.out.println(sb);
+        System.out.println("///////////////////////Fin tickets vendidos///////////////////////");
     }
 
     public void calcularRecaudacion(Vendedor v) {

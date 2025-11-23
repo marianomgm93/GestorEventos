@@ -125,17 +125,17 @@ public class Funcion {
      */
     public String asientosDisponibles(){
         StringBuilder sb=new StringBuilder();
-        sb.append("Asientos disponibles:\n");
+        int disponibilidad;
+        sb.append("///////////////Disponibilidad///////////////\n");
         for (Sector s: this.recinto.getSectores()){
                 sb.append("\nSector: ").append(s.getId()).append("\t").append(s.getNombre());
-            for(Asiento a: s.getAsientos()){
-                if(a.isDisponible()){
-                    sb.append("\nAsiento: ").append(a.getId()).append("\tPosicion: ").append(a.getNumero());
-                }
+                disponibilidad=s.getAsientosDisponibles().size();
+                sb.append("\tDisponibilidad: ").append(disponibilidad).append("/").append(s.getAsientos().size());
             }
-        }
+
         return sb.toString();
     }
+
     public Sector buscarSectorPorId(int id) throws ElementoNoEncontradoException{
         for(Sector s: this.recinto.getSectores()){
             if(s.getId()==id) return s;

@@ -147,12 +147,12 @@ public abstract class Usuario implements ID {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Usuario usuario)) return false;
-        return id == usuario.id && Objects.equals(nombre, usuario.nombre) && Objects.equals(email, usuario.email) && Objects.equals(contrasenia, usuario.contrasenia);
+        return Objects.equals(email, usuario.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, email, contrasenia);
+        return Objects.hashCode(email);
     }
 
     /**
