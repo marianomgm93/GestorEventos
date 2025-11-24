@@ -5,11 +5,13 @@
  */
 package service;
 
+import Utilidades.UtilidadesGenerales;
 import Utilidades.Validacion;
 import exceptions.ContraseniaInvalidaException;
 import exceptions.EmailInvalidoException;
 import model.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,8 +32,8 @@ public class VendedorService {
         StringBuilder sb = new StringBuilder();
         String capturar;
         ArrayList<Evento> eventos = boleteria.getEventos().getElementos();
-        System.out.println("Eventos:");
-        System.out.println("////////////////////////////////////////////////");
+        sb.append("////////////////////////////////////////////////");
+        sb.append("Eventos:");
         for (Evento e : eventos) {
             sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
@@ -48,7 +50,11 @@ public class VendedorService {
                     flag = true;
                 }
             }
-            if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+            if (!flag) System.out.println("El numero ingresado es invalido , intentelo nuevamente");
+            else if (evento!=null && evento.getFunciones().isEmpty()) {
+                flag=false;
+                System.out.println("El evento seleccionado no tiene ninguna funcion disponible");
+            }
         } while (!flag);
         sb.setLength(0);
 
@@ -56,7 +62,7 @@ public class VendedorService {
         sb.append("\n////////////////////////////////////////////////");
         sb.append("\nFunciones:");
         for (Funcion f : evento.getFunciones()) {
-            sb.append("\nid: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
+            sb.append("\nid: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
         }
         sb.append("\n////////////////////////////////////////////////");
 
@@ -226,7 +232,7 @@ public class VendedorService {
         sb.append("Total de tickets vendidos: ").append(v.getTicketsVendidos().size());
         for (Ticket t : v.getTicketsVendidos()) {
             sb.append("\nId:").append(t.getId()).append("\tEvento: ").append(t.getNombreEvento())
-                    .append("\tFecha funcion: ").append(t.getFechaYHora())
+                    .append("\tFecha funcion: ").append(UtilidadesGenerales.formatearFecha(LocalDateTime.parse(t.getFechaYHora())))
                     .append("\tPrecio: ").append(t.getPrecio())
                     .append("\tSector: ").append(boleteria.getEventos().buscarElementoId(t.getSectorId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).getNombre());
             if (boleteria.getEventos().buscarElementoId(t.getEventoId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).isTieneAsientos()) {

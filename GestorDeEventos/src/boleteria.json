@@ -1,1 +1,1377 @@
-{"vendidos":[],"eventos":[{"descripcion":"un show de humor","funciones":[],"categoria":"STAND_UP","id":0,"nombre":"Show stand up"},{"descripcion":"pelicula avatar","funciones":[{"fechayHora":"2025-12-01T20:30","recinto":{"sectores":[{"tieneAsientos":true,"asientos":[{"numero":0,"id":0,"disponible":true},{"numero":1,"id":1,"disponible":true},{"numero":2,"id":2,"disponible":true},{"numero":3,"id":3,"disponible":true},{"numero":4,"id":4,"disponible":true},{"numero":5,"id":5,"disponible":true},{"numero":6,"id":6,"disponible":true},{"numero":7,"id":7,"disponible":true},{"numero":8,"id":8,"disponible":true},{"numero":9,"id":9,"disponible":true},{"numero":10,"id":10,"disponible":true},{"numero":11,"id":11,"disponible":true},{"numero":12,"id":12,"disponible":true},{"numero":13,"id":13,"disponible":true},{"numero":14,"id":14,"disponible":true},{"numero":15,"id":15,"disponible":true},{"numero":16,"id":16,"disponible":true},{"numero":17,"id":17,"disponible":true},{"numero":18,"id":18,"disponible":true},{"numero":19,"id":19,"disponible":true},{"numero":20,"id":20,"disponible":true},{"numero":21,"id":21,"disponible":true},{"numero":22,"id":22,"disponible":true},{"numero":23,"id":23,"disponible":true},{"numero":24,"id":24,"disponible":true},{"numero":25,"id":25,"disponible":true},{"numero":26,"id":26,"disponible":true},{"numero":27,"id":27,"disponible":true},{"numero":28,"id":28,"disponible":true},{"numero":29,"id":29,"disponible":true},{"numero":30,"id":30,"disponible":true},{"numero":31,"id":31,"disponible":true},{"numero":32,"id":32,"disponible":true},{"numero":33,"id":33,"disponible":true},{"numero":34,"id":34,"disponible":true},{"numero":35,"id":35,"disponible":true},{"numero":36,"id":36,"disponible":true},{"numero":37,"id":37,"disponible":true},{"numero":38,"id":38,"disponible":true},{"numero":39,"id":39,"disponible":true},{"numero":40,"id":40,"disponible":true},{"numero":41,"id":41,"disponible":true},{"numero":42,"id":42,"disponible":true},{"numero":43,"id":43,"disponible":true},{"numero":44,"id":44,"disponible":true},{"numero":45,"id":45,"disponible":true},{"numero":46,"id":46,"disponible":true},{"numero":47,"id":47,"disponible":true},{"numero":48,"id":48,"disponible":true},{"numero":49,"id":49,"disponible":true}],"id":0,"valorExtra":0,"nombre":"Sector comun"}],"direccion":"Diagonal alberdi","id":0,"nombre":"Cine del paseo","capacidad":50},"precioBase":5000,"id":0}],"categoria":"CINE","id":1,"nombre":"Avatar"},{"descripcion":"pelicula con tom hanks","funciones":[{"fechayHora":"2025-12-25T20:30","recinto":{"sectores":[{"tieneAsientos":true,"asientos":[{"numero":0,"id":50,"disponible":true},{"numero":1,"id":51,"disponible":true},{"numero":2,"id":52,"disponible":true},{"numero":3,"id":53,"disponible":true},{"numero":4,"id":54,"disponible":true},{"numero":5,"id":55,"disponible":true},{"numero":6,"id":56,"disponible":true},{"numero":7,"id":57,"disponible":true},{"numero":8,"id":58,"disponible":true},{"numero":9,"id":59,"disponible":true},{"numero":10,"id":60,"disponible":true},{"numero":11,"id":61,"disponible":true},{"numero":12,"id":62,"disponible":true},{"numero":13,"id":63,"disponible":true},{"numero":14,"id":64,"disponible":true},{"numero":15,"id":65,"disponible":true},{"numero":16,"id":66,"disponible":true},{"numero":17,"id":67,"disponible":true},{"numero":18,"id":68,"disponible":true},{"numero":19,"id":69,"disponible":true}],"id":1,"valorExtra":1000,"nombre":"Vip"},{"tieneAsientos":true,"asientos":[{"numero":0,"id":70,"disponible":true},{"numero":1,"id":71,"disponible":true},{"numero":2,"id":72,"disponible":true},{"numero":3,"id":73,"disponible":true},{"numero":4,"id":74,"disponible":true},{"numero":5,"id":75,"disponible":true},{"numero":6,"id":76,"disponible":true},{"numero":7,"id":77,"disponible":true},{"numero":8,"id":78,"disponible":true},{"numero":9,"id":79,"disponible":true},{"numero":10,"id":80,"disponible":true},{"numero":11,"id":81,"disponible":true},{"numero":12,"id":82,"disponible":true},{"numero":13,"id":83,"disponible":true},{"numero":14,"id":84,"disponible":true},{"numero":15,"id":85,"disponible":true},{"numero":16,"id":86,"disponible":true},{"numero":17,"id":87,"disponible":true},{"numero":18,"id":88,"disponible":true},{"numero":19,"id":89,"disponible":true},{"numero":20,"id":90,"disponible":true},{"numero":21,"id":91,"disponible":true},{"numero":22,"id":92,"disponible":true},{"numero":23,"id":93,"disponible":true},{"numero":24,"id":94,"disponible":true},{"numero":25,"id":95,"disponible":true},{"numero":26,"id":96,"disponible":true},{"numero":27,"id":97,"disponible":true},{"numero":28,"id":98,"disponible":true},{"numero":29,"id":99,"disponible":true},{"numero":30,"id":100,"disponible":true},{"numero":31,"id":101,"disponible":true},{"numero":32,"id":102,"disponible":true},{"numero":33,"id":103,"disponible":true},{"numero":34,"id":104,"disponible":true},{"numero":35,"id":105,"disponible":true},{"numero":36,"id":106,"disponible":true},{"numero":37,"id":107,"disponible":true},{"numero":38,"id":108,"disponible":true},{"numero":39,"id":109,"disponible":true},{"numero":40,"id":110,"disponible":true},{"numero":41,"id":111,"disponible":true},{"numero":42,"id":112,"disponible":true},{"numero":43,"id":113,"disponible":true},{"numero":44,"id":114,"disponible":true},{"numero":45,"id":115,"disponible":true},{"numero":46,"id":116,"disponible":true},{"numero":47,"id":117,"disponible":true},{"numero":48,"id":118,"disponible":true},{"numero":49,"id":119,"disponible":true}],"id":2,"valorExtra":0,"nombre":"Cine parado"}],"direccion":"cordoba","id":1,"nombre":"Cinema ambassador","capacidad":70},"precioBase":5000,"id":1}],"categoria":"CINE","id":2,"nombre":"La milla verde"}],"usuarios":[{"contrasenia":"admin","id":0,"nombre":"admin","email":"admin","activo":true},{"contrasenia":"organizador123","id":0,"nombre":"org@nizador.com","eventosCreados":[{"descripcion":"un show de humor","funciones":[],"categoria":"STAND_UP","id":0,"nombre":"Show stand up"},{"descripcion":"pelicula avatar","funciones":[{"fechayHora":"2025-12-01T20:30","recinto":{"sectores":[{"tieneAsientos":true,"asientos":[{"numero":0,"id":0,"disponible":true},{"numero":1,"id":1,"disponible":true},{"numero":2,"id":2,"disponible":true},{"numero":3,"id":3,"disponible":true},{"numero":4,"id":4,"disponible":true},{"numero":5,"id":5,"disponible":true},{"numero":6,"id":6,"disponible":true},{"numero":7,"id":7,"disponible":true},{"numero":8,"id":8,"disponible":true},{"numero":9,"id":9,"disponible":true},{"numero":10,"id":10,"disponible":true},{"numero":11,"id":11,"disponible":true},{"numero":12,"id":12,"disponible":true},{"numero":13,"id":13,"disponible":true},{"numero":14,"id":14,"disponible":true},{"numero":15,"id":15,"disponible":true},{"numero":16,"id":16,"disponible":true},{"numero":17,"id":17,"disponible":true},{"numero":18,"id":18,"disponible":true},{"numero":19,"id":19,"disponible":true},{"numero":20,"id":20,"disponible":true},{"numero":21,"id":21,"disponible":true},{"numero":22,"id":22,"disponible":true},{"numero":23,"id":23,"disponible":true},{"numero":24,"id":24,"disponible":true},{"numero":25,"id":25,"disponible":true},{"numero":26,"id":26,"disponible":true},{"numero":27,"id":27,"disponible":true},{"numero":28,"id":28,"disponible":true},{"numero":29,"id":29,"disponible":true},{"numero":30,"id":30,"disponible":true},{"numero":31,"id":31,"disponible":true},{"numero":32,"id":32,"disponible":true},{"numero":33,"id":33,"disponible":true},{"numero":34,"id":34,"disponible":true},{"numero":35,"id":35,"disponible":true},{"numero":36,"id":36,"disponible":true},{"numero":37,"id":37,"disponible":true},{"numero":38,"id":38,"disponible":true},{"numero":39,"id":39,"disponible":true},{"numero":40,"id":40,"disponible":true},{"numero":41,"id":41,"disponible":true},{"numero":42,"id":42,"disponible":true},{"numero":43,"id":43,"disponible":true},{"numero":44,"id":44,"disponible":true},{"numero":45,"id":45,"disponible":true},{"numero":46,"id":46,"disponible":true},{"numero":47,"id":47,"disponible":true},{"numero":48,"id":48,"disponible":true},{"numero":49,"id":49,"disponible":true}],"id":0,"valorExtra":0,"nombre":"Sector comun"}],"direccion":"Diagonal alberdi","id":0,"nombre":"Cine del paseo","capacidad":50},"precioBase":5000,"id":0}],"categoria":"CINE","id":1,"nombre":"Avatar"},{"descripcion":"pelicula con tom hanks","funciones":[{"fechayHora":"2025-12-25T20:30","recinto":{"sectores":[{"tieneAsientos":true,"asientos":[{"numero":0,"id":50,"disponible":true},{"numero":1,"id":51,"disponible":true},{"numero":2,"id":52,"disponible":true},{"numero":3,"id":53,"disponible":true},{"numero":4,"id":54,"disponible":true},{"numero":5,"id":55,"disponible":true},{"numero":6,"id":56,"disponible":true},{"numero":7,"id":57,"disponible":true},{"numero":8,"id":58,"disponible":true},{"numero":9,"id":59,"disponible":true},{"numero":10,"id":60,"disponible":true},{"numero":11,"id":61,"disponible":true},{"numero":12,"id":62,"disponible":true},{"numero":13,"id":63,"disponible":true},{"numero":14,"id":64,"disponible":true},{"numero":15,"id":65,"disponible":true},{"numero":16,"id":66,"disponible":true},{"numero":17,"id":67,"disponible":true},{"numero":18,"id":68,"disponible":true},{"numero":19,"id":69,"disponible":true}],"id":1,"valorExtra":1000,"nombre":"Vip"},{"tieneAsientos":true,"asientos":[{"numero":0,"id":70,"disponible":true},{"numero":1,"id":71,"disponible":true},{"numero":2,"id":72,"disponible":true},{"numero":3,"id":73,"disponible":true},{"numero":4,"id":74,"disponible":true},{"numero":5,"id":75,"disponible":true},{"numero":6,"id":76,"disponible":true},{"numero":7,"id":77,"disponible":true},{"numero":8,"id":78,"disponible":true},{"numero":9,"id":79,"disponible":true},{"numero":10,"id":80,"disponible":true},{"numero":11,"id":81,"disponible":true},{"numero":12,"id":82,"disponible":true},{"numero":13,"id":83,"disponible":true},{"numero":14,"id":84,"disponible":true},{"numero":15,"id":85,"disponible":true},{"numero":16,"id":86,"disponible":true},{"numero":17,"id":87,"disponible":true},{"numero":18,"id":88,"disponible":true},{"numero":19,"id":89,"disponible":true},{"numero":20,"id":90,"disponible":true},{"numero":21,"id":91,"disponible":true},{"numero":22,"id":92,"disponible":true},{"numero":23,"id":93,"disponible":true},{"numero":24,"id":94,"disponible":true},{"numero":25,"id":95,"disponible":true},{"numero":26,"id":96,"disponible":true},{"numero":27,"id":97,"disponible":true},{"numero":28,"id":98,"disponible":true},{"numero":29,"id":99,"disponible":true},{"numero":30,"id":100,"disponible":true},{"numero":31,"id":101,"disponible":true},{"numero":32,"id":102,"disponible":true},{"numero":33,"id":103,"disponible":true},{"numero":34,"id":104,"disponible":true},{"numero":35,"id":105,"disponible":true},{"numero":36,"id":106,"disponible":true},{"numero":37,"id":107,"disponible":true},{"numero":38,"id":108,"disponible":true},{"numero":39,"id":109,"disponible":true},{"numero":40,"id":110,"disponible":true},{"numero":41,"id":111,"disponible":true},{"numero":42,"id":112,"disponible":true},{"numero":43,"id":113,"disponible":true},{"numero":44,"id":114,"disponible":true},{"numero":45,"id":115,"disponible":true},{"numero":46,"id":116,"disponible":true},{"numero":47,"id":117,"disponible":true},{"numero":48,"id":118,"disponible":true},{"numero":49,"id":119,"disponible":true}],"id":2,"valorExtra":0,"nombre":"Cine parado"}],"direccion":"cordoba","id":1,"nombre":"Cinema ambassador","capacidad":70},"precioBase":5000,"id":1}],"categoria":"CINE","id":2,"nombre":"La milla verde"}],"email":"org@nizador.com","activo":true},{"contrasenia":"vendedor123","ticketsVendidos":[],"id":1,"nombre":"vendedor","email":"vended@r.com","activo":true}]}
+{
+  "vendidos": [],
+  "eventos": [
+    {
+      "descripcion": "un show de humor",
+      "funciones": [],
+      "categoria": "STAND_UP",
+      "id": 0,
+      "nombre": "Show stand up"
+    },
+    {
+      "descripcion": "pelicula avatar",
+      "funciones": [
+        {
+          "fechayHora": "2025-12-01T20:30",
+          "recinto": {
+            "sectores": [
+              {
+                "tieneAsientos": true,
+                "asientos": [
+                  {
+                    "numero": 0,
+                    "id": 0,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 1,
+                    "id": 1,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 2,
+                    "id": 2,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 3,
+                    "id": 3,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 4,
+                    "id": 4,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 5,
+                    "id": 5,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 6,
+                    "id": 6,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 7,
+                    "id": 7,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 8,
+                    "id": 8,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 9,
+                    "id": 9,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 10,
+                    "id": 10,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 11,
+                    "id": 11,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 12,
+                    "id": 12,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 13,
+                    "id": 13,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 14,
+                    "id": 14,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 15,
+                    "id": 15,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 16,
+                    "id": 16,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 17,
+                    "id": 17,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 18,
+                    "id": 18,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 19,
+                    "id": 19,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 20,
+                    "id": 20,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 21,
+                    "id": 21,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 22,
+                    "id": 22,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 23,
+                    "id": 23,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 24,
+                    "id": 24,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 25,
+                    "id": 25,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 26,
+                    "id": 26,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 27,
+                    "id": 27,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 28,
+                    "id": 28,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 29,
+                    "id": 29,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 30,
+                    "id": 30,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 31,
+                    "id": 31,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 32,
+                    "id": 32,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 33,
+                    "id": 33,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 34,
+                    "id": 34,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 35,
+                    "id": 35,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 36,
+                    "id": 36,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 37,
+                    "id": 37,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 38,
+                    "id": 38,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 39,
+                    "id": 39,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 40,
+                    "id": 40,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 41,
+                    "id": 41,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 42,
+                    "id": 42,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 43,
+                    "id": 43,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 44,
+                    "id": 44,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 45,
+                    "id": 45,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 46,
+                    "id": 46,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 47,
+                    "id": 47,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 48,
+                    "id": 48,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 49,
+                    "id": 49,
+                    "disponible": true
+                  }
+                ],
+                "id": 0,
+                "valorExtra": 0,
+                "nombre": "Sector comun"
+              }
+            ],
+            "direccion": "Diagonal alberdi",
+            "id": 0,
+            "nombre": "Cine del paseo",
+            "capacidad": 50
+          },
+          "precioBase": 5000,
+          "id": 0
+        }
+      ],
+      "categoria": "CINE",
+      "id": 1,
+      "nombre": "Avatar"
+    },
+    {
+      "descripcion": "pelicula con tom hanks",
+      "funciones": [
+        {
+          "fechayHora": "2025-12-25T20:30",
+          "recinto": {
+            "sectores": [
+              {
+                "tieneAsientos": true,
+                "asientos": [
+                  {
+                    "numero": 0,
+                    "id": 50,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 1,
+                    "id": 51,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 2,
+                    "id": 52,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 3,
+                    "id": 53,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 4,
+                    "id": 54,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 5,
+                    "id": 55,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 6,
+                    "id": 56,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 7,
+                    "id": 57,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 8,
+                    "id": 58,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 9,
+                    "id": 59,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 10,
+                    "id": 60,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 11,
+                    "id": 61,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 12,
+                    "id": 62,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 13,
+                    "id": 63,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 14,
+                    "id": 64,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 15,
+                    "id": 65,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 16,
+                    "id": 66,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 17,
+                    "id": 67,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 18,
+                    "id": 68,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 19,
+                    "id": 69,
+                    "disponible": true
+                  }
+                ],
+                "id": 1,
+                "valorExtra": 1000,
+                "nombre": "Vip"
+              },
+              {
+                "tieneAsientos": true,
+                "asientos": [
+                  {
+                    "numero": 0,
+                    "id": 70,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 1,
+                    "id": 71,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 2,
+                    "id": 72,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 3,
+                    "id": 73,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 4,
+                    "id": 74,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 5,
+                    "id": 75,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 6,
+                    "id": 76,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 7,
+                    "id": 77,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 8,
+                    "id": 78,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 9,
+                    "id": 79,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 10,
+                    "id": 80,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 11,
+                    "id": 81,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 12,
+                    "id": 82,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 13,
+                    "id": 83,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 14,
+                    "id": 84,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 15,
+                    "id": 85,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 16,
+                    "id": 86,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 17,
+                    "id": 87,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 18,
+                    "id": 88,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 19,
+                    "id": 89,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 20,
+                    "id": 90,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 21,
+                    "id": 91,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 22,
+                    "id": 92,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 23,
+                    "id": 93,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 24,
+                    "id": 94,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 25,
+                    "id": 95,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 26,
+                    "id": 96,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 27,
+                    "id": 97,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 28,
+                    "id": 98,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 29,
+                    "id": 99,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 30,
+                    "id": 100,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 31,
+                    "id": 101,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 32,
+                    "id": 102,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 33,
+                    "id": 103,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 34,
+                    "id": 104,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 35,
+                    "id": 105,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 36,
+                    "id": 106,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 37,
+                    "id": 107,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 38,
+                    "id": 108,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 39,
+                    "id": 109,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 40,
+                    "id": 110,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 41,
+                    "id": 111,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 42,
+                    "id": 112,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 43,
+                    "id": 113,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 44,
+                    "id": 114,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 45,
+                    "id": 115,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 46,
+                    "id": 116,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 47,
+                    "id": 117,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 48,
+                    "id": 118,
+                    "disponible": true
+                  },
+                  {
+                    "numero": 49,
+                    "id": 119,
+                    "disponible": true
+                  }
+                ],
+                "id": 2,
+                "valorExtra": 0,
+                "nombre": "Cine parado"
+              }
+            ],
+            "direccion": "cordoba",
+            "id": 1,
+            "nombre": "Cinema ambassador",
+            "capacidad": 70
+          },
+          "precioBase": 5000,
+          "id": 1
+        }
+      ],
+      "categoria": "CINE",
+      "id": 2,
+      "nombre": "La milla verde"
+    }
+  ],
+  "usuarios": [
+    {
+      "contrasenia": "admin",
+      "id": 0,
+      "nombre": "admin",
+      "email": "admin",
+      "activo": true
+    },
+    {
+      "contrasenia": "organizador123",
+      "id": 1,
+      "nombre": "org@nizador.com",
+      "eventosCreados": [
+        {
+          "descripcion": "un show de humor",
+          "funciones": [],
+          "categoria": "STAND_UP",
+          "id": 0,
+          "nombre": "Show stand up"
+        },
+        {
+          "descripcion": "pelicula avatar",
+          "funciones": [
+            {
+              "fechayHora": "2025-12-01T20:30",
+              "recinto": {
+                "sectores": [
+                  {
+                    "tieneAsientos": true,
+                    "asientos": [
+                      {
+                        "numero": 0,
+                        "id": 0,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 1,
+                        "id": 1,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 2,
+                        "id": 2,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 3,
+                        "id": 3,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 4,
+                        "id": 4,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 5,
+                        "id": 5,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 6,
+                        "id": 6,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 7,
+                        "id": 7,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 8,
+                        "id": 8,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 9,
+                        "id": 9,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 10,
+                        "id": 10,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 11,
+                        "id": 11,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 12,
+                        "id": 12,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 13,
+                        "id": 13,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 14,
+                        "id": 14,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 15,
+                        "id": 15,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 16,
+                        "id": 16,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 17,
+                        "id": 17,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 18,
+                        "id": 18,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 19,
+                        "id": 19,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 20,
+                        "id": 20,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 21,
+                        "id": 21,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 22,
+                        "id": 22,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 23,
+                        "id": 23,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 24,
+                        "id": 24,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 25,
+                        "id": 25,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 26,
+                        "id": 26,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 27,
+                        "id": 27,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 28,
+                        "id": 28,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 29,
+                        "id": 29,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 30,
+                        "id": 30,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 31,
+                        "id": 31,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 32,
+                        "id": 32,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 33,
+                        "id": 33,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 34,
+                        "id": 34,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 35,
+                        "id": 35,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 36,
+                        "id": 36,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 37,
+                        "id": 37,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 38,
+                        "id": 38,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 39,
+                        "id": 39,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 40,
+                        "id": 40,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 41,
+                        "id": 41,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 42,
+                        "id": 42,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 43,
+                        "id": 43,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 44,
+                        "id": 44,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 45,
+                        "id": 45,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 46,
+                        "id": 46,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 47,
+                        "id": 47,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 48,
+                        "id": 48,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 49,
+                        "id": 49,
+                        "disponible": true
+                      }
+                    ],
+                    "id": 0,
+                    "valorExtra": 0,
+                    "nombre": "Sector comun"
+                  }
+                ],
+                "direccion": "Diagonal alberdi",
+                "id": 0,
+                "nombre": "Cine del paseo",
+                "capacidad": 50
+              },
+              "precioBase": 5000,
+              "id": 0
+            }
+          ],
+          "categoria": "CINE",
+          "id": 1,
+          "nombre": "Avatar"
+        },
+        {
+          "descripcion": "pelicula con tom hanks",
+          "funciones": [
+            {
+              "fechayHora": "2025-12-25T20:30",
+              "recinto": {
+                "sectores": [
+                  {
+                    "tieneAsientos": true,
+                    "asientos": [
+                      {
+                        "numero": 0,
+                        "id": 50,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 1,
+                        "id": 51,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 2,
+                        "id": 52,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 3,
+                        "id": 53,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 4,
+                        "id": 54,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 5,
+                        "id": 55,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 6,
+                        "id": 56,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 7,
+                        "id": 57,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 8,
+                        "id": 58,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 9,
+                        "id": 59,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 10,
+                        "id": 60,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 11,
+                        "id": 61,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 12,
+                        "id": 62,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 13,
+                        "id": 63,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 14,
+                        "id": 64,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 15,
+                        "id": 65,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 16,
+                        "id": 66,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 17,
+                        "id": 67,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 18,
+                        "id": 68,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 19,
+                        "id": 69,
+                        "disponible": true
+                      }
+                    ],
+                    "id": 1,
+                    "valorExtra": 1000,
+                    "nombre": "Vip"
+                  },
+                  {
+                    "tieneAsientos": true,
+                    "asientos": [
+                      {
+                        "numero": 0,
+                        "id": 70,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 1,
+                        "id": 71,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 2,
+                        "id": 72,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 3,
+                        "id": 73,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 4,
+                        "id": 74,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 5,
+                        "id": 75,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 6,
+                        "id": 76,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 7,
+                        "id": 77,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 8,
+                        "id": 78,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 9,
+                        "id": 79,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 10,
+                        "id": 80,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 11,
+                        "id": 81,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 12,
+                        "id": 82,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 13,
+                        "id": 83,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 14,
+                        "id": 84,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 15,
+                        "id": 85,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 16,
+                        "id": 86,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 17,
+                        "id": 87,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 18,
+                        "id": 88,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 19,
+                        "id": 89,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 20,
+                        "id": 90,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 21,
+                        "id": 91,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 22,
+                        "id": 92,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 23,
+                        "id": 93,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 24,
+                        "id": 94,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 25,
+                        "id": 95,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 26,
+                        "id": 96,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 27,
+                        "id": 97,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 28,
+                        "id": 98,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 29,
+                        "id": 99,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 30,
+                        "id": 100,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 31,
+                        "id": 101,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 32,
+                        "id": 102,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 33,
+                        "id": 103,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 34,
+                        "id": 104,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 35,
+                        "id": 105,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 36,
+                        "id": 106,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 37,
+                        "id": 107,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 38,
+                        "id": 108,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 39,
+                        "id": 109,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 40,
+                        "id": 110,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 41,
+                        "id": 111,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 42,
+                        "id": 112,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 43,
+                        "id": 113,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 44,
+                        "id": 114,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 45,
+                        "id": 115,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 46,
+                        "id": 116,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 47,
+                        "id": 117,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 48,
+                        "id": 118,
+                        "disponible": true
+                      },
+                      {
+                        "numero": 49,
+                        "id": 119,
+                        "disponible": true
+                      }
+                    ],
+                    "id": 2,
+                    "valorExtra": 0,
+                    "nombre": "Cine parado"
+                  }
+                ],
+                "direccion": "cordoba",
+                "id": 1,
+                "nombre": "Cinema ambassador",
+                "capacidad": 70
+              },
+              "precioBase": 5000,
+              "id": 1
+            }
+          ],
+          "categoria": "CINE",
+          "id": 2,
+          "nombre": "La milla verde"
+        }
+      ],
+      "email": "org@nizador.com",
+      "activo": true
+    },
+    {
+      "contrasenia": "vendedor123",
+      "ticketsVendidos": [],
+      "id": 2,
+      "nombre": "vendedor",
+      "email": "vended@r.com",
+      "activo": true
+    }
+  ]
+}

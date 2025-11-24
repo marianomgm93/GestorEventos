@@ -1,5 +1,6 @@
 package service;
 
+import Utilidades.UtilidadesGenerales;
 import Utilidades.Validacion;
 import exceptions.*;
 import model.*;
@@ -60,56 +61,57 @@ public class OrganizadorService {
             System.out.println(e.getMessage());
         }
     }
-/*
-    public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
-        boolean flag = false;
-        int eventoId;
-        Evento evento;
-        do {
-            System.out.println("Ingrese id del evento");
-            eventoId = Validacion.validarEntero(sc);
-            evento = boleteria.getEventos().buscarElementoId(eventoId);
-            if (evento != null) {
-                flag = true;
+
+    /*
+        public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
+            boolean flag = false;
+            int eventoId;
+            Evento evento;
+            do {
+                System.out.println("Ingrese id del evento");
+                eventoId = Validacion.validarEntero(sc);
+                evento = boleteria.getEventos().buscarElementoId(eventoId);
+                if (evento != null) {
+                    flag = true;
+                }
+            } while (!flag);
+
+            System.out.println("Ingrese nombre del evento");
+            String nombre = sc.nextLine();
+            System.out.println("Ingrese una descripcion breve");
+            String descripcion = sc.nextLine();
+            int opcion = 0;
+            Categoria categoria = Categoria.CINE;
+            do {
+                System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
+
+                opcion = Validacion.validarEntero(sc);
+
+            } while (opcion < 1 || opcion > 5);
+            switch (opcion) {
+                case 1:
+                    categoria = Categoria.CINE;
+                    break;
+                case 2:
+                    categoria = Categoria.CONCIERTO;
+                    break;
+                case 3:
+                    categoria = Categoria.TEATRO;
+                    break;
+                case 4:
+                    categoria = Categoria.STAND_UP;
+                    break;
+                case 5:
+                    categoria = Categoria.PARTIDO;
+                    break;
             }
-        } while (!flag);
 
-        System.out.println("Ingrese nombre del evento");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese una descripcion breve");
-        String descripcion = sc.nextLine();
-        int opcion = 0;
-        Categoria categoria = Categoria.CINE;
-        do {
-            System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
-
-            opcion = Validacion.validarEntero(sc);
-
-        } while (opcion < 1 || opcion > 5);
-        switch (opcion) {
-            case 1:
-                categoria = Categoria.CINE;
-                break;
-            case 2:
-                categoria = Categoria.CONCIERTO;
-                break;
-            case 3:
-                categoria = Categoria.TEATRO;
-                break;
-            case 4:
-                categoria = Categoria.STAND_UP;
-                break;
-            case 5:
-                categoria = Categoria.PARTIDO;
-                break;
+            evento.setNombre(nombre);
+            evento.setCategoria(categoria);
+            evento.setDescripcion(descripcion);
+            boleteria.guardarBoleteria(archivo);
         }
-
-        evento.setNombre(nombre);
-        evento.setCategoria(categoria);
-        evento.setDescripcion(descripcion);
-        boleteria.guardarBoleteria(archivo);
-    }
-*/
+    */
     public void agregarFuncion(Scanner sc, Organizador organizador, String archivo, Boleteria boleteria) {
         LocalDateTime fechayHora;
         double precio = 0;
@@ -148,9 +150,12 @@ public class OrganizadorService {
             } while (!flag);
             Recinto recinto = nuevoRecinto(sc);
             Funcion funcion = new Funcion(fechayHora, recinto, precio);
-            evento.getFunciones().add(funcion);
-            System.out.println("La funcion se creó correctamente");
-            boleteria.guardarBoleteria(archivo);
+                if (Validacion.validarFuncion(boleteria, funcion)) {
+                    evento.getFunciones().add(funcion);
+                    System.out.println("La funcion se creó correctamente");
+                    boleteria.guardarBoleteria(archivo);
+                }else System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha");
+
         } else {
             System.out.println("Debes tener eventos creados para agregar nuevas funciones");
         }
@@ -343,7 +348,7 @@ public class OrganizadorService {
         flag = false;
         System.out.println("Funciones:");
         for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
+            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
         }
         System.out.println(sb);

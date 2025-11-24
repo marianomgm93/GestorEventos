@@ -56,9 +56,9 @@ comprar dos veces mismo asiento
 sleccionar sector antes de mostrar asientos
 al ver usuarios mostrar activo embellecido
 fixear ver usuarios inactivos
-validar recintos en fechas(que no se superpongan)--
-problema usuarios con mismo id--
-Guardar recintos y poder seleccionarlos--
+validar recintos en fechas(que no se superpongan)
+problema usuarios con mismo id--+
+Guardar recintos y poder seleccionarlos--?
 cambiar formato de la fecha en ver funciones menu organizador--
 Validar que el nuevo ticket no permita elegir eventos sin funciones disponibles--
 

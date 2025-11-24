@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Funcion {
 
@@ -132,12 +133,20 @@ public class Funcion {
         for (Sector s: this.recinto.getSectores()){
                 sb.append("\nSector: ").append(s.getId()).append("\t").append(s.getNombre());
                 disponibilidad=s.getAsientosDisponibles().size();
-                sb.append("\tDisponibilidad: ").append(disponibilidad).append("/").append(s.getAsientos().size());
+                sb.append("\tDisponibilidad: ").append(disponibilidad).append("/").append(s.getAsientosDisponibles().size());
             }
 
         return sb.toString();
     }
 
+    public int cantidadAsientosDisponibles(){
+        int disponibilidad=0;
+        for (Sector s: this.recinto.getSectores()){
+            disponibilidad+=s.getAsientosDisponibles().size();
+        }
+
+        return disponibilidad;
+    }
     public Sector buscarSectorPorId(int id) throws ElementoNoEncontradoException{
         for(Sector s: this.recinto.getSectores()){
             if(s.getId()==id) return s;
@@ -154,6 +163,17 @@ public class Funcion {
 
     public void setPrecioBase(double precioBase) {
         this.precioBase = precioBase;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Funcion funcion)) return false;
+        return Objects.equals(fechayHora, funcion.fechayHora) && Objects.equals(recinto, funcion.recinto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fechayHora, recinto);
     }
 
     /**

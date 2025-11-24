@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Recinto {
     private static int totalRecintos;
@@ -171,6 +172,17 @@ public class Recinto {
      */
     public void setSectores(ArrayList<Sector> sectores) {
         this.sectores = sectores;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Recinto recinto)) return false;
+        return this.nombre.equalsIgnoreCase(recinto.nombre) && this.direccion.equalsIgnoreCase(recinto.direccion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, direccion);
     }
 
     /**

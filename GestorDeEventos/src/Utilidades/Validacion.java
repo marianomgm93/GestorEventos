@@ -1,10 +1,9 @@
 package Utilidades;
 
-import exceptions.ContraseniaInvalidaException;
-import exceptions.EmailInvalidoException;
-import exceptions.NumeroInvalidoException;
-import exceptions.UsuarioInvalidoException;
+import exceptions.*;
 import model.Boleteria;
+import model.Evento;
+import model.Funcion;
 import model.Usuario;
 
 import java.time.LocalDateTime;
@@ -188,6 +187,21 @@ public class Validacion {
         }
         }while(!flag);
         return precio;
+    }
+
+    /**
+     * Retorna verdadero si no existe una funcion en el mismo recinto a la misma hora
+     * @param boleteria
+     * @param funcion
+     * @return
+     */
+    public static boolean validarFuncion(Boleteria boleteria, Funcion funcion){
+        for(Evento e : boleteria.getEventos().getElementos()){
+            if(e.getFunciones().contains(funcion)){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
