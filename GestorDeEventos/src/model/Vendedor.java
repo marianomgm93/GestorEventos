@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Vendedor extends Usuario {
-
-    /**
-     * Lista de los {@link Ticket}s que han sido vendidos por este vendedor.
-     */
     private ArrayList<Ticket> ticketsVendidos;
 
     /**

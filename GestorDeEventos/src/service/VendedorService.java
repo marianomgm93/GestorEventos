@@ -53,13 +53,12 @@ public class VendedorService {
         sb.setLength(0);
 
         flag = false;
-        System.out.println("////////////////////////////////////////////////");
-        System.out.println("Funciones:");
+        sb.append("\n////////////////////////////////////////////////");
+        sb.append("\nFunciones:");
         for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
-
+            sb.append("\nid: ").append(f.getId()).append("\tFecha: ").append(f.getFechayHora()).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
         }
-        System.out.println("////////////////////////////////////////////////");
+        sb.append("\n////////////////////////////////////////////////");
 
         int funcionId;
         Funcion funcion = null;

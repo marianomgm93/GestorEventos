@@ -11,38 +11,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Recinto {
-
-    /**
-     * Contador estático para llevar el registro del número total de recintos
-     * creados y asignar un ID único.
-     */
     private static int totalRecintos;
-
-    /**
-     * Identificador único del recinto.
-     */
     private int id;
-
-    /**
-     * Nombre del recinto.
-     */
     private String nombre;
-
-    /**
-     * Dirección física del recinto.
-     */
     private String direccion;
-
-    /**
-     * Capacidad máxima total de personas que puede albergar el recinto.
-     */
     private int capacidad;
-
-    /**
-     * Lista de los diferentes sectores o áreas dentro del recinto.
-     *
-     * @see Sector
-     */
     private ArrayList<Sector> sectores;
 
     /**
