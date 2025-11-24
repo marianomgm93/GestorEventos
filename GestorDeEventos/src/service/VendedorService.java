@@ -30,12 +30,12 @@ public class VendedorService {
         StringBuilder sb = new StringBuilder();
         String capturar;
         ArrayList<Evento> eventos = boleteria.getEventos().getElementos();
-        System.out.println("////////////////////////////////////////////////");
         System.out.println("Eventos:");
+        System.out.println("////////////////////////////////////////////////");
         for (Evento e : eventos) {
             sb.append("id: ").append(e.getId()).append("\t Nombre: ").append(e.getNombre()).append("\n");
         }
-        System.out.println("////////////////////////////////////////////////");
+        sb.append("////////////////////////////////////////////////");
         boolean flag = false;
         int eventoId;
         Evento evento = null;
@@ -77,62 +77,58 @@ public class VendedorService {
         flag = false;
         Asiento asiento = null;
         Sector sector = null;
-        int asientoId;
         System.out.println("////////////////////////////////////////////////");
         System.out.println(funcion.asientosDisponibles());
         System.out.println("////////////////////////////////////////////////");
-        do{
+        do {
 
-        System.out.println("Ingrese el numero del sector o \"S\" para salir");
-        capturar = sc.nextLine();
-        if (!capturar.equalsIgnoreCase("s")) {
-            for (Sector s : funcion.getRecinto().getSectores()) {
-                if (("" + s.getId()).equals(capturar)) {
-                    sector = s;
-                    flag = true;
+            System.out.println("Ingrese el numero del sector o \"S\" para salir");
+            capturar = sc.nextLine();
+            if (!capturar.equalsIgnoreCase("s")) {
+                for (Sector s : funcion.getRecinto().getSectores()) {
+                    if (("" + s.getId()).equals(capturar)) {
+                        sector = s;
+                        flag = true;
+                    }
                 }
-            }
 
-        }else flag=true;
-            if(!flag) System.out.println("Debe ingresar un sector valido");
-        }while(!flag);
-        flag=false;
-        if(sector!=null && sector.isTieneAsientos()){
+            } else flag = true;
+            if (!flag) System.out.println("Debe ingresar un sector valido");
+        } while (!flag);
+        flag = false;
+        if (sector != null && sector.isTieneAsientos()) {
 
             do {
 
-                sector.verAsientosDisponibles();
+                System.out.println(sector.verAsientosDisponibles());
                 System.out.println("Ingrese el numero del asiento o \"S\" para salir");
-                capturar=sc.nextLine();
-                if(!capturar.equalsIgnoreCase("s")){
-                    //TODO cambiar por capturar en string
+                capturar = sc.nextLine();
+                if (!capturar.equalsIgnoreCase("s")) {
                     for (Asiento a : sector.getAsientos()) {
-                        if ((a.getId() == asientoId) && a.isDisponible()) {
+                        if (("" + a.getId()).equals(capturar) && a.isDisponible()) {
                             asiento = a;
                             flag = true;
                         }
                     }
 
-                if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
-                }else {
-                    flag=true;
+                    if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+                } else {
+                    flag = true;
                     System.out.println("...Saliendo...");
                 }
 
             } while (!flag);
-            if(asiento!=null){
-            Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), funcionId, sector.getId(), evento.getNombre(), funcion.getFechayHora().toString(), funcion.getPrecioBase() + sector.getValorExtra());
-            asiento.setDisponible(false);
-            vendedor.getTicketsVendidos().add(ticket);
-            boleteria.getVendidos().add(ticket);
-            boleteria.guardarBoleteria(archivo);
-            System.out.println("El ticket se generó correctamente");
+            if (asiento != null) {
+                Ticket ticket = new Ticket(funcion.getRecinto().getDireccion(), asiento.getNumero(), evento.getId(), funcionId, sector.getId(), evento.getNombre(), funcion.getFechayHora().toString(), funcion.getPrecioBase() + sector.getValorExtra());
+                asiento.setDisponible(false);
+                vendedor.getTicketsVendidos().add(ticket);
+                boleteria.getVendidos().add(ticket);
+                boleteria.guardarBoleteria(archivo);
+                System.out.println("El ticket se generó correctamente");
 
             }
-        } else if(sector==null) {
+        } else {
             System.out.println("Volviendo al menu anterior...");
-        }else{
-
         }
     }
 
@@ -232,9 +228,10 @@ public class VendedorService {
         for (Ticket t : v.getTicketsVendidos()) {
             sb.append("\nId:").append(t.getId()).append("\tEvento: ").append(t.getNombreEvento())
                     .append("\tFecha funcion: ").append(t.getFechaYHora())
-                    .append("\nPrecio: ").append(t.getPrecio());
+                    .append("\tPrecio: ").append(t.getPrecio())
+                    .append("\tSector: ").append(boleteria.getEventos().buscarElementoId(t.getSectorId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).getNombre());
             if (boleteria.getEventos().buscarElementoId(t.getEventoId()).buscarFuncionPorId(t.getFuncionId()).buscarSectorPorId(t.getSectorId()).isTieneAsientos()) {
-                sb.append("Asiento: ").append(t.getAsiento());
+                sb.append("\tAsiento: ").append(t.getAsiento());
             }
         }
         System.out.println(sb);

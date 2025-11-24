@@ -79,16 +79,16 @@ public class Menu {
             System.out.println(e.getMessage());
 
         }
-        if(flag){
-        if (usuario instanceof Vendedor) {
-            menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
-        } else if (usuario instanceof Organizador) {
-            menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
-        } else if (usuario instanceof Administrador) {
-            menuAdministrador(boleteria, sc, (Administrador) usuario, archivo);
-        }
+        if (flag && usuario.isActivo()) {
+            if (usuario instanceof Vendedor) {
+                menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
+            } else if (usuario instanceof Organizador) {
+                menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
+            } else if (usuario instanceof Administrador) {
+                menuAdministrador(boleteria, sc, (Administrador) usuario, archivo);
+            }
 
-        }
+        }else System.out.println("No fue posible iniciar sesion");
     }
 
     public void menuVendedor(Scanner sc, Boleteria b, Vendedor vendedor, String archivo) {
@@ -155,7 +155,7 @@ public class Menu {
                     os.verMisEventos(organizador);
                     break;
                 case "5":
-                    os.verMisFunciones(sc,organizador);
+                    os.verMisFunciones(sc, organizador);
                     break;
                 default:
                     System.out.println("Opcion invalida");
@@ -164,39 +164,43 @@ public class Menu {
         } while (flag);
     }
 
-    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin,String archivo) {
-        boolean flag=false;
-        AdministradorService as= new AdministradorService();
+    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin, String archivo) {
+        boolean flag = false;
+        AdministradorService as = new AdministradorService();
         do {
             System.out.println("============ Panel Administracion ============");
 
             System.out.println("Seleccione una de las siguientes opciones:\n" +
                     "0\tSalir\n" +
                     "1\tVer todos los usuarios\n" +
-                    "2\tEliminar usuario\n" +
-                    "3\tVer usuarios activos\n" +
-                    "4\tVer usuarios inactivos\n");
+                    "2\tBloquear usuario\n" +
+                    "3\tDesbloquear usuario\n" +
+                    "4\tVer usuarios activos\n" +
+                    "5\tVer usuarios inactivos\n");
             int option = Validacion.validarEntero(sc);
-            switch (option){
+            switch (option) {
                 case 0:
-                    flag=true;
+                    flag = true;
                     break;
                 case 1:
                     System.out.println(as.verUsuarios(boleteria));
                     break;
                 case 2:
-                    as.eliminarUsuario(sc,boleteria,archivo);
+                    as.eliminarUsuario(sc, boleteria, archivo);
                     break;
                 case 3:
-                    as.verUsuariosActivos(boleteria);
+                    as.deseliminarUsuario(sc, boleteria, archivo);
                     break;
                 case 4:
+                    as.verUsuariosActivos(boleteria);
+                    break;
+                case 5:
                     as.verUsuariosInactivos(boleteria);
                     break;
                 default:
                     System.out.println("El numero ingresado es invalido");
             }
-        }while(!flag);
+        } while (!flag);
 
     }
 }

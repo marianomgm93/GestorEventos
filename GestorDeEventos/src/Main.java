@@ -37,11 +37,11 @@ public class Main {
         }catch (Exception e){
             System.out.println("La carga de datos falló");
         }
-
 /*
+
         Administrador adm=new Administrador(0,"admin","admin","admin");
         boleteria.getUsuarios().getElementos().add(adm);
- */
+*/
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }

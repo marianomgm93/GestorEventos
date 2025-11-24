@@ -42,7 +42,6 @@ public class Funcion {
      */
     public Funcion(JSONObject o){
         this.id=o.getInt("id");
-        totalFunciones++;
         this.fechayHora=LocalDateTime.parse(o.getString("fechayHora"));
         this.recinto=new Recinto(o.getJSONObject("recinto"));
         this.precioBase=o.getDouble("precioBase");
@@ -80,6 +79,9 @@ public class Funcion {
         this.id = id;
     }
 
+    public static void setTotalFunciones(int totalFunciones) {
+        Funcion.totalFunciones = totalFunciones;
+    }
 
     /**
      * Obtiene el recinto asociado a esta función.

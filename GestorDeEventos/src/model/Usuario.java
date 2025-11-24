@@ -49,7 +49,6 @@ public abstract class Usuario implements ID {
         this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
-        totalUsuarios++;
         this.activo=activo;
     }
 
@@ -69,6 +68,10 @@ public abstract class Usuario implements ID {
      */
     public int getId() {
         return id;
+    }
+
+    public static void setTotalUsuarios(int totalUsuarios) {
+        Usuario.totalUsuarios = totalUsuarios;
     }
 
     /**

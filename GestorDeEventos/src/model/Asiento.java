@@ -36,7 +36,6 @@ public class Asiento {
      */
     public Asiento(JSONObject o) {
         this.id= o.getInt("id");
-        totalAsientos++;
         this.numero = o.getInt("numero");
         this.disponible = o.getBoolean("disponible");
     }
@@ -70,6 +69,10 @@ public class Asiento {
      */
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public static void setTotalAsientos(int totalAsientos) {
+        Asiento.totalAsientos = totalAsientos;
     }
 
     /**

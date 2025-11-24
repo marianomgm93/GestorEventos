@@ -60,7 +60,7 @@ public class OrganizadorService {
             System.out.println(e.getMessage());
         }
     }
-
+/*
     public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
         boolean flag = false;
         int eventoId;
@@ -109,7 +109,7 @@ public class OrganizadorService {
         evento.setDescripcion(descripcion);
         boleteria.guardarBoleteria(archivo);
     }
-
+*/
     public void agregarFuncion(Scanner sc, Organizador organizador, String archivo, Boleteria boleteria) {
         LocalDateTime fechayHora;
         double precio = 0;
@@ -245,7 +245,7 @@ public class OrganizadorService {
             }
         } while (!flagEmail);
         do {
-            System.out.println("ingrese contrasenia");
+            System.out.println("ingrese contrasenia (Debe tener al menos 8 caracteres, una letra y un numero)");
             contrasenia = sc.nextLine();
             try {
                 flagContrasenia = Validacion.validarContrasena(contrasenia);

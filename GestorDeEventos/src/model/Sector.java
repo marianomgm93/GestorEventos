@@ -36,7 +36,6 @@ public class Sector {
 
     public Sector(JSONObject o) {
         this.id = o.getInt("id");
-        totalSectores++;
         this.nombre = o.getString("nombre");
         this.tieneAsientos = o.getBoolean("tieneAsientos");
         this.valorExtra = o.getDouble("valorExtra");
@@ -75,13 +74,17 @@ public class Sector {
     public String verAsientosDisponibles() {
         StringBuilder sb = new StringBuilder();
         if (this.isTieneAsientos()) {
-            sb.append("/////////// Asientos disponibles ///////////");
+            sb.append("/////////// Asientos disponibles ///////////\n");
             for (Asiento a : this.asientos) {
                 if (a.isDisponible()) sb.append("[ ").append(a.getId()).append(" ]").append("\t");
             }
-            sb.append("/////////// Fin Asientos disponibles ///////////");
+            sb.append("\n/////////// Fin Asientos disponibles ///////////");
         }
         return sb.toString();
+    }
+
+    public static void setTotalSectores(int totalSectores) {
+        Sector.totalSectores = totalSectores;
     }
 
     public void reservarPrimeroDisponible(){

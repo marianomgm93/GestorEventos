@@ -62,6 +62,7 @@ public class Boleteria {
         for (int i = 0; i < jVendidos.length(); i++) {
             this.vendidos.add(new Ticket(jVendidos.getJSONObject(i)));
         }
+        actualizarContadores();
     }
 
     public JSONObject toJSON() {
@@ -148,15 +149,17 @@ public class Boleteria {
         }
         return sb.toString();
     }
-    public ArrayList<Usuario> getUsuariosActivos(){
-        ArrayList<Usuario> usuariosActivos=new ArrayList<>();
+
+    public ArrayList<Usuario> getUsuariosActivos() {
+        ArrayList<Usuario> usuariosActivos = new ArrayList<>();
         for (Usuario u : usuarios.getElementos()) {
             if (u.isActivo()) usuariosActivos.add(u);
         }
         return usuariosActivos;
     }
-    public ArrayList<Usuario> getUsuariosInactivos(){
-        ArrayList<Usuario> usuariosInactivos=new ArrayList<>();
+
+    public ArrayList<Usuario> getUsuariosInactivos() {
+        ArrayList<Usuario> usuariosInactivos = new ArrayList<>();
         for (Usuario u : usuarios.getElementos()) {
             if (!u.isActivo()) usuariosInactivos.add(u);
         }
@@ -169,24 +172,27 @@ public class Boleteria {
             if (u.isActivo()) {
                 sb.append("ID: ").append(u.getId()).append("\tNombre: ").append(u.getNombre())
                         .append("\tEmail: ").append(u.getEmail()).append("\tTipo: ").append(u.getClass().getSimpleName())
-                        .append("\tActivo: ").append(u.isActivo()).append("\n");
+                        .append("\tActivo: ").append((u.isActivo()) ? "Si" : "No").append("\n");
             }
         }
 
         return sb.toString();
     }
+
     public String mostrarUsuariosInactivos() {
         StringBuilder sb = new StringBuilder();
         for (Usuario u : getUsuariosInactivos()) {
-            if (u.isActivo()) {
+            if (!u.isActivo()) {
                 sb.append("ID: ").append(u.getId()).append("\tNombre: ").append(u.getNombre())
                         .append("\tEmail: ").append(u.getEmail()).append("\tTipo: ").append(u.getClass().getSimpleName())
-                        .append("\tActivo: ").append(u.isActivo()).append("\n");;
+                        .append("\tActivo: ").append(u.isActivo()).append("\n");
+                ;
             }
         }
 
         return sb.toString();
     }
+
     public Usuario buscarPorEmail(String email) throws UsuarioInvalidoException {
         boolean flag = false;
         Usuario usuario = null;
@@ -199,6 +205,41 @@ public class Boleteria {
         if (!flag) throw new UsuarioInvalidoException("No hay ningun usuario registrado con ese email");
 
         return usuario;
+    }
+
+    private void actualizarContadores() {
+        int maxEventoId = -1;
+        int maxFuncionId = -1;
+        int maxUsuarioId = -1;
+        int maxRecintoId = -1;
+        int maxSectorId = -1;
+        int maxAsientoId = -1;
+
+        for (Usuario u : usuarios.getElementos()) {
+            if (u.getId() > maxUsuarioId) maxUsuarioId = u.getId();
+        }
+
+        for (Evento e : eventos.getElementos()) {
+            if (e.getId() > maxEventoId) maxEventoId = e.getId();
+            for (Funcion f : e.getFunciones()) {
+                if (f.getId() > maxFuncionId) maxFuncionId = f.getId();
+                if (f.getRecinto().getId() > maxRecintoId) maxRecintoId = f.getRecinto().getId();
+                for (Sector s : f.getRecinto().getSectores()) {
+                    if (s.getId() > maxSectorId) maxSectorId = s.getId();
+                    for (Asiento a : s.getAsientos()) {
+                        if (a.getId() > maxAsientoId) maxAsientoId = a.getId();
+                    }
+                }
+            }
+        }
+
+
+        Usuario.setTotalUsuarios(maxUsuarioId + 1);
+        Evento.setTotalEventos(maxEventoId + 1);
+        Funcion.setTotalFunciones(maxFuncionId + 1);
+        Recinto.setTotalRecintos(maxRecintoId + 1);
+        Sector.setTotalSectores(maxSectorId + 1);
+        Asiento.setTotalAsientos(maxAsientoId + 1);
     }
 
 }

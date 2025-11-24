@@ -84,7 +84,6 @@ public class Recinto {
      */
     public Recinto(JSONObject o) {
         this.id = o.getInt("id");
-        totalRecintos++;
         this.nombre = o.getString("nombre");
         this.direccion = o.getString("direccion");
         this.capacidad = o.getInt("capacidad");
@@ -94,6 +93,10 @@ public class Recinto {
         for (int i = 0; i < jarr.length(); i++) {
             sectores.add(new Sector(jarr.getJSONObject(i)));
         }
+    }
+
+    public static void setTotalRecintos(int totalRecintos) {
+        Recinto.totalRecintos = totalRecintos;
     }
 
     /**
