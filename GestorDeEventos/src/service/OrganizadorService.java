@@ -150,11 +150,11 @@ public class OrganizadorService {
             } while (!flag);
             Recinto recinto = nuevoRecinto(sc);
             Funcion funcion = new Funcion(fechayHora, recinto, precio);
-                if (Validacion.validarFuncion(boleteria, funcion)) {
-                    evento.getFunciones().add(funcion);
-                    System.out.println("La funcion se creó correctamente");
-                    boleteria.guardarBoleteria(archivo);
-                }else System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha");
+            if (Validacion.validarFuncion(boleteria, funcion)) {
+                evento.getFunciones().add(funcion);
+                System.out.println("La funcion se creó correctamente");
+                boleteria.guardarBoleteria(archivo);
+            } else System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha");
 
         } else {
             System.out.println("Debes tener eventos creados para agregar nuevas funciones");
@@ -178,22 +178,8 @@ public class OrganizadorService {
         int cantidadSectores = 0;
         double extra = 0;
         boolean tieneAsientos = false;
-        boolean flag = false;
-        do {
-            System.out.println("Ingrese la cantidad de sectores que desea agregar(entre 1 y 6)");
-            try {
-                cantidadSectores = sc.nextInt();
-                sc.nextLine();
-                if (cantidadSectores > 0 && cantidadSectores < 7) {
-                    flag = true;
-                } else throw new NumeroInvalidoException("El valor debe estar entre 1 y 6");
-            } catch (InputMismatchException e) {
-                System.out.println("Debe ingresar un numero entero");
-                sc.nextLine();
-            } catch (NumeroInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (!flag);
+
+        cantidadSectores = Validacion.validarEntero(sc, "Ingrese la cantidad de sectores que desea agregar (1 - 6): ", 1, 6);
         ArrayList<Sector> sectores = new ArrayList<>();
         String nombre;
         String option;
@@ -201,7 +187,6 @@ public class OrganizadorService {
         for (int i = 0; i < cantidadSectores; i++) {
             System.out.println("Ingrese nombre del sector: " + (i + 1));
             nombre = sc.nextLine();
-            flag = false;
             extra = Validacion.validarPrecio(sc, "Ingrese un valor agregado para este sector");
             System.out.println("El sector tiene asientos? S/N");
             option = sc.nextLine();
@@ -212,18 +197,7 @@ public class OrganizadorService {
             } else {
                 mensajeLugar = "capacidad";
             }
-            System.out.println("Ingrese la " + mensajeLugar + " del sector: " + (i + 1));
-            do {
-
-                try {
-                    cantidadAsientos = sc.nextInt();
-                    sc.nextLine();
-                    flag = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Debe ingresar un numero entero");
-                    sc.nextLine();
-                }
-            } while (!flag);
+            cantidadAsientos = Validacion.validarEntero(sc, ("Ingrese la " + mensajeLugar + " del sector "+ (i + 1)) + "(1-200): ", 1, 200);
             ArrayList<Asiento> asientos = new ArrayList<>();
             for (int j = 0; j < cantidadAsientos; j++) {
                 asientos.add(new Asiento(j));
