@@ -299,7 +299,7 @@ public class OrganizadorService {
         }
         System.out.println(sb);
     }
-
+//TODO FIXEAR LOOP INFINITO
     public void verMisFunciones(Scanner sc, Organizador o) {
         StringBuilder sb = new StringBuilder();
         verMisEventos(o);
