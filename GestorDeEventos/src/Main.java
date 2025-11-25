@@ -59,7 +59,7 @@ fixear ver usuarios inactivos
 validar recintos en fechas(que no se superpongan)
 problema usuarios con mismo id--+
 Guardar recintos y poder seleccionarlos--?
-cambiar formato de la fecha en ver funciones menu organizador--
-Validar que el nuevo ticket no permita elegir eventos sin funciones disponibles--
+cambiar formato de la fecha en ver funciones menu organizador
+Validar que el nuevo ticket no permita elegir eventos sin funciones disponibles
 
  */

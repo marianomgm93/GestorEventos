@@ -197,7 +197,7 @@ public class OrganizadorService {
             } else {
                 mensajeLugar = "capacidad";
             }
-            cantidadAsientos = Validacion.validarEntero(sc, ("Ingrese la " + mensajeLugar + " del sector "+ (i + 1)) + "(1-200): ", 1, 200);
+            cantidadAsientos = Validacion.validarEntero(sc, ("Ingrese la " + mensajeLugar + " del sector " + (i + 1)) + "(1-200): ", 1, 200);
             ArrayList<Asiento> asientos = new ArrayList<>();
             for (int j = 0; j < cantidadAsientos; j++) {
                 asientos.add(new Asiento(j));
@@ -291,40 +291,46 @@ public class OrganizadorService {
 
     public void verMisEventos(Organizador o) {
         StringBuilder sb = new StringBuilder();
-        System.out.println("Estos son tus eventos: ");
+        sb.append("/////////////////////// Eventos Creados ///////////////////////\n");
         sb.append("Total de eventos: ").append(o.getEventosCreados().size());
         for (Evento e : o.getEventosCreados()) {
             sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
                     .append("\tFunciones disponibles: ").append(e.getFunciones().size());
         }
+        sb.append("\n/////////////////////// Fin eventos creados ///////////////////////");
         System.out.println(sb);
     }
-//TODO FIXEAR LOOP INFINITO
+
     public void verMisFunciones(Scanner sc, Organizador o) {
         StringBuilder sb = new StringBuilder();
         verMisEventos(o);
         boolean flag = false;
-        int eventoId;
+        String eventoId;
         Evento evento = null;
         do {
-            System.out.println(sb);
-            eventoId = Validacion.validarEntero(sc, "Ingrese id del evento");
-            for (Evento e : o.getEventosCreados()) {
-                if (e.getId() == eventoId) {
-                    evento = e;
-                    flag = true;
+            System.out.println("Ingrese el id del evento o \"S\" para salir");
+            eventoId = sc.nextLine();
+            if (!eventoId.equalsIgnoreCase("s")) {
+                for (Evento e : o.getEventosCreados()) {
+                    if (("" + e.getId()).equalsIgnoreCase(eventoId)) {
+                        evento = e;
+                        flag = true;
+                    }
                 }
+            }else {
+                System.out.println("...Saliendo...");
             }
-            if (!flag) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
-        } while (!flag);
+            if (!flag && !eventoId.equalsIgnoreCase("s")) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
+        } while (!flag && !eventoId.equalsIgnoreCase("s"));
         sb.setLength(0);
+        if(!eventoId.equalsIgnoreCase("s")){
+            sb.append("/////////////////////// Funciones ///////////////////////\n");
+            for (Funcion f : evento.getFunciones()) {
+                sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
 
-        flag = false;
-        System.out.println("Funciones:");
-        for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
-
+            }
+            sb.append("\n/////////////////////// Eventos Creados ///////////////////////");
+            System.out.println(sb);
         }
-        System.out.println(sb);
     }
 }

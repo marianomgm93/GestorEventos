@@ -10,21 +10,14 @@ public class UtilidadesGenerales {
         if (fecha == null) {
             return "";
         }
-
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                // Día del mes sin cero a la izquierda
                 .appendPattern("d")
-                // Espacio
                 .appendLiteral(" ")
-                // Mes en texto abreviado (ene, feb, mar...)
                 .appendPattern("MMM")
-                // Año completo
                 .appendPattern(" yyyy")
-                // Separador de fecha y hora
                 .appendLiteral(", ")
-                // Hora y minutos con dos dígitos
                 .appendPattern("HH:mm")
-                .toFormatter(new Locale("es", "ES")); // Importante: locale español
+                .toFormatter(new Locale("es", "ES"));
 
         return fecha.format(formatter);
     }
