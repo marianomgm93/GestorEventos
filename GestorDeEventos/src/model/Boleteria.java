@@ -22,7 +22,7 @@ public class Boleteria {
     public ArrayList<Ticket> getVendidos() { return vendidos; }
 
     // ====================== CARGA DESDE JSON ======================
-    public void fromJSON(String archivo) {
+    public void fromJSON(String archivo) throws Exception{
         JSONObject o = new JSONObject(JSONUtiles.downloadJSON(archivo));
         this.usuarios = new Lista<>();
         this.eventos = new Lista<>();

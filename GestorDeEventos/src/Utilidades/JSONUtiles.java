@@ -30,7 +30,7 @@ public class JSONUtiles {
         }
     }
 
-    public static String downloadJSON(String archive) {
+    public static String downloadJSON(String archive) throws Exception{
         StringBuilder contenido = new StringBuilder();
         String lectura = "";
         try {
@@ -40,7 +40,7 @@ public class JSONUtiles {
             }
             entrada.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new Exception("No fue posible cargar el archivo");
         }
 
 

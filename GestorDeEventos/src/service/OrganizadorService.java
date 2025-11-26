@@ -4,6 +4,7 @@ import Utilidades.UtilidadesGenerales;
 import Utilidades.Validacion;
 import exceptions.*;
 import model.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -283,7 +284,8 @@ public class OrganizadorService {
         int activos = 0, inactivos = 0;
         for (Evento e : o.getEventosCreados()) {
             String estado = e.isActivo() ? "ACTIVO   " : "INACTIVO";
-            if (e.isActivo()) activos++; else inactivos++;
+            if (e.isActivo()) activos++;
+            else inactivos++;
             System.out.printf("%s | ID %-4d: %-30s | %-12s | Funciones: %d%n",
                     estado, e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size());
         }
@@ -335,6 +337,7 @@ public class OrganizadorService {
         }
         System.out.println(LINEA);
     }
+
     public void darDeBajaEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         if (organizador.getEventosCreados().isEmpty()) {
             System.out.println("No tienes eventos creados.");
@@ -378,6 +381,9 @@ public class OrganizadorService {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ingrese un número válido.");
+            } catch (ElementoNoEncontradoException e) {
+                System.out.println("ID inválido o ya dado de baja.");
+
             }
         } while (evento == null);
 
@@ -403,7 +409,7 @@ public class OrganizadorService {
             System.out.println("Evento \"" + evento.getNombre() + "\" dado de baja correctamente.");
         }
         System.out.println(LINEA);
-}
+    }
 
     public void reactivarEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         if (organizador.getEventosCreados().isEmpty()) {
