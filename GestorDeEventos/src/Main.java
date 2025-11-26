@@ -1,57 +1,67 @@
 import model.*;
 import service.Menu;
-import service.OrganizadorService;
-import service.VendedorService;
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        String archivo="GestorDeEventos\\src\\boleteria.json";
+        String archivo = "GestorDeEventos/src/boleteria.json";
         Boleteria boleteria = new Boleteria();
-     //   OrganizadorService organizadorService=new OrganizadorService();
-        Scanner sc=new Scanner(System.in);
-        Menu menu=new Menu();
-/*
-///        organizadorService.crearOrganizador(sc,boleteria,archivo);
-        Organizador organizador=(Organizador) boleteria.getUsuarios().getElementos().getFirst();
-        organizadorService.nuevoEvento(sc,organizador,boleteria,archivo);
-        System.out.println(organizador.getEventosCreados().getFirst());
-        organizadorService.agregarFuncion(sc,organizador.getEventosCreados().getFirst(),boleteria,archivo);
-        System.out.println(organizador.getEventosCreados().getFirst());
-*/
-/*
-        VendedorService vendedorService=new VendedorService();
-        vendedorService.crearVendedor(sc,boleteria,archivo);
-        Vendedor vendedor= (Vendedor) boleteria.getUsuarios().buscarElementoId(1);
-        vendedorService.nuevoTicket(sc,vendedor,boleteria,archivo);
-        System.out.println(vendedor);
-*/
+        Scanner sc = new Scanner(System.in);
+        Menu menu = new Menu();
 
+        boolean datosCargados = false;
 
-        try{
+        // 1. Intentar cargar desde JSON
+        try {
             boleteria.fromJSON(archivo);
-            System.out.println("Los datos se cargaron correctamente");
-
-        }catch (Exception e){
-            System.out.println("La carga de datos falló");
+            System.out.println("Datos cargados correctamente");
+            datosCargados = true;
+        } catch (Exception e) {
+            System.out.println("No se encontró el archivo JSON o hubo un error al cargar.");
+            System.out.println("Se iniciará con datos por defecto...");
         }
 
+        // 2. Si no se cargó o está vacío crear usuarios base
+        if (!datosCargados || boleteria.getUsuarios().getElementos().isEmpty()) {
+            System.out.println("Creando usuarios predeterminados...");
 
-/*
-        Administrador adm=new Administrador(0,"admin","admin","admin");
-        Organizador organizador= new Organizador(1,"organizador","organizador","organizador",true);
-        Vendedor vendedor=new Vendedor(2,"vendedor","vendedor","vendedor",true);
-        boleteria.getUsuarios().getElementos().add(adm);
-        boleteria.getUsuarios().getElementos().add(organizador);
-        boleteria.getUsuarios().getElementos().add(vendedor);
-        boleteria.guardarBoleteria(archivo);
-*/
+            Administrador admin = new Administrador(0, "admin", "admin@boleteria.com", "admin");
+            Organizador organizador = new Organizador(1, "organizador", "organizador@boleteria.com", "organizador", true);
+            Vendedor vendedor = new Vendedor(2, "vendedor", "vendedor@boleteria.com", "vendedor", true);
 
-        while(true) {
-            menu.inicio(sc,boleteria,archivo);
+            boleteria.getUsuarios().add(admin);
+            boleteria.getUsuarios().add(organizador);
+            boleteria.getUsuarios().add(vendedor);
+            boleteria.actualizarContadores();
+            boleteria.guardarBoleteria(archivo);
+
+            System.out.println("Usuarios predeterminados creados y guardados correctamente.");
+            System.out.println("""
+                    
+                    CREDENCIALES DE ACCESO (para pruebas):
+                    ──────────────────────────────────────────────
+                    → Administrador : admin@boleteria.com     | contraseña: admin
+                    → Organizador   : organizador@boleteria.com | contraseña: organizador
+                    → Vendedor      : vendedor@boleteria.com   | contraseña: vendedor
+                    ──────────────────────────────────────────────
+                    """);
+        } else {
+            // Si se cargó desde JSON  también sincronizar contadores por seguridad
+            boleteria.actualizarContadores();
         }
+
+        System.out.println("""
+            ═══════════════════════════════════════════════════════════
+                         SISTEMA DE BOLETERÍA INICIADO CORRECTAMENTE
+            ═══════════════════════════════════════════════════════════
+            """);
+        // Iniciar menú
+        menu.inicio(sc, boleteria, archivo);
+
+        // Cerrar recursos
+        sc.close();
+        System.out.println("\nSistema finalizado. ¡Gracias por usar Boletería!");
     }
 }
 /*

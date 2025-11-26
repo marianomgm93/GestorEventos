@@ -7,105 +7,118 @@ import model.*;
 import java.util.Scanner;
 
 public class Menu {
+
+    private final OrganizadorService os = new OrganizadorService();
+    private final VendedorService vs = new VendedorService();
+    private final AdministradorService as = new AdministradorService();
+
     public void inicio(Scanner sc, Boleteria boleteria, String archivo) {
-        boolean flag = false;
-        int option;
+        int opcion;
         do {
-            System.out.println("============ Bienvenido ============");
-            System.out.println("1\tRegistrar un nuevo usuario\n2\tIniciar sesion\n");
-            option = Validacion.validarEntero(sc);
-            switch (option) {
+            System.out.println("""
+                    ═══════════════════════════════════════
+                              BIENVENIDO A BOLETERÍA
+                    ═══════════════════════════════════════
+                    1 - Registrar nuevo usuario
+                    2 - Iniciar sesión
+                    0 - Salir del sistema
+                    """);
+            opcion = Validacion.validarEntero(sc, "Seleccione una opción: ");
+
+            switch (opcion) {
                 case 1:
                     menuNuevoUsuario(sc, boleteria, archivo);
                     break;
                 case 2:
                     loginMenu(sc, boleteria, archivo);
                     break;
-                //case 3:
-                //    break;
+                case 0:
+                    System.out.println("¡Gracias por usar el sistema! Hasta pronto.");
+                    break;
                 default:
-                    System.out.println("El numero ingresado es invalido");
+                    System.out.println("Opción inválida. Intente nuevamente.");
                     break;
             }
-
-        } while (!flag);
-
-
+        } while (opcion != 0);
     }
 
-    public void menuNuevoUsuario(Scanner sc, Boleteria boleteria, String archivo) {
-        boolean flag = false;
-        int option;
-        OrganizadorService organizadorService = new OrganizadorService();
-        VendedorService vendedorService = new VendedorService();
+    private void menuNuevoUsuario(Scanner sc, Boleteria boleteria, String archivo) {
+        int opcion;
         do {
-            System.out.println("============ Creacion Usuario ============");
-            System.out.println("0\tAtras\n1\tCrear cuenta de organizador\n2\tCrear cuenta de vendedor");
-            option = Validacion.validarEntero(sc);
-            switch (option) {
-                case 0:
-                    System.out.println("...Saliendo...");
-                    flag = true;
-                    break;
+            System.out.println("""
+                    ═══════════════════════════════════════
+                              CREAR NUEVA CUENTA
+                    ═══════════════════════════════════════
+                    1 - Crear cuenta de Organizador
+                    2 - Crear cuenta de Vendedor
+                    0 - Volver atrás
+                    """);
+            opcion = Validacion.validarEntero(sc, "Seleccione tipo de cuenta: ");
+
+            switch (opcion) {
                 case 1:
-                    organizadorService.crearOrganizador(sc, boleteria, archivo);
+                    os.crearOrganizador(sc, boleteria, archivo);
                     break;
                 case 2:
-                    vendedorService.crearVendedor(sc, boleteria, archivo);
+                    vs.crearVendedor(sc, boleteria, archivo);
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
                     break;
                 default:
-                    System.out.println("La opcion ingresada es incorrecta");
+                    System.out.println("Opción inválida.");
                     break;
             }
-
-        } while (!flag);
-
+        } while (opcion != 0);
     }
 
-    public void loginMenu(Scanner sc, Boleteria boleteria, String archivo) {
-        boolean flag = false;
-        Usuario usuario = null;
-
-        System.out.println("============ Iniciar Sesion ============");
-        System.out.println("ingrese email:");
-        String email = sc.nextLine();
-        System.out.println("ingrese contrasenia:");
+    private void loginMenu(Scanner sc, Boleteria boleteria, String archivo) {
+        System.out.println("════════════════ Iniciar Sesión ════════════════");
+        System.out.print("Email: ");
+        String email = sc.nextLine().trim();
+        System.out.print("Contraseña: ");
         String contrasenia = sc.nextLine();
-        try {
-            usuario = boleteria.buscarPorEmail(email);
-            flag = Validacion.validarUsuario(usuario, contrasenia);
 
+        try {
+            Usuario usuario = boleteria.buscarPorEmail(email);
+            if (Validacion.validarUsuario(usuario, contrasenia)) {
+                if (!usuario.isActivo()) {
+                    System.out.println("Tu cuenta está bloqueada. Contacta al administrador.");
+                    return;
+                }
+
+                System.out.println("¡Bienvenido, " + usuario.getNombre() + "!");
+                if (usuario instanceof Vendedor) {
+                    menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
+                } else if (usuario instanceof Organizador) {
+                    menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
+                } else if (usuario instanceof Administrador) {
+                    menuAdministrador(sc, boleteria, (Administrador) usuario, archivo);
+                }
+            } else {
+                System.out.println("Contraseña incorrecta.");
+            }
         } catch (UsuarioInvalidoException e) {
             System.out.println(e.getMessage());
-
         }
-        if (flag && usuario.isActivo()) {
-            if (usuario instanceof Vendedor) {
-                menuVendedor(sc, boleteria, (Vendedor) usuario, archivo);
-            } else if (usuario instanceof Organizador) {
-                menuOrganizador(sc, boleteria, (Organizador) usuario, archivo);
-            } else if (usuario instanceof Administrador) {
-                menuAdministrador(boleteria, sc, (Administrador) usuario, archivo);
-            }
-
-        }else System.out.println("No fue posible iniciar sesion");
     }
 
-    public void menuVendedor(Scanner sc, Boleteria b, Vendedor vendedor, String archivo) {
-        VendedorService vs = new VendedorService();
-        boolean flag = true;
-        String option;
+    private void menuVendedor(Scanner sc, Boleteria b, Vendedor vendedor, String archivo) {
+        String opcion;
         do {
-            System.out.println("============ Panel vendedor ============");
-            option = "";
-            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo ticket\n3\tVer mis tickets vendidos\n" +
-                    "4\tCalcular mi recaudacion\n");
-            option = sc.nextLine();
+            System.out.println("""
+                    ═══════════════════════════════════════
+                             PANEL DEL VENDEDOR
+                    ═══════════════════════════════════════
+                    1 - Ver eventos disponibles
+                    2 - Vender nuevo ticket
+                    3 - Ver mis tickets vendidos
+                    4 - Calcular mi recaudación
+                    0 - Cerrar sesión
+                    """);
+            opcion = sc.nextLine().trim();
 
-            switch (option) {
-                case "0":
-                    flag = false;
-                    break;
+            switch (opcion) {
                 case "1":
                     System.out.println(b.mostrarEventos());
                     break;
@@ -118,30 +131,37 @@ public class Menu {
                 case "4":
                     vs.calcularRecaudacion(vendedor);
                     break;
+                case "0":
+                    System.out.println("Sesión cerrada.");
+                    break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println("Opción inválida.");
                     break;
             }
-        } while (flag);
+        } while (!opcion.equals("0"));
     }
 
-    public void menuOrganizador(Scanner sc, Boleteria b, Organizador organizador, String archivo) {
-        OrganizadorService os = new OrganizadorService();
-        boolean flag = true;
-        String option;
+    private void menuOrganizador(Scanner sc, Boleteria b, Organizador organizador, String archivo) {
+        String opcion;
         do {
-            System.out.println("============ Panel organizador ============");
-            option = "";
-            System.out.println("0\tSalir\n1\tVer eventos\n2\tNuevo Evento\n3\tAgregar funcion\n4\tVer mis eventos\n" +
-                    "5\tVer mis funciones");
-            option = sc.nextLine();
+            System.out.println("""
+                    ═══════════════════════════════════════
+                             PANEL DEL ORGANIZADOR
+                    ═══════════════════════════════════════
+                    1 - Ver todos los eventos del sistema
+                    2 - Crear nuevo evento
+                    3 - Agregar función a un evento activo
+                    4 - Ver mis eventos (con estado activo/inactivo)
+                    5 - Ver funciones de un evento
+                    6 - Dar de baja un evento
+                    7 - Reactivar un evento dado de baja
+                    0 - Cerrar sesión
+                    """);
+            opcion = sc.nextLine().trim();
 
-            switch (option) {
-                case "0":
-                    flag = false;
-                    break;
+            switch (opcion) {
                 case "1":
-                    System.out.println("Eventos:");
+                    System.out.println("=== EVENTOS DISPONIBLES EN EL SISTEMA ===");
                     System.out.println(b.mostrarEventos());
                     break;
                 case "2":
@@ -156,32 +176,46 @@ public class Menu {
                 case "5":
                     os.verMisFunciones(sc, organizador);
                     break;
+                case "6":
+                    os.darDeBajaEvento(sc, organizador, b, archivo);
+                    break;
+                case "7":
+                    os.reactivarEvento(sc, organizador, b, archivo);
+                    break;
+                case "0":
+                    System.out.println("Sesión cerrada. ¡Hasta luego!");
+                    break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println("Opción inválida. Intente nuevamente.");
                     break;
             }
-        } while (flag);
+        } while (!opcion.equals("0"));
     }
 
-    public void menuAdministrador(Boleteria boleteria, Scanner sc, Administrador admin, String archivo) {
-        boolean flag = false;
-        AdministradorService as = new AdministradorService();
+    private void menuAdministrador(Scanner sc, Boleteria boleteria, Administrador admin, String archivo) {
+        int opcion;
         do {
-            System.out.println("============ Panel Administracion ============");
+            System.out.println("""
+            ═══════════════════════════════════════════════════════════════
+                              PANEL DE ADMINISTRACIÓN
+            ═══════════════════════════════════════════════════════════════
+            1  - Ver todos los usuarios
+            2  - Bloquear usuario
+            3  - Desbloquear usuario
+            4  - Ver usuarios activos
+            5  - Ver usuarios inactivos
+            6  - Ver todos los eventos del sistema
+            7  - Ver recaudación total del sistema
+            8  - Ver recaudación por evento
+            9  - Ranking de vendedores (más ventas)
+            10 - Estadísticas generales del sistema
+            
+            0  - Cerrar sesión
+            """);
 
-            System.out.println("Seleccione una de las siguientes opciones:\n" +
-                    "0\tSalir\n" +
-                    "1\tVer todos los usuarios\n" +
-                    "2\tBloquear usuario\n" +
-                    "3\tDesbloquear usuario\n" +
-                    "4\tVer usuarios activos\n" +
-                    "5\tVer usuarios inactivos\n" +
-                    "6\tCalcular recaudacion\n");
-            int option = Validacion.validarEntero(sc);
-            switch (option) {
-                case 0:
-                    flag = true;
-                    break;
+            opcion = Validacion.validarEntero(sc, "Seleccione una opción: ");
+
+            switch (opcion) {
                 case 1:
                     System.out.println(as.verUsuarios(boleteria));
                     break;
@@ -198,13 +232,34 @@ public class Menu {
                     as.verUsuariosInactivos(boleteria);
                     break;
                 case 6:
+                    as.verTodosLosEventos(boleteria);
+                    break;
+                case 7:
                     as.verRecaudacion(boleteria);
                     break;
+                case 8:
+                    as.verRecaudacionPorEvento(sc, boleteria);
+                    break;
+                case 9:
+                    as.rankingVendedores(boleteria);
+                    break;
+                case 10:
+                    as.verEstadisticasGenerales(boleteria);
+                    break;
+                case 0:
+                    System.out.println("Sesión de administrador cerrada.");
+                    break;
                 default:
-                    System.out.println("El numero ingresado es invalido");
+                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
                     break;
             }
-        } while (!flag);
 
+            // Pausa para que el admin pueda leer antes de volver al menú
+            if (opcion != 0) {
+                System.out.println("\nPresione ENTER para continuar...");
+                sc.nextLine();
+            }
+
+        } while (opcion != 0);
     }
 }

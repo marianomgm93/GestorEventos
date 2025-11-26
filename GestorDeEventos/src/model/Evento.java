@@ -19,6 +19,7 @@ public class Evento implements ID {
     private String nombre;
     private String descripcion;
     private Categoria categoria;
+    private boolean activo = true;
 
     public Evento() {
         this.id = totalEventos++;
@@ -55,6 +56,7 @@ public class Evento implements ID {
         this.nombre = o.getString("nombre");
         this.descripcion = o.getString("descripcion");
         this.categoria = Categoria.valueOf(o.getString("categoria"));
+        this.activo = o.getBoolean("activo");
     }
 
     /**
@@ -73,6 +75,7 @@ public class Evento implements ID {
         o.put("nombre", this.nombre);
         o.put("descripcion", this.descripcion);
         o.put("categoria", this.categoria.toString());
+        o.put("activo", this.activo);
         return o;
     }
 
@@ -93,7 +96,13 @@ public class Evento implements ID {
     public static int getTotalEventos() {
         return totalEventos;
     }
+    public boolean isActivo() {
+        return activo;
+    }
 
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
     /**
      * Obtiene el identificador único del evento.
      *
