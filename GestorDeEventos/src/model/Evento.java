@@ -75,14 +75,16 @@ public class Evento implements ID {
         o.put("categoria", this.categoria.toString());
         return o;
     }
-    public Funcion buscarFuncionPorId(int id) throws ElementoNoEncontradoException{
-        for(Funcion f:funciones) {
+
+    public Funcion buscarFuncionPorId(int id) throws ElementoNoEncontradoException {
+        for (Funcion f : funciones) {
             if (f.getId() == id) {
                 return f;
             }
         }
         throw new ElementoNoEncontradoException("No existe una funcion con ese id");
     }
+
     /**
      * Obtiene el número total de eventos que han sido instanciados.
      *
@@ -122,6 +124,16 @@ public class Evento implements ID {
      */
     public ArrayList<Funcion> getFunciones() {
         return funciones;
+    }
+
+    public ArrayList<Funcion> getFuncionesDisponibles() {
+        ArrayList<Funcion> funcionesDisponibles = new ArrayList<>();
+        if (!funciones.isEmpty()) {
+            for (Funcion f : funciones) {
+                if (f.cantidadAsientosDisponibles() > 0) funcionesDisponibles.add(f);
+            }
+        }
+        return funcionesDisponibles;
     }
 
     /**

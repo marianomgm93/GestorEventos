@@ -119,6 +119,22 @@ public class Boleteria {
         sb.append('}');
         return sb.toString();
     }
+    public String calcularRecaudacion() {
+        String datos;
+        if (this.getVendidos().isEmpty()) {
+           datos=("No hay datos de tickets vendidos.");
+
+        } else {
+            double recaudacion = 0;
+            for (Ticket t : this.getVendidos()) {
+                if (t != null) {
+                    recaudacion += t.getPrecio();
+                }
+            }
+            datos=("Su recaudación total es de: $%.2f%n" + recaudacion);
+        }
+        return datos;
+    }
 
     public String mostrarOrganizadores() {
         StringBuilder sb = new StringBuilder();
@@ -132,11 +148,13 @@ public class Boleteria {
 
     public String mostrarEventos() {
         StringBuilder sb = new StringBuilder();
+        sb.append("/////////////////////// Eventos ///////////////////////\n");
         sb.append("Total de eventos: ").append(eventos.getElementos().size());
         for (Evento e : this.eventos.getElementos()) {
             sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
                     .append("\tFunciones disponibles: ").append(e.getFunciones().size());
         }
+        sb.append("\n/////////////////////// Fin eventos ///////////////////////\n");
         return sb.toString();
     }
 

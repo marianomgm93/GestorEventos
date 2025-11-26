@@ -107,7 +107,6 @@ public class Menu {
                     flag = false;
                     break;
                 case "1":
-                    System.out.println("Eventos:");
                     System.out.println(b.mostrarEventos());
                     break;
                 case "2":
@@ -176,7 +175,8 @@ public class Menu {
                     "2\tBloquear usuario\n" +
                     "3\tDesbloquear usuario\n" +
                     "4\tVer usuarios activos\n" +
-                    "5\tVer usuarios inactivos\n");
+                    "5\tVer usuarios inactivos\n" +
+                    "6\tCalcular recaudacion\n");
             int option = Validacion.validarEntero(sc);
             switch (option) {
                 case 0:
@@ -197,8 +197,12 @@ public class Menu {
                 case 5:
                     as.verUsuariosInactivos(boleteria);
                     break;
+                case 6:
+                    as.verRecaudacion(boleteria);
+                    break;
                 default:
                     System.out.println("El numero ingresado es invalido");
+                    break;
             }
         } while (!flag);
 

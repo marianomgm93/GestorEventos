@@ -323,14 +323,19 @@ public class OrganizadorService {
             if (!flag && !eventoId.equalsIgnoreCase("s")) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
         } while (!flag && !eventoId.equalsIgnoreCase("s"));
         sb.setLength(0);
+        try{
+
         if(!eventoId.equalsIgnoreCase("s")){
             sb.append("/////////////////////// Funciones ///////////////////////\n");
             for (Funcion f : evento.getFunciones()) {
-                sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre()).append("\n");
-
+                sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre())
+                        .append("\tDisponibilidad: ").append(f.cantidadAsientosDisponibles()).append("\n");
             }
-            sb.append("\n/////////////////////// Eventos Creados ///////////////////////");
+            sb.append("\n/////////////////////// Fin funciones ///////////////////////");
             System.out.println(sb);
+        }
+        }catch(Exception e){
+            System.out.println("El evento no tiene funciones disponibles");
         }
     }
 }

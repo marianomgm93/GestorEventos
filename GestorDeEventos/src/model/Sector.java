@@ -73,9 +73,12 @@ public class Sector {
      */
     public String verAsientosDisponibles() {
         StringBuilder sb = new StringBuilder();
+        int contador=0;
         if (this.isTieneAsientos()) {
             sb.append("/////////// Asientos disponibles ///////////\n");
             for (Asiento a : this.asientos) {
+                contador++;
+                if(contador%10==0) sb.append("\n");
                 if (a.isDisponible()) sb.append("[ ").append(a.getId()).append(" ]").append("\t");
             }
             sb.append("\n/////////// Fin Asientos disponibles ///////////");

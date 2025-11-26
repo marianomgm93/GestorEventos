@@ -53,4 +53,7 @@ public class AdministradorService {
     public void verUsuariosInactivos(Boleteria boleteria){
         System.out.println(boleteria.mostrarUsuariosInactivos());
     }
+    public void verRecaudacion(Boleteria boleteria){
+        System.out.println(boleteria.calcularRecaudacion());
+    }
 }

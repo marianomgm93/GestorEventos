@@ -29,6 +29,7 @@ public class Main {
         System.out.println(vendedor);
 */
 
+
         try{
             boleteria.fromJSON(archivo);
             System.out.println("Los datos se cargaron correctamente");
@@ -36,11 +37,15 @@ public class Main {
         }catch (Exception e){
             System.out.println("La carga de datos falló");
         }
-/*
 
+
+ /*
         Administrador adm=new Administrador(0,"admin","admin","admin");
         boleteria.getUsuarios().getElementos().add(adm);
-*/
+        boleteria.guardarBoleteria(archivo);
+
+
+ */
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }
@@ -61,5 +66,5 @@ problema usuarios con mismo id--+
 Guardar recintos y poder seleccionarlos--?
 cambiar formato de la fecha en ver funciones menu organizador
 Validar que el nuevo ticket no permita elegir eventos sin funciones disponibles
-
+//todo revisar errror al crear tickets no aparecen las funciones y crashea
  */
