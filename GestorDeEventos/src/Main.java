@@ -64,20 +64,3 @@ public class Main {
         System.out.println("\nSistema finalizado. ¡Gracias por usar Boletería!");
     }
 }
-/*
-Cambiar tipo para que al generar tickets, si es campo no tenga lugar de asiento(QUE SEA VISIBLE)
-contructor en ticket para sector sin asiento donde asiento=NULL
-VERIFICAR LOS TIPOS DE SECTOR AGREGAR LA MODIFICACION DE PRECIO POR OTRO LADO
-Login corrupto
-Printeos con mas info en vender tickets
-comprar dos veces mismo asiento
-sleccionar sector antes de mostrar asientos
-al ver usuarios mostrar activo embellecido
-fixear ver usuarios inactivos
-validar recintos en fechas(que no se superpongan)
-problema usuarios con mismo id--+
-Guardar recintos y poder seleccionarlos--?
-cambiar formato de la fecha en ver funciones menu organizador
-Validar que el nuevo ticket no permita elegir eventos sin funciones disponibles
-//todo revisar errror al crear tickets no aparecen las funciones y crashea
- */

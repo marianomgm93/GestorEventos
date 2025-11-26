@@ -5,156 +5,34 @@ import Utilidades.Validacion;
 import exceptions.ContraseniaInvalidaException;
 import exceptions.EmailInvalidoException;
 import model.*;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VendedorService {
 
+    private static final String LINEA = "═══════════════════════════════════════════════════════════════";
+    private static final String SEP = "───────────────────────────────────────────────────────────────";
+
     public void nuevoTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria, String archivo) {
-        StringBuilder sb = new StringBuilder();
+        System.out.println(LINEA);
+        System.out.println("                     VENTA DE TICKET");
+        System.out.println(LINEA);
         System.out.println(boleteria.mostrarEventos());
 
-        boolean flag = false;
-        String eventoId;
-        Evento evento = null;
+        Evento evento = seleccionarEvento(sc, boleteria);
+        if (evento == null) return;
 
-        // ================== SELECCIÓN DE EVENTO (solo activos) ==================
-        do {
-            System.out.println("Ingrese el id del evento o \"S\" para salir");
-            eventoId = sc.nextLine().trim();
+        Funcion funcion = seleccionarFuncion(sc, evento);
+        if (funcion == null) return;
 
-            if (eventoId.equalsIgnoreCase("s")) {
-                System.out.println("...Saliendo...");
-                return;
-            }
+        Sector sector = seleccionarSector(sc, funcion);
+        if (sector == null) return;
 
-            evento = null;
-            for (Evento e : boleteria.getEventos().getElementos()) {
-                if (String.valueOf(e.getId()).equals(eventoId)) {
-                    if (e.isActivo()) {
-                        evento = e;
-                        flag = true;
-                    } else {
-                        System.out.println("Este evento ya no está activo. No se pueden vender tickets.");
-                    }
-                    break;
-                }
-            }
+        Asiento asiento = reservarAsiento(sc, sector);
+        if (asiento == null) return;
 
-            if (!flag) {
-                System.out.println("El número ingresado es inválido o el evento no está disponible.");
-            } else if (evento.getFuncionesDisponibles().isEmpty()) {
-                System.out.println("El evento seleccionado no tiene funciones disponibles");
-                flag = false;
-                evento = null;
-            }
-
-        } while (!flag);
-
-        // ================== SELECCIÓN DE FUNCIÓN ==================
-        sb.setLength(0);
-        sb.append("/////////////////////// Funciones ///////////////////////\n");
-        for (Funcion f : evento.getFunciones()) {
-            sb.append("id: ").append(f.getId())
-                    .append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora()))
-                    .append("\tRecinto: ").append(f.getRecinto().getNombre())
-                    .append("\tDisponibilidad: ").append(f.cantidadAsientosDisponibles()).append("\n");
-        }
-        sb.append("/////////////////////// Fin funciones ///////////////////////");
-        System.out.println(sb);
-
-        flag = false;
-        String funcionId;
-        Funcion funcion = null;
-
-        do {
-            System.out.println("Ingrese el id de la función o \"S\" para salir");
-            funcionId = sc.nextLine().trim();
-
-            if (funcionId.equalsIgnoreCase("s")) {
-                System.out.println("...Saliendo...");
-                return;
-            }
-
-            for (Funcion f : evento.getFunciones()) {
-                if (String.valueOf(f.getId()).equals(funcionId)) {
-                    funcion = f;
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) System.out.println("El número ingresado es inválido, inténtelo nuevamente");
-        } while (!flag);
-
-        // ================== SELECCIÓN DE SECTOR ==================
-        System.out.println(funcion.asientosDisponibles());
-
-        flag = false;
-        Sector sector = null;
-        String capturar;
-
-        do {
-            System.out.println("Ingrese el número del sector o \"S\" para salir");
-            capturar = sc.nextLine().trim();
-
-            if (capturar.equalsIgnoreCase("s")) {
-                System.out.println("...Saliendo...");
-                return;
-            }
-
-            for (Sector s : funcion.getRecinto().getSectores()) {
-                if (String.valueOf(s.getId()).equals(capturar)) {
-                    sector = s;
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) System.out.println("Debe ingresar un sector válido");
-        } while (!flag);
-
-        // ================== OCUPAR ASIENTO ==================
-        Asiento asiento = null;
-
-        if (sector.isTieneAsientos()) {
-            flag = false;
-            do {
-                System.out.println(sector.verAsientosDisponibles());
-                System.out.println("Ingrese el número del asiento o \"S\" para salir");
-                capturar = sc.nextLine().trim();
-
-                if (capturar.equalsIgnoreCase("s")) {
-                    System.out.println("...Saliendo...");
-                    return;
-                }
-
-                for (Asiento a : sector.getAsientos()) {
-                    if (String.valueOf(a.getId()).equals(capturar) && a.isDisponible()) {
-                        asiento = a;
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) System.out.println("El número ingresado es inválido o ya está ocupado, inténtelo nuevamente");
-            } while (!flag);
-
-        } else {
-            for (Asiento a : sector.getAsientos()) {
-                if (a.isDisponible()) {
-                    asiento = a;
-                    break;
-                }
-            }
-            if (asiento == null) {
-                System.out.println("No hay más capacidad en este sector.");
-                return;
-            }
-        }
-
-        // ================== CREAR TICKET ==================
         asiento.setDisponible(false);
-
         double precio = funcion.getPrecioBase() + sector.getValorExtra();
 
         Ticket ticket = new Ticket(
@@ -172,112 +50,294 @@ public class VendedorService {
         boleteria.getVendidos().add(ticket);
         boleteria.guardarBoleteria(archivo);
 
-        System.out.println("\n¡TICKET GENERADO CON ÉXITO!");
-        System.out.println("ID del ticket: " + ticket.getId());
-        System.out.println("Evento: " + evento.getNombre());
-        System.out.println("Función: " + UtilidadesGenerales.formatearFecha(funcion.getFechayHora()));
-        if (sector.isTieneAsientos()) {
-            System.out.println("Asiento: " + asiento.getNumero());
-        } else {
-            System.out.println("Asiento general (sin numeración)");
-        }
-        System.out.println("Precio: $" + String.format("%.2f", precio));
+        System.out.println(LINEA);
+        System.out.println("                TICKET GENERADO CON ÉXITO");
+        System.out.println(LINEA);
+        System.out.println("ID del ticket      : " + ticket.getId());
+        System.out.println("Evento             : " + evento.getNombre());
+        System.out.println("Fecha y hora       : " + UtilidadesGenerales.formatearFecha(funcion.getFechayHora()));
+        System.out.println("Recinto            : " + funcion.getRecinto().getNombre());
+        System.out.println("Sector             : " + sector.getNombre());
+        System.out.println(sector.isTieneAsientos() ? "Asiento            : " + asiento.getNumero()
+                : "Tipo               : Entrada general");
+        System.out.println("Precio final       : $" + String.format("%.2f", precio));
+        System.out.println(LINEA);
     }
 
-    // ====================== CREAR VENDEDOR (email único garantizado) ======================
-    public void crearVendedor(Scanner sc, Boleteria boleteria, String archivo) {
-        System.out.println("Ingrese nombre de vendedor");
-        String nombre = sc.nextLine().trim();
-
-        String email;
-        boolean emailValido;
+    private Evento seleccionarEvento(Scanner sc, Boleteria boleteria) {
+        boolean flag;
+        String entrada;
+        Evento evento;
         do {
-            System.out.println("Ingrese email");
-            email = sc.nextLine().trim();
-            emailValido = true;
-
-            try {
-                Validacion.validarEmail(email);
-            } catch (EmailInvalidoException e) {
-                System.out.println(e.getMessage());
-                emailValido = false;
-                continue;
+            System.out.print("Ingrese ID del evento (o S para salir): ");
+            entrada = sc.nextLine().trim();
+            if (entrada.equalsIgnoreCase("s")) {
+                System.out.println("Operación cancelada.");
+                return null;
             }
+            evento = boleteria.getEventos().buscarElementoId(Integer.parseInt(entrada));
+            if (evento == null) {
+                System.out.println("No existe un evento con ese ID.");
+                flag = true;
+            } else if (!evento.isActivo()) {
+                System.out.println("Este evento está dado de baja. No se pueden vender tickets.");
+                flag = true;
+            } else if (evento.getFunciones().isEmpty()) {
+                System.out.println("Este evento no tiene funciones disponibles.");
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } while (flag);
+        return evento;
+    }
 
-            for (Usuario u : boleteria.getUsuarios().getElementos()) {
-                if (email.equalsIgnoreCase(u.getEmail())) {
-                    System.out.println("El email ingresado ya está en uso");
-                    emailValido = false;
+    private Funcion seleccionarFuncion(Scanner sc, Evento evento) {
+        System.out.println(SEP);
+        System.out.println("                  FUNCIONES DISPONIBLES");
+        System.out.println(SEP);
+        for (Funcion f : evento.getFunciones()) {
+            System.out.printf("ID %-3d → %s | %s | Disponibles: %d | Precio base: $%.2f%n",
+                    f.getId(),
+                    UtilidadesGenerales.formatearFecha(f.getFechayHora()),
+                    f.getRecinto().getNombre(),
+                    f.cantidadAsientosDisponibles(),
+                    f.getPrecioBase());
+        }
+        System.out.println(SEP);
+
+        boolean flag;
+        String entrada;
+        Funcion funcion;
+        do {
+            System.out.print("Ingrese ID de la función (o S para salir): ");
+            entrada = sc.nextLine().trim();
+            if (entrada.equalsIgnoreCase("s")) {
+                System.out.println("Operación cancelada.");
+                return null;
+            }
+            funcion = null;
+            for (Funcion f : evento.getFunciones()) {
+                if (String.valueOf(f.getId()).equals(entrada)) {
+                    funcion = f;
                     break;
                 }
             }
-        } while (!emailValido);
-
-        String contrasenia;
-        do {
-            System.out.println("Ingrese contraseña (mín. 8 caracteres, 1 letra y 1 número)");
-            contrasenia = sc.nextLine();
-            try {
-                Validacion.validarContrasena(contrasenia);
-                break;
-            } catch (ContraseniaInvalidaException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (true);
-
-        Vendedor nuevo = new Vendedor(nombre, email, contrasenia);
-        boleteria.guardarUsuario(nuevo, archivo);
-        System.out.println("¡Vendedor creado correctamente! ID: " + nuevo.getId());
+            flag = funcion == null;
+            if (flag) System.out.println("ID de función inválido.");
+        } while (flag);
+        return funcion;
     }
 
-    // ====================== VER MIS TICKETS (mejorado) ======================
+    private Sector seleccionarSector(Scanner sc, Funcion funcion) {
+        System.out.println(funcion.asientosDisponibles());
+        boolean flag;
+        String entrada;
+        Sector sector;
+        do {
+            System.out.print("Ingrese número del sector (o S para salir): ");
+            entrada = sc.nextLine().trim();
+            if (entrada.equalsIgnoreCase("s")) {
+                System.out.println("Operación cancelada.");
+                return null;
+            }
+            sector = null;
+            for (Sector s : funcion.getRecinto().getSectores()) {
+                if (String.valueOf(s.getId()).equals(entrada)) {
+                    sector = s;
+                    break;
+                }
+            }
+            flag = sector == null;
+            if (flag) System.out.println("Sector inválido.");
+        } while (flag);
+        return sector;
+    }
+
+    private Asiento reservarAsiento(Scanner sc, Sector sector) {
+        if (!sector.isTieneAsientos()) {
+            for (Asiento a : sector.getAsientos()) {
+                if (a.isDisponible()) {
+                    return a;
+                }
+            }
+            System.out.println("No hay capacidad disponible en este sector.");
+            return null;
+        }
+
+        boolean flag;
+        String entrada;
+        Asiento asiento;
+        do {
+            System.out.println(sector.verAsientosDisponibles());
+            System.out.print("Ingrese número de asiento (o S para salir): ");
+            entrada = sc.nextLine().trim();
+            if (entrada.equalsIgnoreCase("s")) {
+                System.out.println("Operación cancelada.");
+                return null;
+            }
+            asiento = null;
+            for (Asiento a : sector.getAsientos()) {
+                if (String.valueOf(a.getId()).equals(entrada) && a.isDisponible()) {
+                    asiento = a;
+                    break;
+                }
+            }
+            flag = asiento == null;
+            if (flag) System.out.println("Asiento inválido o ya ocupado.");
+        } while (flag);
+        return asiento;
+    }
+
     public void verMisTickets(Vendedor v, Boleteria boleteria) {
+        System.out.println(LINEA);
+        System.out.println("                  TUS TICKETS VENDIDOS");
+        System.out.println(LINEA);
+
         if (v.getTicketsVendidos().isEmpty()) {
-            System.out.println("No has vendido ningún ticket aún.");
+            System.out.println("          Aún no has vendido ningún ticket.");
+            System.out.println(LINEA);
             return;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("/////////////////////// TUS TICKETS VENDIDOS ///////////////////////\n");
-        sb.append("Total de tickets vendidos: ").append(v.getTicketsVendidos().size()).append("\n\n");
+        System.out.printf("Total vendidos: %d ticket%s%n%n", v.getTicketsVendidos().size(),
+                v.getTicketsVendidos().size() == 1 ? "" : "s");
 
         for (Ticket t : v.getTicketsVendidos()) {
-            Evento evento = boleteria.getEventos().buscarElementoId(t.getEventoId());
-            String nombreEvento = evento != null ? evento.getNombre() : "[Evento no encontrado]";
-            String estadoEvento = evento != null ? (evento.isActivo() ? "Activo" : "Dado de baja") : "Desconocido";
-
-            Funcion funcion = evento != null ? evento.buscarFuncionPorId(t.getFuncionId()) : null;
-            Sector sector = funcion != null ? funcion.buscarSectorPorId(t.getSectorId()) : null;
-
-            sb.append("ID: ").append(t.getId())
-                    .append(" | Evento: ").append(nombreEvento)
-                    .append(" (").append(estadoEvento).append(")")
-                    .append(" | Fecha: ").append(UtilidadesGenerales.formatearFecha(LocalDateTime.parse(t.getFechaYHora())))
-                    .append(" | Precio: $").append(String.format("%.2f", t.getPrecio()));
-
-            if (sector != null) {
-                sb.append(" | Sector: ").append(sector.getNombre());
-                if (sector.isTieneAsientos()) {
-                    sb.append(" | Asiento: ").append(t.getAsiento());
-                }
-            }
-            sb.append("\n");
+            Evento e = boleteria.getEventos().buscarElementoId(t.getEventoId());
+            String nombre = e != null ? e.getNombre() : "[Evento eliminado]";
+            Funcion f = e != null ? e.buscarFuncionPorId(t.getFuncionId()) : null;
+            System.out.printf("ID %-4d → %-25s | %s | $%.2f%n",
+                    t.getId(), nombre,
+                    f != null ? UtilidadesGenerales.formatearFecha(LocalDateTime.parse(t.getFechaYHora())) : "???",
+                    t.getPrecio());
         }
-
-        sb.append("////////////////////////////////////////////////////////////////////\n");
-        System.out.println(sb.toString());
+        System.out.println(LINEA);
     }
 
     public void calcularRecaudacion(Vendedor v) {
-        if (v == null || v.getTicketsVendidos().isEmpty()) {
-            System.out.println("No hay datos de tickets vendidos.");
+        System.out.println(LINEA);
+        System.out.println("                     RECAUDACIÓN");
+        System.out.println(LINEA);
+
+        if (v.getTicketsVendidos().isEmpty()) {
+            System.out.println("          No has vendido tickets aún.");
+        } else {
+            double total = 0;
+            for (Ticket t : v.getTicketsVendidos()) total += t.getPrecio();
+            System.out.printf("Total recaudado: $%.2f (%d tickets)%n", total, v.getTicketsVendidos().size());
+        }
+        System.out.println(LINEA);
+    }
+
+    public void reimprimirTicket(Scanner sc, Vendedor vendedor, Boleteria boleteria) {
+        System.out.println(LINEA);
+        System.out.println("                  REIMPRESIÓN DE TICKET");
+        System.out.println(LINEA);
+
+        System.out.print("ID del ticket a reimprimir (o S para salir): ");
+        String entrada = sc.nextLine().trim();
+        if (entrada.equalsIgnoreCase("s")) {
+            System.out.println("Operación cancelada.");
+            System.out.println(LINEA);
             return;
         }
 
-        double total = 0;
-        for (Ticket t : v.getTicketsVendidos()) {
-            total += t.getPrecio();
+        Ticket ticket = null;
+        for (Ticket t : vendedor.getTicketsVendidos()) {
+            if (String.valueOf(t.getId()).equals(entrada)) {
+                ticket = t;
+                break;
+            }
         }
-        System.out.printf("Tu recaudación total es de: $%.2f%n", total);
+
+        if (ticket == null) {
+            System.out.println("No se encontró un ticket con ese ID entre tus ventas.");
+        } else {
+            Evento e = boleteria.getEventos().buscarElementoId(ticket.getEventoId());
+            Funcion f = e != null ? e.buscarFuncionPorId(ticket.getFuncionId()) : null;
+            System.out.println(SEP);
+            System.out.println("ID TICKET     : " + ticket.getId());
+            System.out.println("EVENTO        : " + (e != null ? e.getNombre() : "[Eliminado]"));
+            if (f != null) {
+                System.out.println("FECHA         : " + UtilidadesGenerales.formatearFecha(f.getFechayHora()));
+                System.out.println("RECINTO       : " + f.getRecinto().getNombre());
+            }
+            System.out.println("PRECIO        : $" + String.format("%.2f", ticket.getPrecio()));
+            System.out.println("FECHA VENTA   : " + ticket.getFechaYHora().replace("T", " "));
+            System.out.println(SEP);
+            System.out.println("Ticket reimpreso correctamente.");
+        }
+        System.out.println(LINEA);
+    }
+
+    public void verMisEstadisticas(Vendedor vendedor) {
+        System.out.println(LINEA);
+        System.out.println("                   MIS ESTADÍSTICAS");
+        System.out.println(LINEA);
+
+        int totalTickets = vendedor.getTicketsVendidos().size();
+        if (totalTickets == 0) {
+            System.out.println("          Aún no has vendido tickets.");
+        } else {
+            double total = 0;
+            for (Ticket t : vendedor.getTicketsVendidos()) total += t.getPrecio();
+            System.out.printf("Tickets vendidos    : %d%n", totalTickets);
+            System.out.printf("Recaudación total   : $%.2f%n", total);
+            System.out.printf("Promedio por ticket : $%.2f%n", total / totalTickets);
+        }
+        System.out.println(LINEA);
+    }
+
+    public void crearVendedor(Scanner sc, Boleteria boleteria, String archivo) {
+        System.out.println(LINEA);
+        System.out.println("                  CREAR NUEVO VENDEDOR");
+        System.out.println(LINEA);
+
+        System.out.print("Nombre completo: ");
+        String nombre = sc.nextLine().trim();
+
+        String email;
+        boolean valido;
+        do {
+            System.out.print("Email: ");
+            email = sc.nextLine().trim();
+            valido = true;
+            try {
+                Validacion.validarEmail(email);
+            } catch (EmailInvalidoException e) {
+                System.out.println("Error: " + e.getMessage());
+                valido = false;
+                continue;
+            }
+            for (Usuario u : boleteria.getUsuarios().getElementos()) {
+                if (u.getEmail().equalsIgnoreCase(email)) {
+                    System.out.println("Este email ya está registrado.");
+                    valido = false;
+                    break;
+                }
+            }
+        } while (!valido);
+
+        String pass;
+        do {
+            System.out.print("Contraseña: ");
+            pass = sc.nextLine();
+            try {
+                Validacion.validarContrasena(pass);
+                break;
+            } catch (ContraseniaInvalidaException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        } while (true);
+
+        Vendedor nuevo = new Vendedor(nombre, email, pass);
+        boleteria.guardarUsuario(nuevo, archivo);
+
+        System.out.println(SEP);
+        System.out.println("VENDEDOR CREADO CORRECTAMENTE");
+        System.out.println("ID asignado: " + nuevo.getId());
+        System.out.println("Email: " + email);
+        System.out.println(LINEA);
     }
 }

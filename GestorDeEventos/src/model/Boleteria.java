@@ -120,15 +120,15 @@ public class Boleteria {
     public String mostrarEventos() {
         StringBuilder sb = new StringBuilder();
         sb.append("/////////////////////// EVENTOS DISPONIBLES ///////////////////////\n");
-
         int activos = 0;
+
         for (Evento e : this.eventos.getElementos()) {
             if (e.isActivo()) {
                 activos++;
                 sb.append("ID: ").append(e.getId())
                         .append(" | Nombre: ").append(e.getNombre())
                         .append(" | Categoría: ").append(e.getCategoria())
-                        .append(" | Funciones: ").append(e.getFuncionesDisponibles().size())
+                        .append(" | Funciones: ").append(e.getFunciones().size())
                         .append("\n");
             }
         }
@@ -138,7 +138,6 @@ public class Boleteria {
         } else {
             sb.append("Total de eventos activos: ").append(activos).append("\n");
         }
-
         sb.append("////////////////////////////////////////////////////////////////\n");
         return sb.toString();
     }

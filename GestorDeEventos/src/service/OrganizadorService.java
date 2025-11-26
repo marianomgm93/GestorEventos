@@ -4,246 +4,294 @@ import Utilidades.UtilidadesGenerales;
 import Utilidades.Validacion;
 import exceptions.*;
 import model.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OrganizadorService {
 
+    private static final String LINEA = "═══════════════════════════════════════════════════════════════";
+    private static final String SEP = "───────────────────────────────────────────────────────────────";
+
+    private int calcularCapacidadTotal(ArrayList<Sector> sectores) {
+        int total = 0;
+        for (Sector sector : sectores) {
+            total += sector.getAsientos().size();
+        }
+        return total;
+    }
+
+    public double validarDouble(Scanner sc, String mensaje, double minimo) {
+        double valor;
+        while (true) {
+            System.out.print(mensaje);
+            String entrada = sc.nextLine().trim();
+            try {
+                valor = Double.parseDouble(entrada);
+                if (valor < minimo) {
+                    System.out.printf("Error: el valor debe ser mayor o igual a %.2f.%n", minimo);
+                    continue;
+                }
+                return valor;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: debe ingresar un número válido (ej: 15000.50).");
+            }
+        }
+    }
+
     public void nuevoEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
-        System.out.println("Ingrese nombre del evento");
+        System.out.println(LINEA);
+        System.out.println(" CREAR NUEVO EVENTO");
+        System.out.println(LINEA);
+
+        System.out.print("Nombre del evento: ");
         String nombre = sc.nextLine().trim();
 
-        System.out.println("Ingrese una descripcion breve");
+        System.out.print("Descripción breve: ");
         String descripcion = sc.nextLine().trim();
 
-        int opcion = 0;
         Categoria categoria = null;
-
+        int opcion;
         do {
-            System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
-            try {
-                opcion = Integer.parseInt(sc.nextLine().trim());
-                if (opcion < 1 || opcion > 5) {
-                    System.out.println("Opción inválida. Debe ser del 1 al 5.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Debe ingresar un número válido.");
-                opcion = 0;
-            }
-        } while (opcion < 1 || opcion > 5);
+            System.out.println(SEP);
+            System.out.println(" SELECCIONE CATEGORÍA");
+            System.out.println(SEP);
+            System.out.println("1: Cine | 2: Concierto | 3: Teatro");
+            System.out.println("4: Stand Up | 5: Deportivo");
+            System.out.println(SEP);
+            opcion = Validacion.validarEntero(sc, "Opción (1-5): ", 1, 5);
 
-        switch (opcion) {
-            case 1 -> categoria = Categoria.CINE;
-            case 2 -> categoria = Categoria.CONCIERTO;
-            case 3 -> categoria = Categoria.TEATRO;
-            case 4 -> categoria = Categoria.STAND_UP;
-            case 5 -> categoria = Categoria.PARTIDO;
-        }
+            switch (opcion) {
+                case 1:
+                    categoria = Categoria.CINE;
+                    break;
+                case 2:
+                    categoria = Categoria.CONCIERTO;
+                    break;
+                case 3:
+                    categoria = Categoria.TEATRO;
+                    break;
+                case 4:
+                    categoria = Categoria.STAND_UP;
+                    break;
+                case 5:
+                    categoria = Categoria.PARTIDO;
+                    break;
+            }
+        } while (categoria == null);
 
         Evento evento = new Evento(nombre, descripcion, categoria);
+
         try {
             boleteria.guardarEvento(evento, archivo);
             organizador.getEventosCreados().add(evento);
             boleteria.guardarBoleteria(archivo);
-            System.out.println("El evento se creó correctamente");
+            System.out.println(SEP);
+            System.out.println("EVENTO CREADO CON ÉXITO");
+            System.out.printf("ID asignado: %d | %s%n", evento.getId(), evento.getNombre());
+            System.out.println(LINEA);
         } catch (EventoRepetidoException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
+            System.out.println(LINEA);
         }
     }
 
     public void agregarFuncion(Scanner sc, Organizador organizador, String archivo, Boleteria boleteria) {
         if (organizador.getEventosCreados().isEmpty()) {
-            System.out.println("Debes tener eventos creados para agregar nuevas funciones");
+            System.out.println("No tienes eventos creados aún.");
             return;
         }
 
-        // Mostrar solo eventos ACTIVOS
-        System.out.println("/////////////////////// TUS EVENTOS ACTIVOS ///////////////////////");
+        System.out.println(LINEA);
+        System.out.println(" TUS EVENTOS ACTIVOS");
+        System.out.println(LINEA);
+
         boolean hayActivos = false;
         for (Evento e : organizador.getEventosCreados()) {
             if (e.isActivo()) {
                 hayActivos = true;
-                System.out.printf("ID: %d | %s | %s | Funciones: %d%n",
+                System.out.printf("ID %-4d: %-30s | %-12s | Funciones: %d%n",
                         e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size());
             }
         }
+
         if (!hayActivos) {
-            System.out.println("No tienes eventos activos a los que puedas agregar funciones.");
+            System.out.println("No tienes eventos activos para agregar funciones.");
+            System.out.println(LINEA);
             return;
         }
-        System.out.println("////////////////////////////////////////////////////////////////\n");
 
+        System.out.println(LINEA);
         Evento evento = null;
-        boolean flag = false;
-
         do {
-            System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
+            System.out.print("ID del evento para agregar función (o S para salir): ");
             String entrada = sc.nextLine().trim();
-
+            if (entrada.equalsIgnoreCase("s")) {
+                System.out.println("Operación cancelada.");
+                return;
+            }
             try {
-                int idEvento = Integer.parseInt(entrada);
-                evento = organizador.buscarEvento(idEvento);
-
-                if (evento == null) {
-                    System.out.println("No tienes un evento con ese ID.");
-                } else if (!evento.isActivo()) {
-                    System.out.println("No puedes agregar funciones a un evento dado de baja.");
+                int id = Integer.parseInt(entrada);
+                evento = organizador.buscarEvento(id);
+                if (evento == null || !evento.isActivo()) {
+                    System.out.println("Evento no encontrado o dado de baja. Intente nuevamente.");
                     evento = null;
-                } else {
-                    flag = true;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Debe ingresar un número válido.");
-            } catch (ElementoNoEncontradoException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Debe ingresar un número válido o 'S'.");
             }
-        } while (!flag);
+        } while (evento == null);
 
-        LocalDateTime fechayHora = Validacion.validarLocalDateTime(sc);
-
-        double precio = 0;
-        flag = false;
-        do {
-            System.out.println("Ingrese el precio base");
-            try {
-                precio = Double.parseDouble(sc.nextLine().trim());
-                if (precio < 0) {
-                    System.out.println("El precio no puede ser negativo.");
-                } else {
-                    flag = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Debe ingresar un número válido.");
-            }
-        } while (!flag);
-
+        LocalDateTime fechaHora = Validacion.validarLocalDateTime(sc);
+        double precioBase = validarDouble(sc, "Precio base de la función: $", 0);
         Recinto recinto = nuevoRecinto(sc);
-        Funcion funcion = new Funcion(fechayHora, recinto, precio);
+
+        Funcion funcion = new Funcion(fechaHora, recinto, precioBase);
 
         if (Validacion.validarFuncion(boleteria, funcion)) {
             evento.getFunciones().add(funcion);
-            System.out.println("La función se creó correctamente");
             boleteria.guardarBoleteria(archivo);
+            System.out.println(SEP);
+            System.out.println("FUNCIÓN AGREGADA CORRECTAMENTE");
+            System.out.printf("Evento: %s | Fecha: %s%n", evento.getNombre(),
+                    UtilidadesGenerales.formatearFecha(funcion.getFechayHora()));
+            System.out.println(LINEA);
         } else {
-            System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha y hora");
+            System.out.println("El recinto ya está ocupado en esa fecha y hora.");
+            System.out.println(LINEA);
         }
     }
 
     public Recinto nuevoRecinto(Scanner sc) {
-        System.out.println("Ingrese nombre del recinto");
+        System.out.println(SEP);
+        System.out.println(" NUEVO RECINTO");
+        System.out.println(SEP);
+
+        System.out.print("Nombre del recinto: ");
         String nombre = sc.nextLine().trim();
 
-        System.out.println("Ingrese direccion del recinto");
+        System.out.print("Dirección: ");
         String direccion = sc.nextLine().trim();
 
         ArrayList<Sector> sectores = generarSectores(sc);
+        int capacidadTotal = calcularCapacidadTotal(sectores);
 
-        int capacidad = 0;
-        for (Sector s : sectores) {
-            capacidad += s.getAsientos().size();
-        }
+        System.out.println(SEP);
+        System.out.println("RECINTO CREADO: " + nombre + " | Capacidad total: " + capacidadTotal);
+        System.out.println(LINEA);
 
-        return new Recinto(nombre, direccion, capacidad, sectores);
+        return new Recinto(nombre, direccion, capacidadTotal, sectores);
     }
 
     public ArrayList<Sector> generarSectores(Scanner sc) {
-        int cantidadSectores = Validacion.validarEntero(sc, "Ingrese la cantidad de sectores que desea agregar (1 - 6): ", 1, 6);
+        int cantidad = Validacion.validarEntero(sc, "Cantidad de sectores (1-6): ", 1, 6);
         ArrayList<Sector> sectores = new ArrayList<>();
 
-        for (int i = 0; i < cantidadSectores; i++) {
-            System.out.println("Ingrese nombre del sector " + (i + 1) + ":");
+        for (int i = 1; i <= cantidad; i++) {
+            System.out.println(SEP);
+            System.out.println(" SECTOR " + i + " DE " + cantidad);
+            System.out.println(SEP);
+
+            System.out.print("Nombre del sector: ");
             String nombre = sc.nextLine().trim();
 
-            double extra = Validacion.validarPrecio(sc, "Ingrese un valor agregado para este sector");
+            double extra = validarDouble(sc, "Valor agregado ($): $", 0);
 
-            System.out.println("¿El sector tiene asientos numerados? (S/N)");
-            String opcion = sc.nextLine().trim();
-            boolean tieneAsientos = opcion.equalsIgnoreCase("s");
+            System.out.print("Tiene asientos numerados? (S/N): ");
+            boolean numerados = sc.nextLine().trim().equalsIgnoreCase("s");
 
-            String mensaje = tieneAsientos ? "cantidad de asientos" : "capacidad";
-            int cantidadAsientos = Validacion.validarEntero(sc,
-                    "Ingrese la " + mensaje + " del sector " + (i + 1) + " (1-200): ", 1, 200);
+            int capacidad = Validacion.validarEntero(sc,
+                    numerados ? "Cantidad de asientos numerados (1-200): " : "Capacidad del sector (1-200): ", 1, 200);
 
             ArrayList<Asiento> asientos = new ArrayList<>();
-            for (int j = 0; j < cantidadAsientos; j++) {
-                asientos.add(new Asiento(j + 1));
+            for (int j = 1; j <= capacidad; j++) {
+                asientos.add(new Asiento(j));
             }
 
-            sectores.add(new Sector(nombre, extra, tieneAsientos, asientos));
+            sectores.add(new Sector(nombre, extra, numerados, asientos));
         }
         return sectores;
     }
 
     public void crearOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
-        System.out.println("Ingrese nombre de organizador");
+        System.out.println(LINEA);
+        System.out.println(" CREAR CUENTA DE ORGANIZADOR");
+        System.out.println(LINEA);
+
+        System.out.print("Nombre completo: ");
         String nombre = sc.nextLine().trim();
 
         String email;
-        boolean emailValido;
+        boolean emailExiste;
         do {
-            System.out.println("Ingrese email");
+            System.out.print("Email: ");
             email = sc.nextLine().trim();
-            emailValido = true;
+            emailExiste = false;
 
             try {
                 Validacion.validarEmail(email);
             } catch (EmailInvalidoException e) {
-                System.out.println(e.getMessage());
-                emailValido = false;
+                System.out.println("Error: " + e.getMessage());
                 continue;
             }
 
-            for (Usuario u : boleteria.getUsuarios().getElementos()) {
-                if (email.equalsIgnoreCase(u.getEmail())) {
-                    System.out.println("El email ingresado ya está en uso");
-                    emailValido = false;
+            for (int i = 0; i < boleteria.getUsuarios().getElementos().size(); i++) {
+                Usuario usuario = boleteria.getUsuarios().getElementos().get(i);
+                if (usuario.getEmail().equalsIgnoreCase(email)) {
+                    emailExiste = true;
                     break;
                 }
             }
-        } while (!emailValido);
 
-        String contrasenia;
+            if (emailExiste) {
+                System.out.println("Este email ya está registrado.");
+            }
+        } while (emailExiste || email.isEmpty());
+
+        String pass;
         do {
-            System.out.println("Ingrese contraseña (mínimo 8 caracteres, 1 letra y 1 número)");
-            contrasenia = sc.nextLine();
+            System.out.print("Contraseña: ");
+            pass = sc.nextLine();
             try {
-                Validacion.validarContrasena(contrasenia);
+                Validacion.validarContrasena(pass);
                 break;
             } catch (ContraseniaInvalidaException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         } while (true);
 
-        boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
-        System.out.println("La cuenta se creó correctamente");
+        Organizador nuevo = new Organizador(nombre, email, pass);
+        boleteria.guardarUsuario(nuevo, archivo);
+
+        System.out.println(SEP);
+        System.out.println("ORGANIZADOR CREADO CORRECTAMENTE");
+        System.out.println("ID: " + nuevo.getId() + " | Email: " + email);
+        System.out.println(LINEA);
     }
 
     public void verMisEventos(Organizador o) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("==================== MIS EVENTOS ====================\n");
+        System.out.println(LINEA);
+        System.out.println(" MIS EVENTOS");
+        System.out.println(LINEA);
 
-        int activos = 0, inactivos = 0;
-
-        for (Evento e : o.getEventosCreados()) {
-            if (e.isActivo()) {
-                activos++;
-                sb.append("ACTIVO   | ");
-            } else {
-                inactivos++;
-                sb.append("INACTIVO | ");
-            }
-            sb.append(String.format("ID: %d | %-25s | %-12s | Funciones: %d%n",
-                    e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size()));
+        if (o.getEventosCreados().isEmpty()) {
+            System.out.println(" Aún no has creado eventos.");
+            System.out.println(LINEA);
+            return;
         }
 
-        sb.append("\n").append("─".repeat(60)).append("\n");
-        sb.append(String.format("Total: %d | Activos: %d | Dados de baja: %d%n",
-                o.getEventosCreados().size(), activos, inactivos));
-        sb.append("==================================================\n");
+        int activos = 0, inactivos = 0;
+        for (Evento e : o.getEventosCreados()) {
+            String estado = e.isActivo() ? "ACTIVO   " : "INACTIVO";
+            if (e.isActivo()) activos++; else inactivos++;
+            System.out.printf("%s | ID %-4d: %-30s | %-12s | Funciones: %d%n",
+                    estado, e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size());
+        }
 
-        System.out.println(sb);
+        System.out.println(SEP);
+        System.out.printf("Total: %d | Activos: %d | Dados de baja: %d%n",
+                o.getEventosCreados().size(), activos, inactivos);
+        System.out.println(LINEA);
     }
 
     public void verMisFunciones(Scanner sc, Organizador o) {
@@ -254,104 +302,91 @@ public class OrganizadorService {
 
         verMisEventos(o);
 
-        boolean flag = false;
         Evento evento = null;
-
         do {
-            System.out.println("Ingrese el id del evento o \"S\" para salir");
-            String eventoId = sc.nextLine().trim();
+            System.out.print("ID del evento para ver funciones (o S para salir): ");
+            String entrada = sc.nextLine().trim();
+            if (entrada.equalsIgnoreCase("s")) return;
 
-            if (eventoId.equalsIgnoreCase("s")) {
-                System.out.println("...Saliendo...");
-                return;
+            try {
+                evento = o.buscarEvento(Integer.parseInt(entrada));
+                if (evento == null) System.out.println("Evento no encontrado. Intente nuevamente.");
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese un número válido.");
             }
+        } while (evento == null);
 
-            for (Evento e : o.getEventosCreados()) {
-                if (String.valueOf(e.getId()).equals(eventoId)) {
-                    evento = e;
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) System.out.println("El número ingresado es inválido, inténtelo nuevamente");
-        } while (!flag);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("================== FUNCIONES DEL EVENTO: ").append(evento.getNombre()).append(" ==================\n");
-        sb.append("Estado del evento: ").append(evento.isActivo() ? "ACTIVO" : "DADO DE BAJA").append("\n\n");
+        System.out.println(LINEA);
+        System.out.println(" FUNCIONES DE: " + evento.getNombre().toUpperCase());
+        System.out.println("Estado: " + (evento.isActivo() ? "ACTIVO" : "DADO DE BAJA"));
+        System.out.println(LINEA);
 
         if (evento.getFunciones().isEmpty()) {
-            sb.append("Este evento no tiene funciones creadas aún.\n");
+            System.out.println("Este evento no tiene funciones creadas aún.");
         } else {
             for (Funcion f : evento.getFunciones()) {
-                sb.append(String.format("ID: %d | %s | %s | Precio base: $%.2f | Disponibles: %d%n",
+                System.out.printf("ID %-3d: %s | %-20s | Precio base: $%.2f | Disponibles: %d%n",
                         f.getId(),
                         UtilidadesGenerales.formatearFecha(f.getFechayHora()),
                         f.getRecinto().getNombre(),
                         f.getPrecioBase(),
-                        f.cantidadAsientosDisponibles()));
+                        f.cantidadAsientosDisponibles());
             }
         }
-        sb.append("==================================================================\n");
-        System.out.println(sb);
+        System.out.println(LINEA);
     }
-
     public void darDeBajaEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         if (organizador.getEventosCreados().isEmpty()) {
-            System.out.println("No tienes eventos creados para dar de baja.");
+            System.out.println("No tienes eventos creados.");
             return;
         }
 
-        System.out.println("/////////////////////// TUS EVENTOS ACTIVOS ///////////////////////");
-        boolean hayActivos = false;
-        StringBuilder sb = new StringBuilder();
+        System.out.println(LINEA);
+        System.out.println(" EVENTOS ACTIVOS (para dar de baja)");
+        System.out.println(LINEA);
 
+        boolean hayActivos = false;
         for (Evento e : organizador.getEventosCreados()) {
             if (e.isActivo()) {
                 hayActivos = true;
-                sb.append(String.format("ID: %d | %-30s | %-12s | Funciones: %d%n",
-                        e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size()));
+                System.out.printf("ID %-4d: %-30s | %-12s | Funciones: %d%n",
+                        e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size());
             }
         }
 
         if (!hayActivos) {
             System.out.println("No tienes eventos activos para dar de baja.");
+            System.out.println(LINEA);
             return;
         }
-        System.out.println(sb);
-        System.out.println("////////////////////////////////////////////////////////////////\n");
 
-        boolean flag = false;
+        System.out.println(LINEA);
         Evento evento = null;
-        String entrada;
-
         do {
-            System.out.println("Ingrese el ID del evento a dar de baja (o \"S\" para cancelar):");
-            entrada = sc.nextLine().trim();
-
+            System.out.print("ID del evento a dar de baja (o S para cancelar): ");
+            String entrada = sc.nextLine().trim();
             if (entrada.equalsIgnoreCase("s")) {
                 System.out.println("Operación cancelada.");
                 return;
             }
-
-            for (Evento e : organizador.getEventosCreados()) {
-                if (String.valueOf(e.getId()).equals(entrada) && e.isActivo()) {
-                    evento = e;
-                    flag = true;
-                    break;
+            try {
+                int id = Integer.parseInt(entrada);
+                evento = organizador.buscarEvento(id);
+                if (evento == null || !evento.isActivo()) {
+                    System.out.println("ID inválido o ya dado de baja.");
+                    evento = null;
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese un número válido.");
             }
-            if (!flag) {
-                System.out.println("ID inválido o el evento ya está dado de baja. Intente nuevamente.");
-            }
-        } while (!flag);
+        } while (evento == null);
 
-        System.out.print("¿Está seguro de dar de baja el evento \"" + evento.getNombre() + "\"? (S/N): ");
+        System.out.print("Confirmar baja del evento \"" + evento.getNombre() + "\"? (S/N): ");
         if (!sc.nextLine().trim().equalsIgnoreCase("s")) {
             System.out.println("Operación cancelada.");
+            System.out.println(LINEA);
             return;
         }
-
         boolean tieneVentas = false;
         for (Funcion f : evento.getFunciones()) {
             if (f.cantidadAsientosDisponibles() < f.getRecinto().getCapacidad()) {
@@ -361,71 +396,68 @@ public class OrganizadorService {
         }
 
         if (tieneVentas) {
-            System.out.println("No se puede dar de baja: ya se vendieron tickets para este evento.");
+            System.out.println("No se puede dar de baja: ya se vendieron tickets.");
         } else {
             evento.setActivo(false);
             boleteria.guardarBoleteria(archivo);
             System.out.println("Evento \"" + evento.getNombre() + "\" dado de baja correctamente.");
-            System.out.println("Ya no aparecerá disponible para la venta de tickets.");
         }
-    }
+        System.out.println(LINEA);
+}
+
     public void reactivarEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         if (organizador.getEventosCreados().isEmpty()) {
             System.out.println("No tienes eventos creados.");
             return;
         }
 
-        System.out.println("///////////////// TUS EVENTOS DADOS DE BAJA /////////////////");
-        boolean hayInactivos = false;
-        StringBuilder sb = new StringBuilder();
+        System.out.println(LINEA);
+        System.out.println(" EVENTOS DADOS DE BAJA (para reactivar)");
+        System.out.println(LINEA);
 
+        boolean hayInactivos = false;
         for (Evento e : organizador.getEventosCreados()) {
             if (!e.isActivo()) {
                 hayInactivos = true;
-                sb.append(String.format("ID: %d | %s | %s | Funciones: %d%n",
-                        e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size()));
+                System.out.printf("ID %-4d: %-30s | %-12s | Funciones: %d%n",
+                        e.getId(), e.getNombre(), e.getCategoria(), e.getFunciones().size());
             }
         }
 
         if (!hayInactivos) {
-            System.out.println("No tienes eventos dados de baja para reactivar.");
+            System.out.println("No tienes eventos dados de baja.");
+            System.out.println(LINEA);
             return;
         }
-        System.out.println(sb);
-        System.out.println("///////////////////////////////////////////////////////////////\n");
 
-        boolean flag = false;
+        System.out.println(LINEA);
         Evento evento = null;
-        String entrada;
-
         do {
-            System.out.println("Ingrese el ID del evento a reactivar (o \"S\" para cancelar):");
-            entrada = sc.nextLine().trim();
-
+            System.out.print("ID del evento a reactivar (o S para cancelar): ");
+            String entrada = sc.nextLine().trim();
             if (entrada.equalsIgnoreCase("s")) {
                 System.out.println("Operación cancelada.");
                 return;
             }
-
-            for (Evento e : organizador.getEventosCreados()) {
-                if (String.valueOf(e.getId()).equals(entrada) && !e.isActivo()) {
-                    evento = e;
-                    flag = true;
-                    break;
+            try {
+                evento = organizador.buscarEvento(Integer.parseInt(entrada));
+                if (evento == null || evento.isActivo()) {
+                    System.out.println("ID inválido o ya está activo.");
+                    evento = null;
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese un número válido.");
             }
-            if (!flag) {
-                System.out.println("ID inválido o el evento ya está activo.");
-            }
-        } while (!flag);
+        } while (evento == null);
 
-        System.out.print("¿Reactivar el evento \"" + evento.getNombre() + "\"? (S/N): ");
+        System.out.print("Reactivar el evento \"" + evento.getNombre() + "\"? (S/N): ");
         if (sc.nextLine().trim().equalsIgnoreCase("s")) {
             evento.setActivo(true);
             boleteria.guardarBoleteria(archivo);
-            System.out.println("¡Evento reactivado correctamente! Ahora está disponible para venta.");
+            System.out.println("Evento \"" + evento.getNombre() + "\" reactivado correctamente.");
         } else {
             System.out.println("Operación cancelada.");
         }
+        System.out.println(LINEA);
     }
 }

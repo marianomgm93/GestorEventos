@@ -5,13 +5,7 @@
 package exceptions;
 
 public class ElementoNoEncontradoException extends RuntimeException {
-
-    /**
-     * Constructor que crea una nueva instancia de ElementoNoEncontradoException
-     * con un mensaje detallado específico.
-     *
-     * @param message El mensaje detallado (la causa) de la excepción.
-     */
+    
     public ElementoNoEncontradoException(String message) {
         super(message);
     }

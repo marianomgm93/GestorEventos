@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AdministradorService {
 
-    // 1. Ver todos los usuarios (ya lo tenías)
+    // 1. Ver todos los usuarios
     public String verUsuarios(Boleteria boleteria) {
         StringBuilder sb = new StringBuilder();
         sb.append("════════════════════════════════════════════════════════════\n");
@@ -81,8 +81,6 @@ public class AdministradorService {
     public void verRecaudacion(Boleteria boleteria) {
         System.out.println(boleteria.calcularRecaudacion());
     }
-
-    // NUEVAS FUNCIONES (las que suman 10 puntos)
 
     // 7. Ver todos los eventos del sistema (activos e inactivos)
     public void verTodosLosEventos(Boleteria boleteria) {
