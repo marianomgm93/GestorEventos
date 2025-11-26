@@ -152,7 +152,7 @@ public class Boleteria {
         sb.append("Total de eventos: ").append(eventos.getElementos().size());
         for (Evento e : this.eventos.getElementos()) {
             sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
-                    .append("\tFunciones disponibles: ").append(e.getFunciones().size());
+                    .append("\tFunciones disponibles: ").append(e.getFuncionesDisponibles().size());
         }
         sb.append("\n/////////////////////// Fin eventos ///////////////////////\n");
         return sb.toString();

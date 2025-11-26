@@ -14,6 +14,11 @@ public class Organizador extends Usuario {
         this.eventosCreados=new ArrayList<>();
     }
 
+    public Organizador(int id, String nombre, String email, String contrasenia, boolean activo) {
+        super(id, nombre, email, contrasenia, activo);
+        this.eventosCreados = new ArrayList<>();
+    }
+
     public Organizador(JSONObject o) {
         super(o.getInt("id"), o.getString("nombre"), o.getString("email"), o.getString("contrasenia"),o.getBoolean("activo"));
         this.eventosCreados = new ArrayList<>();

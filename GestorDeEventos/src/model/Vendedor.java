@@ -52,6 +52,11 @@ public class Vendedor extends Usuario {
         }
     }
 
+    public Vendedor(int id, String nombre, String email, String contrasenia, boolean activo) {
+        super(id, nombre, email, contrasenia, activo);
+        this.ticketsVendidos = new ArrayList<>();
+    }
+
     /**
      * Convierte el objeto Vendedor a su representación en formato JSON para
      * fines de serialización. Incluye los atributos de la superclase y la lista

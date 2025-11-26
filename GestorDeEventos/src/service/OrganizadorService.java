@@ -6,31 +6,35 @@ import exceptions.*;
 import model.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrganizadorService {
-    public void nuevoEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
 
+    public void nuevoEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         System.out.println("Ingrese nombre del evento");
-        String nombre = sc.nextLine();
+        String nombre = sc.nextLine().trim();
+
         System.out.println("Ingrese una descripcion breve");
-        String descripcion = sc.nextLine();
+        String descripcion = sc.nextLine().trim();
+
         int opcion = 0;
         Categoria categoria = null;
+
         do {
             System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
             try {
-                opcion = sc.nextInt();
-                sc.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("Debe ingresar un numero contemplado entre las opciones");
-                sc.nextLine();
+                opcion = Integer.parseInt(sc.nextLine().trim());  // Evita el problema del nextInt()
+                if (opcion < 1 || opcion > 5) {
+                    System.out.println("Opción inválida. Debe ser del 1 al 5.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+                opcion = 0;
             }
         } while (opcion < 1 || opcion > 5);
+
         switch (opcion) {
             case 1:
                 categoria = Categoria.CINE;
@@ -54,288 +58,233 @@ public class OrganizadorService {
             boleteria.guardarEvento(evento, archivo);
             organizador.getEventosCreados().add(evento);
             boleteria.guardarBoleteria(archivo);
-            System.out.println("El evento se creo correctamente");
-        } catch (UsuarioRepetidoException e) {
-            System.out.println(e.getMessage());
+            System.out.println("El evento se creó correctamente");
         } catch (EventoRepetidoException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    /*
-        public void modificarEvento(Scanner sc, Boleteria boleteria, String archivo) {
-            boolean flag = false;
-            int eventoId;
-            Evento evento;
-            do {
-                System.out.println("Ingrese id del evento");
-                eventoId = Validacion.validarEntero(sc);
-                evento = boleteria.getEventos().buscarElementoId(eventoId);
-                if (evento != null) {
-                    flag = true;
-                }
-            } while (!flag);
-
-            System.out.println("Ingrese nombre del evento");
-            String nombre = sc.nextLine();
-            System.out.println("Ingrese una descripcion breve");
-            String descripcion = sc.nextLine();
-            int opcion = 0;
-            Categoria categoria = Categoria.CINE;
-            do {
-                System.out.println("Categorias:\n1\tCine\n2\tConcierto\n3\tTeatro\n4\tStand UP\n5\tDeportivo");
-
-                opcion = Validacion.validarEntero(sc);
-
-            } while (opcion < 1 || opcion > 5);
-            switch (opcion) {
-                case 1:
-                    categoria = Categoria.CINE;
-                    break;
-                case 2:
-                    categoria = Categoria.CONCIERTO;
-                    break;
-                case 3:
-                    categoria = Categoria.TEATRO;
-                    break;
-                case 4:
-                    categoria = Categoria.STAND_UP;
-                    break;
-                case 5:
-                    categoria = Categoria.PARTIDO;
-                    break;
-            }
-
-            evento.setNombre(nombre);
-            evento.setCategoria(categoria);
-            evento.setDescripcion(descripcion);
-            boleteria.guardarBoleteria(archivo);
-        }
-    */
     public void agregarFuncion(Scanner sc, Organizador organizador, String archivo, Boleteria boleteria) {
-        LocalDateTime fechayHora;
-        double precio = 0;
-        boolean flag = false;
-        if (!organizador.getEventosCreados().isEmpty()) {
-
-
-            verMisEventos(organizador);
-            Evento evento = null;
-            do {
-                System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
-                int idEvento = Validacion.validarEntero(sc);
-                try {
-                    evento = organizador.buscarEvento(idEvento);
-                } catch (ElementoNoEncontradoException e) {
-                    System.out.println(e.getMessage());
-                }
-
-
-            } while (evento == null);
-            fechayHora = Validacion.validarLocalDateTime(sc);
-
-            System.out.println("Ingrese el precio base");
-            do {
-                try {
-                    precio = sc.nextDouble();
-                    sc.nextLine();
-                    flag = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Debe ingresar un numero");
-                    sc.nextLine();
-                } catch (Exception e) {
-                    System.out.println("El numero ingresado es invalido");
-                    sc.nextLine();
-                }
-            } while (!flag);
-            Recinto recinto = nuevoRecinto(sc);
-            Funcion funcion = new Funcion(fechayHora, recinto, precio);
-            if (Validacion.validarFuncion(boleteria, funcion)) {
-                evento.getFunciones().add(funcion);
-                System.out.println("La funcion se creó correctamente");
-                boleteria.guardarBoleteria(archivo);
-            } else System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha");
-
-        } else {
+        if (organizador.getEventosCreados().isEmpty()) {
             System.out.println("Debes tener eventos creados para agregar nuevas funciones");
+            return;
+        }
+
+        verMisEventos(organizador);
+
+        Evento evento = null;
+        boolean flag = false;
+        do {
+            System.out.println("Ingrese id del evento al que quiere agregar nuevas funciones:");
+            String entrada = sc.nextLine().trim();
+            try {
+                int idEvento = Integer.parseInt(entrada);
+                evento = organizador.buscarEvento(idEvento);
+                if (evento == null) {
+                    System.out.println("No tenés un evento con ese ID.");
+                } else {
+                    flag = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            } catch (ElementoNoEncontradoException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!flag);
+
+        LocalDateTime fechayHora = Validacion.validarLocalDateTime(sc);
+
+        double precio = 0;
+        flag = false;
+        do {
+            System.out.println("Ingrese el precio base");
+            try {
+                precio = Double.parseDouble(sc.nextLine().trim());
+                if (precio < 0) {
+                    System.out.println("El precio no puede ser negativo.");
+                } else {
+                    flag = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
+        } while (!flag);
+
+        Recinto recinto = nuevoRecinto(sc);
+        Funcion funcion = new Funcion(fechayHora, recinto, precio);
+
+        if (Validacion.validarFuncion(boleteria, funcion)) {
+            evento.getFunciones().add(funcion);
+            System.out.println("La función se creó correctamente");
+            boleteria.guardarBoleteria(archivo);
+        } else {
+            System.out.println("El recinto seleccionado se encuentra ocupado en esa fecha y hora");
         }
     }
 
     public Recinto nuevoRecinto(Scanner sc) {
         System.out.println("Ingrese nombre del recinto");
-        String nombre = sc.nextLine();
+        String nombre = sc.nextLine().trim();
+
         System.out.println("Ingrese direccion del recinto");
-        String direccion = sc.nextLine();
-        int capacidad = 0;
+        String direccion = sc.nextLine().trim();
+
         ArrayList<Sector> sectores = generarSectores(sc);
-        for (int i = 0; i < sectores.size(); i++) {
-            capacidad += sectores.get(i).getAsientos().size();
+
+        int capacidad = 0;
+        for (Sector s : sectores) {
+            capacidad += s.getAsientos().size();
         }
+
         return new Recinto(nombre, direccion, capacidad, sectores);
     }
 
     public ArrayList<Sector> generarSectores(Scanner sc) {
-        int cantidadSectores = 0;
-        double extra = 0;
-        boolean tieneAsientos = false;
-
-        cantidadSectores = Validacion.validarEntero(sc, "Ingrese la cantidad de sectores que desea agregar (1 - 6): ", 1, 6);
+        int cantidadSectores = Validacion.validarEntero(sc, "Ingrese la cantidad de sectores que desea agregar (1 - 6): ", 1, 6);
         ArrayList<Sector> sectores = new ArrayList<>();
-        String nombre;
-        String option;
-        int cantidadAsientos = 0;
+
         for (int i = 0; i < cantidadSectores; i++) {
-            System.out.println("Ingrese nombre del sector: " + (i + 1));
-            nombre = sc.nextLine();
-            extra = Validacion.validarPrecio(sc, "Ingrese un valor agregado para este sector");
-            System.out.println("El sector tiene asientos? S/N");
-            option = sc.nextLine();
-            String mensajeLugar;
-            if (option.equalsIgnoreCase("s")) {
-                mensajeLugar = "cantidad de asientos";
-                tieneAsientos = true;
-            } else {
-                mensajeLugar = "capacidad";
-            }
-            cantidadAsientos = Validacion.validarEntero(sc, ("Ingrese la " + mensajeLugar + " del sector " + (i + 1)) + "(1-200): ", 1, 200);
+            System.out.println("Ingrese nombre del sector " + (i + 1) + ":");
+            String nombre = sc.nextLine().trim();
+
+            double extra = Validacion.validarPrecio(sc, "Ingrese un valor agregado para este sector");
+
+            System.out.println("¿El sector tiene asientos numerados? (S/N)");
+            String opcion = sc.nextLine().trim();
+            boolean tieneAsientos = opcion.equalsIgnoreCase("s");
+
+            String mensaje = tieneAsientos ? "cantidad de asientos" : "capacidad";
+            int cantidadAsientos = Validacion.validarEntero(sc,
+                    "Ingrese la " + mensaje + " del sector " + (i + 1) + " (1-200): ", 1, 200);
+
             ArrayList<Asiento> asientos = new ArrayList<>();
             for (int j = 0; j < cantidadAsientos; j++) {
-                asientos.add(new Asiento(j));
+                asientos.add(new Asiento(j + 1)); // numeración desde 1
             }
+
             sectores.add(new Sector(nombre, extra, tieneAsientos, asientos));
         }
         return sectores;
     }
 
     public void crearOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
-        String nombre, email, contrasenia;
-        boolean flagEmail = false;
-        boolean flagContrasenia = false;
         System.out.println("Ingrese nombre de organizador");
-        nombre = sc.nextLine();
+        String nombre = sc.nextLine().trim();
+
+        String email;
+        boolean emailValido;
         do {
             System.out.println("Ingrese email");
-            email = sc.nextLine();
-            try {
-                flagEmail = Validacion.validarEmail(email);
+            email = sc.nextLine().trim();
+            emailValido = true;
 
+            try {
+                Validacion.validarEmail(email);
             } catch (EmailInvalidoException e) {
                 System.out.println(e.getMessage());
+                emailValido = false;
+                continue;
             }
-        } while (!flagEmail);
+
+            for (Usuario u : boleteria.getUsuarios().getElementos()) {
+                if (email.equalsIgnoreCase(u.getEmail())) {
+                    System.out.println("El email ingresado ya está en uso");
+                    emailValido = false;
+                    break;
+                }
+            }
+        } while (!emailValido);
+
+        String contrasenia;
+        boolean contraseniaValida;
         do {
-            System.out.println("ingrese contrasenia (Debe tener al menos 8 caracteres, una letra y un numero)");
+            System.out.println("Ingrese contraseña (mínimo 8 caracteres, 1 letra y 1 número)");
             contrasenia = sc.nextLine();
             try {
-                flagContrasenia = Validacion.validarContrasena(contrasenia);
+                Validacion.validarContrasena(contrasenia);
+                contraseniaValida = true;
             } catch (ContraseniaInvalidaException e) {
                 System.out.println(e.getMessage());
+                contraseniaValida = false;
             }
+        } while (!contraseniaValida);
 
-        } while (!flagContrasenia);
-        for (Usuario u : boleteria.getUsuarios().getElementos()) {
-            if (email.equals(u.getEmail())) {
-                flagEmail = false;
-                System.out.println("El email ingresado ya esta en uso");
-            }
-        }
-        if (flagEmail) {
-            boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
-            System.out.println("La cuenta se creo correctamente");
-        }
+        boleteria.guardarUsuario(new Organizador(nombre, email, contrasenia), archivo);
+        System.out.println("La cuenta se creó correctamente");
     }
-/*
-    /// Probar modificacion
-    public void modificarOrganizador(Scanner sc, Boleteria boleteria, String archivo) {
-        int organizadorId;
-        Organizador organizador;
-
-        System.out.println("Organizadores:\n" + boleteria.mostrarOrganizadores());
-        organizadorId = Validacion.validarEntero(sc, "Ingrese id del usuario a modificar");
-        if (boleteria.getUsuarios().buscarElementoId(organizadorId) instanceof Organizador) {
-            organizador = (Organizador) boleteria.getUsuarios().buscarElementoId(organizadorId);
-
-            String nombre, email, contrasenia;
-            boolean flagEmail = false;
-            boolean flagContrasenia = false;
-            System.out.println("Ingrese nombre de organizador");
-            nombre = sc.nextLine();
-            do {
-                System.out.println("Ingrese email");
-                email = sc.nextLine();
-                try {
-                    flagEmail = Validacion.validarEmail(email);
-
-                } catch (EmailInvalidoException e) {
-                    System.out.println(e.getMessage());
-                }
-            } while (!flagEmail);
-            do {
-                System.out.println("ingrese contrasenia");
-                contrasenia = sc.nextLine();
-                try {
-                    flagContrasenia = Validacion.validarContrasena(contrasenia);
-                } catch (ContraseniaInvalidaException e) {
-                    System.out.println(e.getMessage());
-                }
-
-            } while (!flagContrasenia);
-            organizador.setNombre(nombre);
-            organizador.setContrasenia(contrasenia);
-            organizador.setEmail(email);
-            boleteria.guardarBoleteria(archivo);
-        } else System.out.println("El elemento seleccionado no es un organizador");
-
-    }
-    */
 
     public void verMisEventos(Organizador o) {
         StringBuilder sb = new StringBuilder();
         sb.append("/////////////////////// Eventos Creados ///////////////////////\n");
-        sb.append("Total de eventos: ").append(o.getEventosCreados().size());
-        for (Evento e : o.getEventosCreados()) {
-            sb.append("\nId:").append(e.getId()).append("\tNombre: ").append(e.getNombre())
-                    .append("\tFunciones disponibles: ").append(e.getFunciones().size());
+        sb.append("Total de eventos: ").append(o.getEventosCreados().size()).append("\n\n");
+
+        if (o.getEventosCreados().isEmpty()) {
+            sb.append("No has creado ningún evento aún.\n");
+        } else {
+            for (Evento e : o.getEventosCreados()) {
+                sb.append("ID: ").append(e.getId())
+                        .append(" | Nombre: ").append(e.getNombre())
+                        .append(" | Categoría: ").append(e.getCategoria())
+                        .append(" | Funciones: ").append(e.getFunciones().size())
+                        .append("\n");
+            }
         }
-        sb.append("\n/////////////////////// Fin eventos creados ///////////////////////");
+        sb.append("///////////////////////////////////////////////////////////////");
         System.out.println(sb);
     }
 
     public void verMisFunciones(Scanner sc, Organizador o) {
-        StringBuilder sb = new StringBuilder();
+        if (o.getEventosCreados().isEmpty()) {
+            System.out.println("No tienes eventos creados.");
+            return;
+        }
+
         verMisEventos(o);
+
         boolean flag = false;
         String eventoId;
         Evento evento = null;
+
         do {
             System.out.println("Ingrese el id del evento o \"S\" para salir");
-            eventoId = sc.nextLine();
-            if (!eventoId.equalsIgnoreCase("s")) {
-                for (Evento e : o.getEventosCreados()) {
-                    if (("" + e.getId()).equalsIgnoreCase(eventoId)) {
-                        evento = e;
-                        flag = true;
-                    }
-                }
-            }else {
-                System.out.println("...Saliendo...");
-            }
-            if (!flag && !eventoId.equalsIgnoreCase("s")) System.out.println("El numero ingresado es invalido, intentelo nuevamente");
-        } while (!flag && !eventoId.equalsIgnoreCase("s"));
-        sb.setLength(0);
-        try{
+            eventoId = sc.nextLine().trim();
 
-        if(!eventoId.equalsIgnoreCase("s")){
-            sb.append("/////////////////////// Funciones ///////////////////////\n");
-            for (Funcion f : evento.getFunciones()) {
-                sb.append("id: ").append(f.getId()).append("\tFecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora())).append("\tRecinto: ").append(f.getRecinto().getNombre())
-                        .append("\tDisponibilidad: ").append(f.cantidadAsientosDisponibles()).append("\n");
+            if (eventoId.equalsIgnoreCase("s")) {
+                System.out.println("...Saliendo...");
+                return;
             }
-            sb.append("\n/////////////////////// Fin funciones ///////////////////////");
-            System.out.println(sb);
+
+            flag = false;
+            for (Evento e : o.getEventosCreados()) {
+                if (String.valueOf(e.getId()).equals(eventoId)) {
+                    evento = e;
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag) {
+                System.out.println("El número ingresado es inválido, inténtelo nuevamente");
+            }
+        } while (!flag);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("/////////////////////// FUNCIONES DEL EVENTO ///////////////////////\n");
+        sb.append("Evento: ").append(evento.getNombre()).append("\n\n");
+
+        if (evento.getFunciones().isEmpty()) {
+            sb.append("Este evento no tiene funciones creadas aún.\n");
+        } else {
+            for (Funcion f : evento.getFunciones()) {
+                sb.append("ID: ").append(f.getId())
+                        .append(" | Fecha: ").append(UtilidadesGenerales.formatearFecha(f.getFechayHora()))
+                        .append(" | Recinto: ").append(f.getRecinto().getNombre())
+                        .append(" | Precio base: $").append(String.format("%.2f", f.getPrecioBase()))
+                        .append(" | Disponibles: ").append(f.cantidadAsientosDisponibles())
+                        .append("\n");
+            }
         }
-        }catch(Exception e){
-            System.out.println("El evento no tiene funciones disponibles");
-        }
+        sb.append("////////////////////////////////////////////////////////////////////");
+        System.out.println(sb);
     }
 }

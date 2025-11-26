@@ -39,13 +39,16 @@ public class Main {
         }
 
 
- /*
+/*
         Administrador adm=new Administrador(0,"admin","admin","admin");
+        Organizador organizador= new Organizador(1,"organizador","organizador","organizador",true);
+        Vendedor vendedor=new Vendedor(2,"vendedor","vendedor","vendedor",true);
         boleteria.getUsuarios().getElementos().add(adm);
+        boleteria.getUsuarios().getElementos().add(organizador);
+        boleteria.getUsuarios().getElementos().add(vendedor);
         boleteria.guardarBoleteria(archivo);
+*/
 
-
- */
         while(true) {
             menu.inicio(sc,boleteria,archivo);
         }
