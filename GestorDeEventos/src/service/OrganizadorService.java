@@ -383,7 +383,6 @@ public class OrganizadorService {
                 System.out.println("Ingrese un número válido.");
             } catch (ElementoNoEncontradoException e) {
                 System.out.println("ID inválido o ya dado de baja.");
-
             }
         } while (evento == null);
 
@@ -453,6 +452,8 @@ public class OrganizadorService {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ingrese un número válido.");
+            }catch (ElementoNoEncontradoException e) {
+                System.out.println("ID inválido o ya dado de baja.");
             }
         } while (evento == null);
 
