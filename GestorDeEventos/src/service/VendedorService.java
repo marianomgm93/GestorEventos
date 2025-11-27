@@ -3,8 +3,10 @@ package service;
 import Utilidades.UtilidadesGenerales;
 import Utilidades.Validacion;
 import exceptions.ContraseniaInvalidaException;
+import exceptions.ElementoNoEncontradoException;
 import exceptions.EmailInvalidoException;
 import model.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -65,31 +67,41 @@ public class VendedorService {
     }
 
     private Evento seleccionarEvento(Scanner sc, Boleteria boleteria) {
-        boolean flag;
-        String entrada;
-        Evento evento;
-        do {
+        while (true) {
             System.out.print("Ingrese ID del evento (o S para salir): ");
-            entrada = sc.nextLine().trim();
+            String entrada = sc.nextLine().trim();
+
             if (entrada.equalsIgnoreCase("s")) {
                 System.out.println("Operación cancelada.");
                 return null;
             }
-            evento = boleteria.getEventos().buscarElementoId(Integer.parseInt(entrada));
-            if (evento == null) {
-                System.out.println("No existe un evento con ese ID.");
-                flag = true;
-            } else if (!evento.isActivo()) {
-                System.out.println("Este evento está dado de baja. No se pueden vender tickets.");
-                flag = true;
-            } else if (evento.getFunciones().isEmpty()) {
-                System.out.println("Este evento no tiene funciones disponibles.");
-                flag = true;
-            } else {
-                flag = false;
+
+            int id = 0;
+            try {
+                id = Integer.parseInt(entrada);
+                if (id <= 0) {
+                    System.out.println("El ID debe ser un número positivo.");
+                    continue;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido o 'S' para salir.");
+                continue;
+            } catch (ElementoNoEncontradoException e) {
+                System.out.println("ID inválido o ya dado de baja.");
             }
-        } while (flag);
-        return evento;
+
+            Evento evento = boleteria.getEventos().buscarElementoId(id);
+
+            if (evento == null) {
+                System.out.println("No existe un evento con el ID " + id + ". Intente nuevamente.");
+            } else if (!evento.isActivo()) {
+                System.out.println("El evento \"" + evento.getNombre() + "\" está dado de baja. No se pueden vender entradas.");
+            } else if (evento.getFunciones().isEmpty()) {
+                System.out.println("El evento \"" + evento.getNombre() + "\" no tiene funciones disponibles.");
+            } else {
+                return evento;
+            }
+        }
     }
 
     private Funcion seleccionarFuncion(Scanner sc, Evento evento) {

@@ -13,59 +13,61 @@ import java.util.Scanner;
 
 public class Validacion {
 
-    public static int validarEntero(Scanner sc,String mensaje){
+    public static int validarEntero(Scanner sc, String mensaje) {
         int numero = 0;
-        boolean flag=false;
+        boolean flag = false;
         do {
             System.out.println(mensaje);
             try {
                 numero = sc.nextInt();
                 sc.nextLine();
-                flag=true;
+                flag = true;
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero entero");
                 sc.nextLine();
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("El numero ingresado es invalido");
                 sc.nextLine();
             }
         } while (!flag);
         return numero;
     }
-    public static int validarEntero(Scanner sc){
+
+    public static int validarEntero(Scanner sc) {
         int numero = 0;
-        boolean flag=false;
+        boolean flag = false;
         do {
             try {
                 numero = sc.nextInt();
                 sc.nextLine();
-                flag=true;
+                flag = true;
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar un numero entero");
                 sc.nextLine();
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("El numero ingresado es invalido");
                 sc.nextLine();
             }
         } while (!flag);
         return numero;
     }
-        public static boolean validarEmail(String email) throws EmailInvalidoException {
-            // Verificar que contenga '@' y '.'
-            if (email == null || email.isEmpty()) {
-                throw new EmailInvalidoException("El email no puede ser nulo");
-            }
 
-            int indiceArroba = email.indexOf('@');
-            int indicePunto = email.lastIndexOf('.');
-
-            // Debe tener '@' y '.' y el '.' debe estar después del '@'
-            if (!(indiceArroba > 0 && indicePunto > indiceArroba && (indicePunto < email.length() - 1))) {
-                throw new EmailInvalidoException("El email debe contener un arroba y un punto luego del arroba sin estar al final");
-            }
-
-            return true;
+    public static boolean validarEmail(String email) throws EmailInvalidoException {
+        // Verificar que contenga '@' y '.'
+        if (email == null || email.isEmpty()) {
+            throw new EmailInvalidoException("El email no puede ser nulo");
         }
+
+        int indiceArroba = email.indexOf('@');
+        int indicePunto = email.lastIndexOf('.');
+
+        // Debe tener '@' y '.' y el '.' debe estar después del '@'
+        if (!(indiceArroba > 0 && indicePunto > indiceArroba && (indicePunto < email.length() - 1))) {
+            throw new EmailInvalidoException("El email debe contener un arroba y un punto luego del arroba sin estar al final");
+        }
+
+        return true;
+    }
 
     public static boolean validarContrasena(String contrasenia) throws ContraseniaInvalidaException {
         // Verificar que no sea nula o vacía
@@ -100,12 +102,13 @@ public class Validacion {
 
         return true;
     }
-    public static <T> boolean repetido(T objeto, List<T> lista){
+
+    public static <T> boolean repetido(T objeto, List<T> lista) {
         return lista.contains(objeto);
     }
 
-    public static boolean validarUsuario(Usuario usuario, String contrasenia) throws UsuarioInvalidoException{
-        if(!usuario.getContrasenia().equals(contrasenia)) throw new UsuarioInvalidoException("Contrasenia incorrecta");
+    public static boolean validarUsuario(Usuario usuario, String contrasenia) throws UsuarioInvalidoException {
+        if (!usuario.getContrasenia().equals(contrasenia)) throw new UsuarioInvalidoException("Contrasenia incorrecta");
         return true;
     }
 
@@ -138,10 +141,10 @@ public class Validacion {
     }
 
     private static boolean fechaValida(int anio, int mes, int dia) {
-        boolean flag=false;
+        boolean flag = false;
         try {
             LocalDateTime.of(anio, mes, dia, 0, 0);
-            flag=true;
+            flag = true;
         } catch (Exception e) {
             System.out.println("La fecha ingresada es invalida");
         }
@@ -170,18 +173,22 @@ public class Validacion {
 
     /**
      * Retorna verdadero si no existe una funcion en el mismo recinto a la misma hora
+     *
      * @param boleteria
      * @param funcion
      * @return
      */
-    public static boolean validarFuncion(Boleteria boleteria, Funcion funcion){
-        for(Evento e : boleteria.getEventos().getElementos()){
-            if(e.getFunciones().contains(funcion)){
-                return false;
+    public static boolean validarFuncion(Boleteria boleteria, Funcion funcion) {
+        for (Evento e : boleteria.getEventos().getElementos()) {
+            if (e.isActivo()) {
+                if (e.getFunciones().contains(funcion)) {
+                    return false;
+                }
             }
         }
         return true;
     }
+
     public static double validarDouble(Scanner sc, String mensaje, double minimo) {
         double valor;
         while (true) {

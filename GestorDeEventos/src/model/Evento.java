@@ -70,7 +70,6 @@ public class Evento implements ID {
         throw new ElementoNoEncontradoException("No existe una funcion con ese id");
     }
 
-
     public static int getTotalEventos() {
         return totalEventos;
     }

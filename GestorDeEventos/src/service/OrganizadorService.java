@@ -69,6 +69,7 @@ public class OrganizadorService {
 
         try {
             boleteria.guardarEvento(evento, archivo);
+
             organizador.getEventosCreados().add(evento);
             boleteria.guardarBoleteria(archivo);
             System.out.println(SEP);
@@ -299,6 +300,8 @@ public class OrganizadorService {
                 if (evento == null) System.out.println("Evento no encontrado. Intente nuevamente.");
             } catch (NumberFormatException e) {
                 System.out.println("Ingrese un número válido.");
+            }catch (ElementoNoEncontradoException e) {
+                System.out.println("ID inválido o ya dado de baja.");
             }
         } while (evento == null);
 
