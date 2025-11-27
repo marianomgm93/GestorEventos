@@ -22,23 +22,7 @@ public class OrganizadorService {
         return total;
     }
 
-    public double validarDouble(Scanner sc, String mensaje, double minimo) {
-        double valor;
-        while (true) {
-            System.out.print(mensaje);
-            String entrada = sc.nextLine().trim();
-            try {
-                valor = Double.parseDouble(entrada);
-                if (valor < minimo) {
-                    System.out.printf("Error: el valor debe ser mayor o igual a %.2f.%n", minimo);
-                    continue;
-                }
-                return valor;
-            } catch (NumberFormatException e) {
-                System.out.println("Error: debe ingresar un número válido (ej: 15000.50).");
-            }
-        }
-    }
+
 
     public void nuevoEvento(Scanner sc, Organizador organizador, Boleteria boleteria, String archivo) {
         System.out.println(LINEA);
@@ -144,7 +128,7 @@ public class OrganizadorService {
         } while (evento == null);
 
         LocalDateTime fechaHora = Validacion.validarLocalDateTime(sc);
-        double precioBase = validarDouble(sc, "Precio base de la función: $", 0);
+        double precioBase = Validacion.validarDouble(sc, "Precio base de la función: $", 0);
         Recinto recinto = nuevoRecinto(sc);
 
         Funcion funcion = new Funcion(fechaHora, recinto, precioBase);
@@ -196,7 +180,7 @@ public class OrganizadorService {
             System.out.print("Nombre del sector: ");
             String nombre = sc.nextLine().trim();
 
-            double extra = validarDouble(sc, "Valor agregado ($): $", 0);
+            double extra = Validacion.validarDouble(sc, "Valor agregado ($): $", 0);
 
             System.out.print("Tiene asientos numerados? (S/N): ");
             boolean numerados = sc.nextLine().trim().equalsIgnoreCase("s");

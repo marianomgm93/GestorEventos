@@ -167,27 +167,6 @@ public class Validacion {
             }
         }
     }
-    public static double validarPrecio(Scanner sc, String mensaje){
-        double precio=0;
-        boolean flag=false;
-        do{
-            System.out.println(mensaje);
-
-        try{
-            precio=sc.nextDouble();
-            sc.nextLine();
-            System.out.println("El numero se cargó correctamente");
-            flag=true;
-        }catch (InputMismatchException e){
-            sc.nextLine();
-            System.out.println("Entrada inválida. Ingrese un número válido.");
-        }catch (Exception e){
-            sc.nextLine();
-            System.out.println("Entrada inválida. Ingrese un número válido.");
-        }
-        }while(!flag);
-        return precio;
-    }
 
     /**
      * Retorna verdadero si no existe una funcion en el mismo recinto a la misma hora
@@ -203,5 +182,21 @@ public class Validacion {
         }
         return true;
     }
-
+    public static double validarDouble(Scanner sc, String mensaje, double minimo) {
+        double valor;
+        while (true) {
+            System.out.print(mensaje);
+            String entrada = sc.nextLine().trim();
+            try {
+                valor = Double.parseDouble(entrada);
+                if (valor < minimo) {
+                    System.out.printf("Error: el valor debe ser mayor o igual a %.2f.%n", minimo);
+                    continue;
+                }
+                return valor;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: debe ingresar un número válido (ej: 15000.50).");
+            }
+        }
+    }
 }
