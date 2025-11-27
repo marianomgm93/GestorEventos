@@ -205,31 +205,41 @@ public class Boleteria {
 
     // ====================== ACTUALIZAR CONTADORES ======================
     public void actualizarContadores() {
-        int maxUsuario = 0, maxEvento = 0, maxFuncion = 0;
-        int maxRecinto = 0, maxSector = 0, maxAsiento = 0;
-
+        int maxEventoId = -1;
+        int maxFuncionId = -1;
+        int maxUsuarioId = -1;
+        int maxRecintoId = -1;
+        int maxSectorId = -1;
+        int maxAsientoId = -1;
+        int maxTicketId = -1;
         for (Usuario u : usuarios.getElementos()) {
-            if (u.getId() > maxUsuario) maxUsuario = u.getId();
+            if (u.getId() > maxUsuarioId) maxUsuarioId = u.getId();
         }
+
         for (Evento e : eventos.getElementos()) {
-            if (e.getId() > maxEvento) maxEvento = e.getId();
+            if (e.getId() > maxEventoId) maxEventoId = e.getId();
             for (Funcion f : e.getFunciones()) {
-                if (f.getId() > maxFuncion) maxFuncion = f.getId();
-                if (f.getRecinto().getId() > maxRecinto) maxRecinto = f.getRecinto().getId();
+                if (f.getId() > maxFuncionId) maxFuncionId = f.getId();
+                if (f.getRecinto().getId() > maxRecintoId) maxRecintoId = f.getRecinto().getId();
                 for (Sector s : f.getRecinto().getSectores()) {
-                    if (s.getId() > maxSector) maxSector = s.getId();
+                    if (s.getId() > maxSectorId) maxSectorId = s.getId();
                     for (Asiento a : s.getAsientos()) {
-                        if (a.getId() > maxAsiento) maxAsiento = a.getId();
+                        if (a.getId() > maxAsientoId) maxAsientoId = a.getId();
                     }
                 }
             }
         }
+        for (Ticket t : vendidos) {
+            if (t.getId() > maxTicketId) maxTicketId = t.getId();
+        }
 
-        Usuario.setTotalUsuarios(maxUsuario + 1);
-        Evento.setTotalEventos(maxEvento + 1);
-        Funcion.setTotalFunciones(maxFuncion + 1);
-        Recinto.setTotalRecintos(maxRecinto + 1);
-        Sector.setTotalSectores(maxSector + 1);
-        Asiento.setTotalAsientos(maxAsiento + 1);
+        Usuario.setTotalUsuarios(maxUsuarioId + 1);
+        Evento.setTotalEventos(maxEventoId + 1);
+        Funcion.setTotalFunciones(maxFuncionId + 1);
+        Recinto.setTotalRecintos(maxRecintoId + 1);
+        Sector.setTotalSectores(maxSectorId + 1);
+        Asiento.setTotalAsientos(maxAsientoId + 1);
+        Ticket.setTotalTickets(maxTicketId + 1);
     }
+
 }

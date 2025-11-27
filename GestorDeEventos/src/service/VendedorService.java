@@ -79,7 +79,7 @@ public class VendedorService {
             int id = 0;
             try {
                 id = Integer.parseInt(entrada);
-                if (id <= 0) {
+                if (id < 0) {
                     System.out.println("El ID debe ser un número positivo.");
                     continue;
                 }
@@ -201,32 +201,33 @@ public class VendedorService {
         return asiento;
     }
 
-    public void verMisTickets(Vendedor v, Boleteria boleteria) {
-        System.out.println(LINEA);
-        System.out.println("                  TUS TICKETS VENDIDOS");
-        System.out.println(LINEA);
-
-        if (v.getTicketsVendidos().isEmpty()) {
-            System.out.println("          Aún no has vendido ningún ticket.");
+    /*
+        public void verMisTickets(Vendedor v, Boleteria boleteria) {
             System.out.println(LINEA);
-            return;
+            System.out.println("                  TUS TICKETS VENDIDOS");
+            System.out.println(LINEA);
+
+            if (v.getTicketsVendidos().isEmpty()) {
+                System.out.println("          Aún no has vendido ningún ticket.");
+                System.out.println(LINEA);
+                return;
+            }
+
+            System.out.printf("Total vendidos: %d ticket%s%n%n", v.getTicketsVendidos().size(),
+                    v.getTicketsVendidos().size() == 1 ? "" : "s");
+
+            for (Ticket t : v.getTicketsVendidos()) {
+                Evento e = boleteria.getEventos().buscarElementoId(t.getEventoId());
+                String nombre = e != null ? e.getNombre() : "[Evento eliminado]";
+                Funcion f = e != null ? e.buscarFuncionPorId(t.getFuncionId()) : null;
+                System.out.printf("ID %-4d → %-25s | %s | $%.2f%n",
+                        t.getId(), nombre,
+                        f != null ? UtilidadesGenerales.formatearFecha(LocalDateTime.parse(t.getFechaYHora())) : "???",
+                        t.getPrecio());
+            }
+            System.out.println(LINEA);
         }
-
-        System.out.printf("Total vendidos: %d ticket%s%n%n", v.getTicketsVendidos().size(),
-                v.getTicketsVendidos().size() == 1 ? "" : "s");
-
-        for (Ticket t : v.getTicketsVendidos()) {
-            Evento e = boleteria.getEventos().buscarElementoId(t.getEventoId());
-            String nombre = e != null ? e.getNombre() : "[Evento eliminado]";
-            Funcion f = e != null ? e.buscarFuncionPorId(t.getFuncionId()) : null;
-            System.out.printf("ID %-4d → %-25s | %s | $%.2f%n",
-                    t.getId(), nombre,
-                    f != null ? UtilidadesGenerales.formatearFecha(LocalDateTime.parse(t.getFechaYHora())) : "???",
-                    t.getPrecio());
-        }
-        System.out.println(LINEA);
-    }
-
+*/
     public void calcularRecaudacion(Vendedor v) {
         System.out.println(LINEA);
         System.out.println("                     RECAUDACIÓN");
@@ -238,6 +239,48 @@ public class VendedorService {
             double total = 0;
             for (Ticket t : v.getTicketsVendidos()) total += t.getPrecio();
             System.out.printf("Total recaudado: $%.2f (%d tickets)%n", total, v.getTicketsVendidos().size());
+        }
+        System.out.println(LINEA);
+    }
+
+    public void verMisTickets(Vendedor v, Boleteria boleteria) {
+        System.out.println(LINEA);
+        System.out.println(" TUS TICKETS VENDIDOS");
+        System.out.println(LINEA);
+
+        if (v.getTicketsVendidos().isEmpty()) {
+            System.out.println(" Aún no has vendido ningún ticket.");
+            System.out.println(LINEA);
+            return;
+        }
+
+        System.out.printf("Total vendidos: %d ticket%s%n%n",
+                v.getTicketsVendidos().size(),
+                v.getTicketsVendidos().size() == 1 ? "" : "s");
+
+        for (Ticket t : v.getTicketsVendidos()) {
+            Evento e = boleteria.getEventos().buscarElementoId(t.getEventoId());
+            String nombreEvento = e != null ? e.getNombre() : "[Evento eliminado]";
+
+            String fechaFuncion = "Función eliminada";
+            if (e != null) {
+                try {
+                    Funcion f = e.buscarFuncionPorId(t.getFuncionId());
+                    if (f != null) {
+                        fechaFuncion = UtilidadesGenerales.formatearFecha(f.getFechayHora());
+                    }
+                } catch (ElementoNoEncontradoException ex) {
+                    // La función fue eliminada o hay inconsistencia
+                    fechaFuncion = "Función eliminada";
+                }
+            }
+
+            System.out.printf("ID %-4d → %-25s | %-19s | $%.2f%n",
+                    t.getId(),
+                    nombreEvento,
+                    fechaFuncion,
+                    t.getPrecio()
+            );
         }
         System.out.println(LINEA);
     }

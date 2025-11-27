@@ -54,7 +54,6 @@ public class Ticket {
 
     public Ticket(JSONObject o) {
         this.id=o.getInt("id");
-        totalTickets++;
         this.direccionRecinto = o.getString("direccionRecinto");
         this.asiento = o.getInt("asiento");
         this.eventoId=o.getInt("eventoId");
@@ -75,6 +74,10 @@ public class Ticket {
         o.put("fechaYHora", this.fechaYHora);
         o.put("precio", this.precio);
         return o;
+    }
+
+    public static void setTotalTickets(int totalTickets) {
+        Ticket.totalTickets = totalTickets;
     }
 
     public static int getTotalTickets() {
